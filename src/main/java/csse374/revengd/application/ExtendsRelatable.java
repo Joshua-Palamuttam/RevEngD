@@ -1,5 +1,5 @@
 package csse374.revengd.application;
 
-public class ExtendsRelatable {
+public class ExtendsRelatable implements Relatable {
 
 }

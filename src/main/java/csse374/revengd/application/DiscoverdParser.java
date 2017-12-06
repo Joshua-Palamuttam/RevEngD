@@ -1,5 +1,5 @@
 package csse374.revengd.application;
 
-public class DiscoverdParser {
+public class DiscoverdParser implements Argable{
 
 }

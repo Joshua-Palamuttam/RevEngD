@@ -1,5 +1,5 @@
 package csse374.revengd.application;
 
-public class HasARelatable {
+public class HasARelatable implements Relatable{
 
 }

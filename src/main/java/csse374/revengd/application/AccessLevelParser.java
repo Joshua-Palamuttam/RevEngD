@@ -1,5 +1,5 @@
 package csse374.revengd.application;
 
-public class AccessLevelParser {
+public class AccessLevelParser implements Argable{
 
 }

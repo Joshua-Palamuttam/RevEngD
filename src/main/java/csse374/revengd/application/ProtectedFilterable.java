@@ -1,5 +1,5 @@
 package csse374.revengd.application;
 
-public class ProtectedFilterable {
+public class ProtectedFilterable implements Filterable {
 
 }
