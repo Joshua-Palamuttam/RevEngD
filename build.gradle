@@ -37,10 +37,19 @@ compileJava {
     options.compilerArgs << '-g'
 }
 
-mainClassName = "csse374.revengd.examples.driver.ExamplesDriver"
+mainClassName = "csse374.revengd.application.RevEngDApp"
 applicationDefaultJvmArgs = ["-Xms512m", "-Xmx1024m"]
 run {
 	standardInput = System.in
+	args '--class' 
+	args 'myClass'
+	args 'myClass2'
+	args 'myClass3'
+	args '-r'
+	args '--path'
+	args '/mypath/yeah'
+	args 'not mine'
+	
 }
 
 jar {

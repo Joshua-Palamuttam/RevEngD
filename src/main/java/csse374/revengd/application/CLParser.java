@@ -1,17 +1,18 @@
 package csse374.revengd.application;
 
-import java.awt.List;
+import java.util.List;
 
 public class CLParser {
 	
-	List argables;
+	List<Argable> argables;
 
-	public CLParser(List args){
-		this.argables = args;
+	public CLParser(List<Argable> argables2){
+		this.argables = argables2;
 	}
 	
 	public void parseAll(String[] args){
-		//TODO
+		this.argables.forEach(argable -> {
+			argable.parseArgs(args);});
 	}
 	
 }
