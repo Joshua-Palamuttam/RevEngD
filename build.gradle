@@ -45,6 +45,7 @@ run {
 	args 'csse374.revengd.examples.fixtures.CalculatorApp'
 	args 'csse374.revengd.examples.fixtures.CalculatorA'
 	args 'csse374.revengd.examples.fixtures.CalculatorB'
+	args 'csse374.revengd.examples.fixtures.ICalculator'
 	args '--path'
 	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
 	

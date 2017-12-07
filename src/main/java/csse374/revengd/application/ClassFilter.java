@@ -13,7 +13,9 @@ public class ClassFilter {
 	}
 	
 	public void filter(List<SootClass> sootClasses){
-		
+		if (this.filterables.isEmpty()) {
+			return;
+		}
 	}
 	
 	public void addFilterable(Filterable filterable){

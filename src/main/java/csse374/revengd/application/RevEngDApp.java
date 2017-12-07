@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import soot.SootClass;
+
 public class RevEngDApp {
 
 	public static void main(String[] args) {
@@ -25,12 +27,16 @@ public class RevEngDApp {
 		parser.parseAll(args);
 		
 		ca.analyze();
+		List<SootClass> sootClasses = ca.getSootClasses();
+		cf.filter(sootClasses);
 		
-		ca.getSootClasses().forEach(clazz -> {
-			System.out.println(clazz.getName());
-		});
-				
-
+		RelationshipFinder rf = new RelationshipFinder(sootClasses);
+		rf.addRelatable(new ExtendsRelatable());
+		rf.addRelatable(new ImplementsRelatable());
+		
+		rf.generateRelationships();
+		
+		umlg.generate(rf.getRelationshipMap());
 	}
 
 }

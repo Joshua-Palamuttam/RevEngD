@@ -10,19 +10,37 @@ public class RelationshipFinder {
 	
 	public RelationshipFinder(List<SootClass> inputClasses){
 		this.sootClasses = inputClasses;
-		
+		this.relatables = new ArrayList<>();
+		this.sootClassToRelationships = new HashMap<>();
 	}
 
-	private void generateRelationships(){
-		//TODO
+	public void generateRelationships(){
+		this.sootClasses.forEach(clazz -> {
+			Relationship r = new Relationship(clazz);
+			this.relatables.forEach(relatable -> {
+				relatable.findRelationships(r);
+			});
+			this.sootClassToRelationships.put(clazz, r);
+			
+			r.filterIn(this.sootClasses);
+			System.out.println(clazz.getName());
+			System.out.println("Extends:");
+			if (r.getExtendz() != null){
+				System.out.println(r.getExtendz().getName());
+			}
+			System.out.println("Implements:");
+			r.getImplementz().forEach(cl -> {
+				System.out.println(cl.getName());
+			});
+		});
 	}
 	
-	private Map<SootClass, Relationship> getRelationshipMap(){
+	public Map<SootClass, Relationship> getRelationshipMap(){
 		return this.sootClassToRelationships;
 	}
 	
-	private void setRelatables(List<Relatable> relatables){
-		this.relatables = relatables;	
+	public void addRelatable(Relatable relatable){
+		this.relatables.add(relatable);	
 	}
 	
 	
