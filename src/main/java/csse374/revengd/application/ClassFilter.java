@@ -6,7 +6,7 @@ import java.util.List;
 import soot.SootClass;
 
 public class ClassFilter {
-	List<Filterable> filterables;
+	private List<Filterable> filterables;
 	
 	public ClassFilter(){
 		this.filterables = new ArrayList<>();

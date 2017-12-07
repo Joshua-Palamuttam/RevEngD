@@ -22,10 +22,14 @@ public class RevEngDApp {
 		argables.add(new AccessLevelParser(cf,argToFilterable));
 
 		CLParser parser = new CLParser(argables);
-		parser.parseAll(args);// TODO Auto-generated method stub
-				cf.filterables.forEach(f -> {
-					System.out.println(f);
-				});
+		parser.parseAll(args);
+		
+		ca.analyze();
+		
+		ca.getSootClasses().forEach(clazz -> {
+			System.out.println(clazz.getName());
+		});
+				
 
 	}
 
