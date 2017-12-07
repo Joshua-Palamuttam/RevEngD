@@ -42,13 +42,13 @@ applicationDefaultJvmArgs = ["-Xms512m", "-Xmx1024m"]
 run {
 	standardInput = System.in
 	args '--class' 
-	args 'myClass'
-	args 'myClass2'
-	args 'myClass3'
-	args '-r'
+	args 'csse374.revengd.examples.fixtures.CalculatorApp'
+	args 'csse374.revengd.examples.fixtures.CalculatorA'
+	args 'csse374.revengd.examples.fixtures.CalculatorB'
 	args '--path'
-	args '/mypath/yeah'
-	args 'not mine'
+	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
+	
+
 	
 }
 
