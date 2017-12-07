@@ -42,10 +42,11 @@ applicationDefaultJvmArgs = ["-Xms512m", "-Xmx1024m"]
 run {
 	standardInput = System.in
 	args '--class' 
-	args 'csse374.revengd.examples.fixtures.CalculatorApp'
-	args 'csse374.revengd.examples.fixtures.CalculatorA'
-	args 'csse374.revengd.examples.fixtures.CalculatorB'
-	args 'csse374.revengd.examples.fixtures.ICalculator'
+    args 'csse374.revengd.examples.fixtures.CalculatorApp'
+    args 'csse374.revengd.examples.fixtures.CalculatorA'
+    args 'csse374.revengd.examples.fixtures.CalculatorB'
+    args 'csse374.revengd.examples.fixtures.ICalculator'
+	args 'java.lang.String'
 	args '--path'
 	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
 	

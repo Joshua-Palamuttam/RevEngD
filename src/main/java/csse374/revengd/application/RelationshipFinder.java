@@ -22,7 +22,8 @@ public class RelationshipFinder {
 			});
 			this.sootClassToRelationships.put(clazz, r);
 			
-			r.filterIn(this.sootClasses);
+			//r.filterIn(this.sootClasses);
+			System.out.println("---------------------");
 			System.out.println(clazz.getName());
 			System.out.println("Extends:");
 			if (r.getExtendz() != null){
@@ -32,6 +33,7 @@ public class RelationshipFinder {
 			r.getImplementz().forEach(cl -> {
 				System.out.println(cl.getName());
 			});
+			System.out.println("---------------------");
 		});
 	}
 	

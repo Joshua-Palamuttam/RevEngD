@@ -2,6 +2,7 @@ package csse374.revengd.application;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import soot.SootClass;
 
@@ -16,29 +17,26 @@ public class Relationship {
 		this.thisClass = clazz;
 	}
 	
+	//This needs to change to remove concurrent modification exceptions
 	public void filterIn(List<SootClass> keep) {
+		
+		Predicate<SootClass> notInKeep = new Predicate<SootClass>() {
+			@Override
+			public boolean test(SootClass clazz) {
+				return (!keep.contains(clazz));
+			}
+		};
+		
 		if (this.has != null) {
-			this.has.forEach(clazz -> {
-				if (!keep.contains(clazz)) {
-					this.has.remove(clazz);
-				}
-			});
+			this.has.removeIf(notInKeep);
 		}
 		
 		if (this.uses != null) {
-			this.uses.forEach(clazz -> {
-				if (!keep.contains(clazz)) {
-					this.uses.remove(clazz);
-				}
-			});
+			this.uses.remove(notInKeep);
 		}
 		
 		if (this.implementz != null){
-			this.implementz.forEach(clazz -> {
-				if (!keep.contains(clazz)) {
-					this.implementz.remove(clazz);
-				}
-			});
+			this.implementz.removeIf(notInKeep);
 		}
 		
 		if (this.extendz != null && !keep.contains(this.extendz)) {

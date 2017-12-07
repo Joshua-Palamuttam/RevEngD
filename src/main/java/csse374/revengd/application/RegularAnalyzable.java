@@ -1,5 +1,6 @@
 package csse374.revengd.application;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,18 +15,20 @@ public class RegularAnalyzable implements Analyzable {
 	@Override
 	public List<SootClass> analyze(String path, List<String> classNames) {
 		Scene scene = SceneBuilder.create()
-				.addDirectory(path)
+				.addClassPath(path)
+				.addClasses(classNames)
 				.setEntryClass(classNames.get(0)) //Should figure out a more flexible way to find main.
 				.addEntryPointMatcher(new MainMethodMatcher(classNames.get(0))) //Will need to be updated.
 				.build();
 		
 		List<SootClass> sootClasses = new ArrayList<>();
-				
-		scene.getApplicationClasses().forEach(clazz -> {
-			if (classNames.contains(clazz.getName())){
-				sootClasses.add(clazz);
-			}
+		System.out.println("----Loaded----");
+		classNames.forEach(name -> {
+			SootClass clazz = scene.getSootClass(name);
+			sootClasses.add(clazz);
+			System.out.println(clazz.getName());
 		});
+		System.out.println("-----------------------------");
 		
 		return sootClasses;
 	}

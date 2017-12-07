@@ -30,6 +30,7 @@ public class E1SimpleDirectoryLoading implements Runnable {
 		// These classes are called application classes in SOOT
 		System.out.println("==============================================================");
 		System.out.println("Application classes loaded by SOOT:");
+		
 		scene.getApplicationClasses().forEach(clazz -> {
 			System.out.println(clazz.getName() );
 		});
