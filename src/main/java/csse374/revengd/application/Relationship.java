@@ -19,7 +19,7 @@ public class Relationship {
 	}
 	
 	//This needs to change to remove concurrent modification exceptions
-	public void filterIn(List<SootClass> keep) {
+	public void filterIn(Set<SootClass> keep) {
 		
 		Predicate<SootClass> notInKeep = new Predicate<SootClass>() {
 			@Override
@@ -47,6 +47,18 @@ public class Relationship {
 	
 	public String getClassString(){
 		StringBuilder str = new StringBuilder();
+		
+			if(thisClass.isInterface()){
+				str.append("interface ");
+			}
+			else if(thisClass.isAbstract()){
+				str.append("abstract ");
+			}
+			else{
+				str.append("class ");
+			}
+			
+			str.append(thisClass.getName()+"\n");
 		
 		thisClass.getFields().forEach(f ->{
 			String modifiers = "";

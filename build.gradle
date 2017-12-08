@@ -44,10 +44,8 @@ run {
 	standardInput = System.in
 	args '--class' 
     args 'csse374.revengd.examples.fixtures.CalculatorApp'
-    args 'csse374.revengd.examples.fixtures.CalculatorA'
-    args 'csse374.revengd.examples.fixtures.CalculatorB'
-    args 'csse374.revengd.examples.fixtures.ICalculator'
-	args 'java.lang.String'
+	args 'javax.swing.JComponent'
+	args '--discovered'
 	args '--path'
 	args 'C:/EclipseWorkspaces/csse374-project/RevEngD/build/classes/main'
 	

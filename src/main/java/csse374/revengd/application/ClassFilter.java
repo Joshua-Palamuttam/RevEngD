@@ -1,18 +1,20 @@
 package csse374.revengd.application;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import soot.SootClass;
 
 public class ClassFilter {
-	private List<Filterable> filterables;
+	private Set<Filterable> filterables;
 	
 	public ClassFilter(){
-		this.filterables = new ArrayList<>();
+		this.filterables = new HashSet<>();
 	}
 	
-	public void filter(List<SootClass> sootClasses){
+	public void filter(Set<SootClass> sootClasses){
 		if (this.filterables.isEmpty()) {
 			return;
 		}

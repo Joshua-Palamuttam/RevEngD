@@ -2,7 +2,9 @@ package csse374.revengd.application;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import csse374.revengd.soot.MainMethodMatcher;
 import csse374.revengd.soot.SceneBuilder;
@@ -13,7 +15,7 @@ import soot.SootClass;
 public class RegularAnalyzable implements Analyzable {
 
 	@Override
-	public List<SootClass> analyze(String path, List<String> classNames) {
+	public Set<SootClass> analyze(String path, List<String> classNames) {
 		Scene scene = SceneBuilder.create()
 				.addClassPath(path)
 				.addClasses(classNames)
@@ -21,7 +23,7 @@ public class RegularAnalyzable implements Analyzable {
 				.addEntryPointMatcher(new MainMethodMatcher(classNames.get(0))) //Will need to be updated.
 				.build();
 		
-		List<SootClass> sootClasses = new ArrayList<>();
+		Set<SootClass> sootClasses = new HashSet<>();
 		System.out.println("----Loaded----");
 		classNames.forEach(name -> {
 			SootClass clazz = scene.getSootClass(name);

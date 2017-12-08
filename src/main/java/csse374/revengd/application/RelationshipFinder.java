@@ -4,17 +4,18 @@ import java.util.*;
 import soot.SootClass;
 
 public class RelationshipFinder {
-	List<SootClass> sootClasses;
+	Set<SootClass> sootClasses;
 	List<Relatable> relatables;
-	List<Relationship> relationships;
+	Set<Relationship> relationships;
 	
-	public RelationshipFinder(List<SootClass> inputClasses){
+	public RelationshipFinder(Set<SootClass> inputClasses){
 		this.sootClasses = inputClasses;
 		this.relatables = new ArrayList<>();
-		this.relationships = new ArrayList<>();
+		this.relationships = new HashSet<>();
 	}
 
 	public void generateRelationships(){
+		
 		this.sootClasses.forEach(clazz -> {
 			Relationship r = new Relationship(clazz);
 			this.relatables.forEach(relatable -> {
@@ -23,21 +24,11 @@ public class RelationshipFinder {
 			this.relationships.add(r);
 			
 			r.filterIn(this.sootClasses);
-//			System.out.println("---------------------");
-//			System.out.println(clazz.getName());
-//			System.out.println("Extends:");
-//			if (r.getExtendz() != null){
-//				System.out.println(r.getExtendz().getName());
-//			}
-//			System.out.println("Implements:");
-//			r.getImplementz().forEach(cl -> {
-//				System.out.println(cl.getName());
-//			});
-//			System.out.println("---------------------");
+
 		});
 	}
 	
-	public List<Relationship> getRelationships(){
+	public Set<Relationship> getRelationships(){
 		return this.relationships;
 	}
 	

@@ -1,14 +1,17 @@
 package csse374.revengd.application;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import csse374.revengd.soot.SceneBuilder;
 import soot.Scene;
 import soot.SootClass;
 
 public class CodeAnalyzer {
-	private List<SootClass> sootClasses;
+	private Set<SootClass> sootClasses;
 	private Analyzable analyzable;
 	private String path;
 	private List<String> classNames;
@@ -35,7 +38,7 @@ public class CodeAnalyzer {
 		this.analyzable = analyzable;
 	}
 	
-	public List<SootClass> getSootClasses() {
+	public Set<SootClass> getSootClasses() {
 		return this.sootClasses;
 	}
 }

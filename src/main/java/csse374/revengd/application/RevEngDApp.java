@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.plantuml.SourceStringReader;
 import soot.SootClass;
@@ -33,7 +36,7 @@ public class RevEngDApp {
 		parser.parseAll(args);
 		
 		ca.analyze();
-		List<SootClass> sootClasses = ca.getSootClasses();
+		Set<SootClass> sootClasses = ca.getSootClasses();
 		cf.filter(sootClasses);
 		
 		RelationshipFinder rf = new RelationshipFinder(sootClasses);
