@@ -48,7 +48,7 @@ run {
     args 'csse374.revengd.examples.fixtures.ICalculator'
 	args 'java.lang.String'
 	args '--path'
-	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
+	args 'C:/EclipseWorkspaces/csse374-project/RevEngD/build/classes/main'
 	
 
 	

@@ -6,12 +6,12 @@ import soot.SootClass;
 public class RelationshipFinder {
 	List<SootClass> sootClasses;
 	List<Relatable> relatables;
-	Map<SootClass, Relationship> sootClassToRelationships;
+	List<Relationship> relationships;
 	
 	public RelationshipFinder(List<SootClass> inputClasses){
 		this.sootClasses = inputClasses;
 		this.relatables = new ArrayList<>();
-		this.sootClassToRelationships = new HashMap<>();
+		this.relationships = new ArrayList<>();
 	}
 
 	public void generateRelationships(){
@@ -20,25 +20,25 @@ public class RelationshipFinder {
 			this.relatables.forEach(relatable -> {
 				relatable.findRelationships(r);
 			});
-			this.sootClassToRelationships.put(clazz, r);
+			this.relationships.add(r);
 			
-			//r.filterIn(this.sootClasses);
-			System.out.println("---------------------");
-			System.out.println(clazz.getName());
-			System.out.println("Extends:");
-			if (r.getExtendz() != null){
-				System.out.println(r.getExtendz().getName());
-			}
-			System.out.println("Implements:");
-			r.getImplementz().forEach(cl -> {
-				System.out.println(cl.getName());
-			});
-			System.out.println("---------------------");
+			r.filterIn(this.sootClasses);
+//			System.out.println("---------------------");
+//			System.out.println(clazz.getName());
+//			System.out.println("Extends:");
+//			if (r.getExtendz() != null){
+//				System.out.println(r.getExtendz().getName());
+//			}
+//			System.out.println("Implements:");
+//			r.getImplementz().forEach(cl -> {
+//				System.out.println(cl.getName());
+//			});
+//			System.out.println("---------------------");
 		});
 	}
 	
-	public Map<SootClass, Relationship> getRelationshipMap(){
-		return this.sootClassToRelationships;
+	public List<Relationship> getRelationships(){
+		return this.relationships;
 	}
 	
 	public void addRelatable(Relatable relatable){

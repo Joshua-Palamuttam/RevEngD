@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import soot.SootClass;
+import soot.SootField;
 
 public class Relationship {
 	private SootClass thisClass;
@@ -42,6 +43,88 @@ public class Relationship {
 		if (this.extendz != null && !keep.contains(this.extendz)) {
 			this.extendz = null;
 		}
+	}
+	
+	public String getClassString(){
+		StringBuilder str = new StringBuilder();
+		
+		thisClass.getFields().forEach(f ->{
+			String modifiers = "";
+			if(f.isPrivate()){
+				modifiers += "- ";
+			}
+			else if(f.isProtected()){
+				modifiers += "# ";
+			}
+			else{
+				modifiers += "+ ";
+			}
+			
+			if(f.isStatic()){
+				modifiers += "{static} ";
+			}
+			if(f.isFinal()){
+				modifiers += "final ";
+			}
+			String sig = f.getSignature().replace("<", "").replace(">", "");
+			String [] splitField = sig.split(":");
+			
+			str.append(splitField[0] + " : " + modifiers + splitField[1] + "\n");
+		});
+		
+		thisClass.getMethods().forEach(m ->{
+			String modifiers = "";
+			if(m.isPrivate()){
+				modifiers += "- ";
+			}
+			else if(m.isProtected()){
+				modifiers += "# ";
+			}
+			else{
+				modifiers += "+ ";
+			}
+			
+			if(m.isAbstract()){
+				modifiers += "{abstract} ";
+			}
+			if(m.isStatic()){
+				modifiers += "{static} ";
+			}
+			if(m.isFinal()){
+				modifiers += "final ";
+			}
+			String sig = m.getSignature().replace("<", "").replace(">", "");
+			String [] splitField = sig.split(":");
+			
+			str.append(splitField[0] + " : " + modifiers + splitField[1] + "\n");
+		});
+		return str.toString();
+	}
+	
+	public String getRelateString(){
+		StringBuilder str = new StringBuilder();
+		if(this.has != null){
+			this.has.forEach(clazz ->{
+				str.append(this.thisClass.getName() + " --> " + clazz.getName() + "\n");
+			});
+		}
+		
+		if(this.uses != null){
+			this.uses.forEach(clazz ->{
+				str.append(this.thisClass.getName() + " ..> " + clazz.getName() + "\n");
+			});
+		}
+		
+		if(this.implementz != null){
+			this.implementz.forEach(clazz ->{
+				str.append(this.thisClass.getName() + " ..|> " + clazz.getName() + "\n");
+			});
+		}
+		
+		if(this.extendz != null){
+			str.append(this.thisClass.getName() + " --|> " + this.extendz.getName() + "\n");
+		}
+		return str.toString();
 	}
 
 	public SootClass getThisClass() {

@@ -36,7 +36,8 @@ public class RevEngDApp {
 		
 		rf.generateRelationships();
 		
-		umlg.generate(rf.getRelationshipMap());
+		umlg.generate(rf.getRelationships());
+		System.out.println(umlg.getPlantUMLText());
 	}
 
 }
