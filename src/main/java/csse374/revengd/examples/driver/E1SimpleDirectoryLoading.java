@@ -22,12 +22,9 @@ public class E1SimpleDirectoryLoading implements Runnable {
 				.addExclusions(Arrays.asList("java.*", "javax.*", "sun.*")) 			// Exclude JDK classes from analysis
 				.addExclusions(Arrays.asList("soot.*", "polygot.*"))					// Exclude SOOT classes from analysis 
 				.addExclusions(Arrays.asList("org.*", "com.*"))						// Exclude other library classes from analysis 
-				.addExclusion("csse374.revengd.examples.driver.*")					 
-				.addExclusion("csse374.revengd.soot.*")					 
 				.build();															// This creates the SOOT's Scene object which has the result of SOOT analysis
 		
 		// TODO: 1. Can you make it load only the classes in the csse374.revengd.examples.fixtures package?
-		
 		
 		// Let's list all of the classes we have loaded from the supplied directory. 
 		// These classes are called application classes in SOOT
@@ -42,8 +39,6 @@ public class E1SimpleDirectoryLoading implements Runnable {
 		print(appClass);
 		
 		// TODO: 2. Can you print methods of CalculatorB? 
-		SootClass calculatorB = scene.getSootClass("csse374.revengd.examples.fixtures.CalculatorB");
-		print(calculatorB);
 	}
 	
 	void print(SootClass clazz) {
