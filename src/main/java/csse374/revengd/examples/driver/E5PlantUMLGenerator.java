@@ -40,7 +40,7 @@ public class E5PlantUMLGenerator implements Runnable {
 			OutputStream outStream = new FileOutputStream(filePath.toFile());
 			FileFormatOption option = new FileFormatOption(FileFormat.PNG, false);
 			DiagramDescription description = reader.outputImage(outStream, option);
-			logger.info("Autogeneration of diagram complete!");
+			logger.info("UML diagram generated at: " + filePath.toString());
 			logger.info(description);
 		} catch (Exception e) {
 			logger.error("Cannot create file to store the UML diagram.", e);
