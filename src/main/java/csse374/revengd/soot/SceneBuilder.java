@@ -1,5 +1,6 @@
 package csse374.revengd.soot;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -343,15 +344,14 @@ public class SceneBuilder {
 
 		String projectClassPath = System.getProperty("java.class.path");
 		builder.append(projectClassPath);
-
-		if (!projectClassPath.contains("rt.jar")) {
+		if(!projectClassPath.contains("rt.jar")) {
 			String defaultClassPath = Scene.v().defaultClassPath();
-			builder.append(":");
+			builder.append(File.pathSeparator);
 			builder.append(defaultClassPath);
 		}
 
 		this.classPaths.forEach(path -> {
-			builder.append(":");
+			builder.append(File.pathSeparator);
 			builder.append(path);
 		});
 

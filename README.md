@@ -8,6 +8,10 @@ This is a starter repository for **Software Design - CSSE 374** term project. Th
 2. [Fundamental Soot Objects](https://github.com/Sable/soot/wiki/Fundamental-Soot-objects)
 3. [Other Online Help](https://github.com/Sable/soot/wiki/Getting-help)
 
+## Software Needed
+1. Install the latest version of [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) in your machine and setup the system's `PATH` variable to point to the JDK's `bin` directory (append the path to the JDK's `bin` directory onto the `PATH` variable). 
+2. Install [Graphviz](http://www.graphviz.org/download/) and setup the system's `PATH` variable to point to the GraphViz's `bin` directory.
+
 ## About Seed Contents
 The repo, as is, contains four examples for you to try out and expand. Lets' take a quick tour of the repo contents:
 
@@ -17,6 +21,7 @@ The repo, as is, contains four examples for you to try out and expand. Lets' tak
    * **TypeHierarchy** - Shows how to use the type hierarchy provided by SOOT.
    * **ControlFlowGraph** - Shows how to get the statements inside a method and search for specific method calls from within the method.
    * **PointerAnalysis** - Shows how to resolve dynamic dispatch target(s) of a method call statically using pointer analysis. 
+   * **PlantUMLGenerator** - Shows how to generate PNG or other format output from a sample PlantUML code programmatically. 
    * **ExamplesDriver** - Implements REPL to drive the above four examples from command prompt.
 3. [Fixtures](/src/main/java/csse374/revengd/examples/fixtures) - Contains a sample calculator application for running test and examples.
 
