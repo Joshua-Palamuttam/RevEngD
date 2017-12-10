@@ -50,6 +50,7 @@ It should present the following prompt:
 2 - E2TypeHierarchy
 3 - E3ControlFlowGraph
 4 - E4PointerAnalysis
+5 - E5PlantUMLGenerator
 ========================== End choices ========================= 
 Please enter your choice (number) or press q to quit: 
 ```
