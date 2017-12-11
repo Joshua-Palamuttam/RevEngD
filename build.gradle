@@ -40,16 +40,43 @@ compileJava {
 
 mainClassName = "csse374.revengd.application.RevEngDApp"
 applicationDefaultJvmArgs = ["-Xms512m", "-Xmx1024m"]
+
 run {
 	standardInput = System.in
-	args '--class' 
-    args 'csse374.revengd.examples.fixtures.CalculatorApp'
-	args 'javax.swing.JComponent'
+	args '--class'
+	args 'csse374.revengd.examples.fixtures.CalculatorApp'
+	args 'java.lang.String'
 	args '--discovered'
 	args '--path'
-	args 'C:/EclipseWorkspaces/csse374-project/RevEngD/build/classes/main'
+	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
 	
-
+//	args '--class' 
+//	args 'csse374.revengd.application.RevEngDApp'
+//  args 'csse374.revengd.application.AccessLevelParser'
+//	args 'csse374.revengd.application.Analyzable'
+//	args 'csse374.revengd.application.Argable'
+//	args 'csse374.revengd.application.ClassFilter'
+//	args 'csse374.revengd.application.ClassParser'
+//	args 'csse374.revengd.application.CLParser'
+//	args 'csse374.revengd.application.CodeAnalyzer'
+//	args 'csse374.revengd.application.DiscoveredAnalyzable'
+//	args 'csse374.revengd.application.DiscoveredParser'
+//	args 'csse374.revengd.application.ExtendsRelatable'
+//	args 'csse374.revengd.application.Filterable'
+//	args 'csse374.revengd.application.HasARelatable'
+//	args 'csse374.revengd.application.ImplementsRelatable'
+//	args 'csse374.revengd.application.PathParser'
+//	args 'csse374.revengd.application.PrivateFilterable'
+//	args 'csse374.revengd.application.ProtectedFilterable'
+//	args 'csse374.revengd.application.PublicFilterable'
+//	args 'csse374.revengd.application.RegularAnalyzable'
+//	args 'csse374.revengd.application.Relatable'
+//	args 'csse374.revengd.application.Relationship'
+//	args 'csse374.revengd.application.RelationshipFinder'
+//	args 'csse374.revengd.application.UMLGenerator'
+//	args 'csse374.revengd.application.UsesRelatable'
+//	args '--path'
+//	args 'C:/EclipseWorkspaces/csse374-project/RevEngD/build/classes/main'
 	
 }
 
