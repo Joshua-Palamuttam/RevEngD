@@ -1,5 +1,6 @@
 package csse374.revengd.application;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,34 +12,17 @@ import soot.Scene;
 import soot.SootClass;
 
 public class CodeAnalyzer {
-	private Set<SootClass> sootClasses;
-	private Analyzable analyzable;
-	private String path;
-	private List<String> classNames;
+	private List <Analyzable> analyzables;
 	
 	public CodeAnalyzer() {
-		this.classNames = new ArrayList<>();
-		this.analyzable = new RegularAnalyzable(); // default analyzable
+		this.analyzables = new ArrayList<>(); // default analyzable
 	}
-	
-	public void analyze(){
-		this.sootClasses = this.analyzable.analyze(this.path, this.classNames);
-		
+	public void analyze(AnalyzableData data, OutputStream out){
+		for(int i = 0; i < analyzables.size(); i++) {
+			analyzables.get(i).analyze(data, out);
+		}
 	}
-	
-	public void addClassName(String className) {
-		this.classNames.add(className);
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public void setAnalyzable(Analyzable analyzable) {
-		this.analyzable = analyzable;
-	}
-	
-	public Set<SootClass> getSootClasses() {
-		return this.sootClasses;
+	public void addAnalyzable(Analyzable analyze) {
+		analyzables.add(analyze);
 	}
 }

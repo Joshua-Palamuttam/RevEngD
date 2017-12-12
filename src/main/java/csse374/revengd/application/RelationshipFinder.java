@@ -1,39 +1,60 @@
 package csse374.revengd.application;
 
+import java.io.OutputStream;
 import java.util.*;
 import soot.SootClass;
+import soot.util.Chain;
 
-public class RelationshipFinder {
-	Set<SootClass> sootClasses;
-	List<Relatable> relatables;
-	Set<Relationship> relationships;
-	
-	public RelationshipFinder(Set<SootClass> inputClasses){
-		this.sootClasses = inputClasses;
-		this.relatables = new ArrayList<>();
-		this.relationships = new HashSet<>();
-	}
+public class RelationshipFinder extends Analyzable {
 
-	public void generateRelationships(){
-		
-		this.sootClasses.forEach(clazz -> {
+	@Override
+	public void analyze(AnalyzableData data, OutputStream out) {
+		Set<SootClass> sootClasses = data.getSootClasses();
+		Collection<Relationship> relationships = new ArrayList<>();
+		sootClasses.forEach(clazz -> {
 			Relationship r = new Relationship(clazz);
-			this.relatables.forEach(relatable -> {
-				relatable.findRelationships(r);
-			});
-			this.relationships.add(r);
-			
-			r.filterIn(this.sootClasses);
-
+			hasAFinder(r);
+			extendsAFinder(r);
+			implementsAFinder(r);
+			usesAFinder(r);
+			relationships.add(r);
+			r.filterIn(sootClasses);
+			//put IFilters in, probably in each method
 		});
 	}
 	
-	public Set<Relationship> getRelationships(){
-		return this.relationships;
+	private void hasAFinder(Relationship r) {
+		SootClass clazz = r.getThisClass();
+		if(clazz.getName().equals(Relatable.OBJECT)){
+			return;
+		}
 	}
 	
-	public void addRelatable(Relatable relatable){
-		this.relatables.add(relatable);	
+	private void extendsAFinder(Relationship r) {
+		SootClass clazz = r.getThisClass();
+		if(clazz.getName().equals(Relatable.OBJECT)){
+			return;
+		}
+		SootClass sClazz = clazz.getSuperclass();
+		r.setExtendz(sClazz);
+	}
+	
+	public void implementsAFinder(Relationship r) {
+		SootClass clazz = r.getThisClass();
+		if(clazz.getName().equals(Relatable.OBJECT)){
+			return;
+		}
+		Chain<SootClass> iClazz = clazz.getInterfaces();
+		Set<SootClass> iClazzSet = new HashSet<>();
+		iClazzSet.addAll(iClazz);
+		r.setImplementz(iClazzSet);		
+	}
+	
+	public void usesAFinder(Relationship r) {
+		SootClass clazz = r.getThisClass();
+		if(clazz.getName().equals(Relatable.OBJECT)){
+			return;
+		}
 	}
 	
 	
