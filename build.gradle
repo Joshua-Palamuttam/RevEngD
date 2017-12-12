@@ -46,7 +46,7 @@ run {
 	args '--class'
 	args 'csse374.revengd.examples.fixtures.CalculatorApp'
 	args 'java.lang.String'
-	args '--discovered'
+	args '-r'
 	args '--path'
 	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
 	

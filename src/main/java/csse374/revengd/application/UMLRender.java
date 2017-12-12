@@ -12,17 +12,25 @@ public class UMLRender extends Analyzable {
 	public void analyze(AnalyzableData data, OutputStream out) {
 		StringBuilder str = new StringBuilder();
 		Collection<Relationship> relationships = data.getRelationships();
-		relationships.forEach(r ->{
-			str.append(
-					getClassString(r) 
-					+ getFieldsString(r)
-					+ getMethodsString(r)
-					+ getExtendsString(r)
-					+ getImplementsString(r)
-					+ getHasAString(r)
-					+ getUsesString(r));
-		});
-		out.write(str.toString());
+		str.append("@startuml\n");
+		if(relationships != null) {
+			relationships.forEach(r ->{
+				str.append(getClassString(r));
+			});
+			relationships.forEach(r ->{
+				str.append(
+						getFieldsString(r)
+						+ getMethodsString(r)
+						+ getExtendsString(r)
+						+ getImplementsString(r)
+						+ getHasAString(r)
+						+ getUsesString(r));
+			});
+		}
+		
+		str.append("@enduml");
+		System.out.println(str);
+//		out.write(str.toString());
 	}
 	public String getClassString(Relationship r){
 		StringBuilder str = new StringBuilder();
@@ -100,7 +108,7 @@ public class UMLRender extends Analyzable {
 	
 	public String getExtendsString(Relationship r) {
 		if(r.getExtendz() != null){
-			return r.getThisClass().getName() + " extends " + r.getExtendz().getName() + "\n";
+			return getClassString(r).trim() + " extends " + r.getExtendz().getName() + "\n";
 		}
 		return "";
 	}
@@ -109,8 +117,9 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 		Set<SootClass> implementz = r.getImplementz();
 		if(implementz != null){
+			String className = getClassString(r).trim();
 			implementz.forEach(i ->{
-				str.append(r.getThisClass().getName() + " implements " + i.getName() + "\n");
+				str.append(className + " implements " + i.getName() + "\n");
 			});
 				
 		}
@@ -121,8 +130,9 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 		Set<SootClass> usez = r.getUses();
 		if(usez != null){
+			String className = r.getThisClass().getName();
 			usez.forEach(u ->{
-				str.append(r.getThisClass().getName() + " ..> " + u.getName() + "\n");
+				str.append(className + " ..> " + u.getName() + "\n");
 			});
 				
 		}
@@ -133,8 +143,9 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 		Set<SootClass> haz = r.getHas();
 		if(haz != null){
+			String className = r.getThisClass().getName();
 			haz.forEach(h ->{
-				str.append(r.getThisClass().getName() + " --> " + h.getName() + "\n");
+				str.append(className + " --> " + h.getName() + "\n");
 			});
 		}
 		return str.toString();

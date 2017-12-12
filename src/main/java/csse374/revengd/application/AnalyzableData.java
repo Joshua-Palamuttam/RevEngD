@@ -11,6 +11,10 @@ public class AnalyzableData {
 	private Scene scene;
 	private Set <SootClass> sootClasses;
 	private Collection <Relationship> relationships;
+	
+	public AnalyzableData(Map<String, String> argMap) {
+		this.configMap = argMap;
+	}
 	public Map<String, String> getConfigMap() {
 		return configMap;
 	}

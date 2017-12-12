@@ -21,18 +21,19 @@ public class RelationshipFinder extends Analyzable {
 			r.filterIn(sootClasses);
 			//put IFilters in, probably in each method
 		});
+		data.setRelationships(relationships);
 	}
 	
 	private void hasAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if(clazz.getName().equals(Relatable.OBJECT)){
+		if(clazz.getName().equals("java.lang.Object")){
 			return;
 		}
 	}
 	
 	private void extendsAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if(clazz.getName().equals(Relatable.OBJECT)){
+		if(clazz.getName().equals("java.lang.Object")){
 			return;
 		}
 		SootClass sClazz = clazz.getSuperclass();
@@ -41,7 +42,7 @@ public class RelationshipFinder extends Analyzable {
 	
 	public void implementsAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if(clazz.getName().equals(Relatable.OBJECT)){
+		if(clazz.getName().equals("java.lang.Object")){
 			return;
 		}
 		Chain<SootClass> iClazz = clazz.getInterfaces();
@@ -52,7 +53,7 @@ public class RelationshipFinder extends Analyzable {
 	
 	public void usesAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if(clazz.getName().equals(Relatable.OBJECT)){
+		if(clazz.getName().equals("java.lang.Object")){
 			return;
 		}
 	}

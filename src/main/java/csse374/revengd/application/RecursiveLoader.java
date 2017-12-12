@@ -24,20 +24,11 @@ public class RecursiveLoader extends Analyzable {
 		temp.forEach(t -> {
 			computeAllSuperTypes(t,sootClasses);
 		});
-//		System.out.println("----Recur Loaded----");
-//		classNames.forEach(name -> {
-//			SootClass clazz = scene.getSootClass(name);
-//			sootClasses.add(clazz);
-//			computeAllSuperTypes(clazz, sootClasses);
-//		});
-//
-//		sootClasses.forEach(clazz -> {
-//			System.out.println(clazz.getName());
-//		});
-//
-//		System.out.println("-----------------------------");
-//
-//		return sootClasses;
+		System.out.println("-------------After recursive---------");
+		sootClasses.forEach(clazz ->{
+			System.out.println(clazz.getName());
+		});
+		System.out.println("-------------------------------------");
 	}
 
 	void computeAllSuperTypes(final SootClass clazz, final Collection<SootClass> allSuperTypes) {
