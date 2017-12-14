@@ -18,20 +18,26 @@ import soot.SootClass;
 
 public class RevEngDApp {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		CLParser parser = new CLParser();
 		Map<String, String> argMap = parser.parseAll(args);
-		 OutputStream out = null;
-
+		 OutputStream out = new FileOutputStream("./output/UML.png");
+		 Analyzable umlRender = new UMLRender();
+		 Map<String, IFilter> availableFilters = new HashMap<>();
+		 availableFilters.put("public", new PublicFilter());
+		 availableFilters.put("private", new PrivateFilter());
+		 availableFilters.put("protected", new ProtectedFilter());
+		 umlRender.setAvailableFilterMap(availableFilters);
 		CodeAnalyzer ca = new CodeAnalyzer();
 
 		ca.addAnalyzable(new SootLoader());
 		ca.addAnalyzable(new RecursiveLoader());
 		ca.addAnalyzable(new RelationshipFinder());
-		ca.addAnalyzable(new UMLRender());
-
+		ca.addAnalyzable(umlRender);
+		ca.addAnalyzable(new PlantUMLGenerator());
 		AnalyzableData data = new AnalyzableData(argMap);
 
+		
 		ca.analyze(data, out);
 	}
 }

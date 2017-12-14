@@ -11,6 +11,7 @@ public class AnalyzableData {
 	private Scene scene;
 	private Set <SootClass> sootClasses;
 	private Collection <Relationship> relationships;
+	private String umlText;
 	
 	public AnalyzableData(Map<String, String> argMap) {
 		this.configMap = argMap;
@@ -39,5 +40,13 @@ public class AnalyzableData {
 	public void setRelationships(Collection<Relationship> relationships) {
 		this.relationships = relationships;
 	}
+	public String getUmlText() {
+		return umlText;
+	}
+	public void setUmlText(String umlText) {
+		this.umlText = umlText;
+	}
+	
+
 	
 }

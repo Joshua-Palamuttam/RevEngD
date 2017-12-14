@@ -18,7 +18,7 @@ public class CLParser {
 				params.append(args[i] + " ");
 			}
 		}
-		argMap.put(flag, params.toString());
+		argMap.put(flag, params.toString().trim());
 		return argMap;
 	}
 	

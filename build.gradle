@@ -38,17 +38,19 @@ compileJava {
     options.compilerArgs << '-g'
 }
 
-mainClassName = "csse374.revengd.examples.driver.ExamplesDriver"
+mainClassName = "csse374.revengd.application.RevEngDApp"
 applicationDefaultJvmArgs = ["-Xms512m", "-Xmx1024m"]
 
 run {
 	standardInput = System.in
 	args '--class'
 	args 'csse374.revengd.examples.fixtures.CalculatorApp'
-	args 'java.lang.String'
+	args 'javax.swing.JComponent'
 	args '-r'
 	args '--path'
 	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
+	args '--accesslevel' 
+	args 'private'
 	
 //	args '--class' 
 //	args 'csse374.revengd.application.RevEngDApp'

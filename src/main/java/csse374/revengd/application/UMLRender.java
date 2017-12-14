@@ -10,26 +10,56 @@ public class UMLRender extends Analyzable {
 
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
+		String filterName = data.getConfigMap().get("--accesslevel");
+	
+		if(this.availableFilterMap != null){
+			
+			if(this.availableFilterMap.containsKey(filterName)){
+				this.activeFilters.add(this.availableFilterMap.get(filterName));
+			}
+		}
+		
 		StringBuilder str = new StringBuilder();
 		Collection<Relationship> relationships = data.getRelationships();
 		str.append("@startuml\n");
 		if(relationships != null) {
 			relationships.forEach(r ->{
-				str.append(getClassString(r));
+				boolean keep = true;
+				if(!activeFilters.isEmpty()) {
+					for(IFilter f : activeFilters) {
+						keep &= f.filterClass(r.getThisClass());
+					}
+				}
+				
+				if(keep) {
+					str.append(getClassString(r));
+
+				}
+			
 			});
 			relationships.forEach(r ->{
-				str.append(
-						getFieldsString(r)
-						+ getMethodsString(r)
-						+ getExtendsString(r)
-						+ getImplementsString(r)
-						+ getHasAString(r)
-						+ getUsesString(r));
-			});
+				boolean keep = true;
+				if(!activeFilters.isEmpty()) {
+					for(IFilter f : activeFilters) {
+						keep &= f.filterClass(r.getThisClass());
+					}
+				}
+				
+				if(keep) {
+					str.append(
+							getFieldsString(r)
+							+ getMethodsString(r)
+							+ getExtendsString(r)
+							+ getImplementsString(r)
+							+ getHasAString(r)
+							+ getUsesString(r));
+				}
+			});	
 		}
 		
 		str.append("@enduml");
 		System.out.println(str);
+		data.setUmlText(str.toString());
 //		out.write(str.toString());
 	}
 	public String getClassString(Relationship r){
@@ -50,27 +80,38 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 		
 		r.getThisClass().getFields().forEach(f ->{
-			String modifiers = "";
-			if(f.isPrivate()){
-				modifiers += "- ";
-			}
-			else if(f.isProtected()){
-				modifiers += "# ";
-			}
-			else{
-				modifiers += "+ ";
+			
+			boolean keep = true;
+			if(!activeFilters.isEmpty()) {
+				for(IFilter fil : activeFilters) {
+					keep &= fil.filterField(f);
+				}
 			}
 			
-			if(f.isStatic()){
-				modifiers += "{static} ";
+			if(keep) {
+				String modifiers = "";
+				if(f.isPrivate()){
+					modifiers += "- ";
+				}
+				else if(f.isProtected()){
+					modifiers += "# ";
+				}
+				else{
+					modifiers += "+ ";
+				}
+				
+				if(f.isStatic()){
+					modifiers += "{static} ";
+				}
+				if(f.isFinal()){
+					modifiers += "final ";
+				}
+				String sig = f.getSignature().replace("<", "").replace(">", "");
+				String [] splitField = sig.split(":");
+				
+				str.append(splitField[0] + " : " + modifiers + splitField[1] + "\n");
 			}
-			if(f.isFinal()){
-				modifiers += "final ";
-			}
-			String sig = f.getSignature().replace("<", "").replace(">", "");
-			String [] splitField = sig.split(":");
 			
-			str.append(splitField[0] + " : " + modifiers + splitField[1] + "\n");
 		});
 		return str.toString();
 	}
@@ -78,37 +119,65 @@ public class UMLRender extends Analyzable {
 	public String getMethodsString(Relationship r) {
 		StringBuilder str = new StringBuilder();
 		r.getThisClass().getMethods().forEach(m ->{
-			String modifiers = "";
-			if(m.isPrivate()){
-				modifiers += "- ";
-			}
-			else if(m.isProtected()){
-				modifiers += "# ";
-			}
-			else{
-				modifiers += "+ ";
+			
+			boolean keep = true;
+			if(!activeFilters.isEmpty()) {
+				for(IFilter f : activeFilters) {
+					keep &= f.filterMethod(m);
+				}
 			}
 			
-			if(m.isAbstract()){
-				modifiers += "{abstract} ";
+			if(keep) {
+				String modifiers = "";
+				if(m.isPrivate()){
+					modifiers += "- ";
+				}
+				else if(m.isProtected()){
+					modifiers += "# ";
+				}
+				else{
+					modifiers += "+ ";
+				}
+				
+				if(m.isAbstract()){
+					modifiers += "{abstract} ";
+				}
+				if(m.isStatic()){
+					modifiers += "{static} ";
+				}
+				if(m.isFinal()){
+					modifiers += "final ";
+				}
+				String sig = m.getSignature().replace("<", "").replace(">", "");
+				String [] splitField = sig.split(":");
+				
+				str.append(splitField[0] + " : " + modifiers + splitField[1] + "\n");
 			}
-			if(m.isStatic()){
-				modifiers += "{static} ";
-			}
-			if(m.isFinal()){
-				modifiers += "final ";
-			}
-			String sig = m.getSignature().replace("<", "").replace(">", "");
-			String [] splitField = sig.split(":");
 			
-			str.append(splitField[0] + " : " + modifiers + splitField[1] + "\n");
 		});
 		return str.toString();
 	}
 	
 	public String getExtendsString(Relationship r) {
 		if(r.getExtendz() != null){
-			return getClassString(r).trim() + " extends " + r.getExtendz().getName() + "\n";
+			
+			boolean keep = true;
+			if(!activeFilters.isEmpty()) {
+				for(IFilter f : activeFilters) {
+					keep &= f.filterClass(r.getExtendz());
+				}
+			}
+			
+			if(keep) {
+				String symbol = " extends ";
+				
+				if( r.getExtendz().getName().contains("$")){
+					symbol = " --|> ";
+					
+				}
+				return getClassString(r).trim() + symbol + r.getExtendz().getName() + "\n";
+
+			}
 		}
 		return "";
 	}
@@ -119,7 +188,22 @@ public class UMLRender extends Analyzable {
 		if(implementz != null){
 			String className = getClassString(r).trim();
 			implementz.forEach(i ->{
-				str.append(className + " implements " + i.getName() + "\n");
+				boolean keep = true;
+				if(!activeFilters.isEmpty()) {
+					for(IFilter f : activeFilters) {
+						keep &= f.filterClass(i);
+					}
+				}
+				
+				if(keep) {
+					String symbol = " implements ";
+					if(i.getName().contains("$")){
+						symbol = " ..|> ";
+					}
+					str.append(className + symbol + i.getName() + "\n");
+
+				}
+				
 			});
 				
 		}
@@ -132,7 +216,19 @@ public class UMLRender extends Analyzable {
 		if(usez != null){
 			String className = r.getThisClass().getName();
 			usez.forEach(u ->{
-				str.append(className + " ..> " + u.getName() + "\n");
+				
+				boolean keep = true;
+				if(!activeFilters.isEmpty()) {
+					for(IFilter f : activeFilters) {
+						keep &= f.filterClass(u);
+					}
+				}
+				
+				if(keep) {
+					str.append(className + " ..> " + u.getName() + "\n");
+				}
+				
+	
 			});
 				
 		}
@@ -145,7 +241,18 @@ public class UMLRender extends Analyzable {
 		if(haz != null){
 			String className = r.getThisClass().getName();
 			haz.forEach(h ->{
-				str.append(className + " --> " + h.getName() + "\n");
+				boolean keep = true;
+				if(!activeFilters.isEmpty()) {
+					for(IFilter f : activeFilters) {
+						keep &= f.filterClass(h);
+					}
+				}
+				
+				if(keep) {
+					str.append(className + " --> " + h.getName() + "\n");
+				}
+				
+				
 			});
 		}
 		return str.toString();
