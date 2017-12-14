@@ -40,7 +40,7 @@ You can import the cloned folder as a **Gradle Project** in Eclipse or IntelliJ 
 ### How to run the program
 From the command line gradlew run -Pmyargs="(put arguments in here)"
 
-###What each team member did
+### What each team member did
 We all were at each meeting, and switched drivers after every major feature was added.
 
 
