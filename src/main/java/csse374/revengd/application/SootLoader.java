@@ -32,8 +32,8 @@ public class SootLoader extends Analyzable {
 		for(int i = 0; i < classNames.length; i++) {
 			SootClass clazz = scene.getSootClass(classNames[i]);
 			boolean keep = true;
-			if(!filters.isEmpty()) {
-				for(Ifilter f : filters) {
+			if(!activeFilters.isEmpty()) {
+				for(IFilter f : activeFilters) {
 					keep &= f.filterClass(clazz);
 				}
 			}

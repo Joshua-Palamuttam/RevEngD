@@ -37,7 +37,15 @@ git clone git@ada.csse.rose-hulman.edu:CSSE374-Public/RevEngD.git
 ## Using IDE
 You can import the cloned folder as a **Gradle Project** in Eclipse or IntelliJ IDEs.
 
+### How to run the program
+From the command line gradlew run -Pmyargs="(put arguments in here)"
+
+###What each team member did
+We all were at each meeting, and switched drivers after every major feature was added.
+
+
 ## Running the Examples
+
 ### Running From Command Line
 ```bash
 cd RevEngD
