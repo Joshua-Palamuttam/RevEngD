@@ -13,7 +13,8 @@ public class ExamplesDriver {
 				new E1SimpleDirectoryLoading(),
 				new E2TypeHierarchy(),
 				new E3ControlFlowGraph(),
-				new E4PointerAnalysis()
+				new E4PointerAnalysis(),
+				new E5PlantUMLGenerator()
 		);
 	}
 	

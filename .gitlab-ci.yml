@@ -7,4 +7,3 @@ build:
     - ./gradlew build
   tags:
     - java
-    - hopper
