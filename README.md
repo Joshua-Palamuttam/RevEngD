@@ -46,6 +46,13 @@ We all were at each meeting, and switched drivers after every major feature was 
 
 ## Running the Examples
 
+gradlew run -Pmyargs="--class csse374.revengd.examples.fixtures.CalculatorApp javax.swing.JComponent
+-r -- path C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main --accesslevel private"
+
+gradlew run -Pmyargs="--class csse374.revengd.examples.fixtures.CalculatorApp java.lang.String
+-r -- path C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main --accesslevel private"
+
+
 ### Running From Command Line
 ```bash
 cd RevEngD
