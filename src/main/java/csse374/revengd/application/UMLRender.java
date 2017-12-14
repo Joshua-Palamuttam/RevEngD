@@ -169,14 +169,15 @@ public class UMLRender extends Analyzable {
 			}
 			
 			if(keep) {
-				String symbol = " extends ";
+			
 				
 				if( r.getExtendz().getName().contains("$")){
-					symbol = " --|> ";
+					return r.getThisClass().getName()+ " --|> "+r.getExtendz().getName()+"\n";
 					
 				}
-				return getClassString(r).trim() + symbol + r.getExtendz().getName() + "\n";
-
+				else{
+					return getClassString(r).trim()+ " extends "+r.getExtendz().getName()+"\n";
+				}
 			}
 		}
 		return "";
@@ -196,12 +197,17 @@ public class UMLRender extends Analyzable {
 				}
 				
 				if(keep) {
-					String symbol = " implements ";
+					
 					if(i.getName().contains("$")){
-						symbol = " ..|> ";
-					}
-					str.append(className + symbol + i.getName() + "\n");
+						
+						str.append(r.getThisClass().getName()+ " ..|> ");
 
+					}
+					else {
+						str.append(className + " implements ");
+
+					}
+					str.append(i.getName()+"\n");
 				}
 				
 			});
