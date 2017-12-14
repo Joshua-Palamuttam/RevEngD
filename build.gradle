@@ -38,18 +38,21 @@ compileJava {
     options.compilerArgs << '-g'
 }
 
-mainClassName = "csse374.revengd.examples.driver.ExamplesDriver"
+mainClassName = "csse374.revengd.application.RevEngDApp"
 applicationDefaultJvmArgs = ["-Xms512m", "-Xmx1024m"]
 
 run {
 	standardInput = System.in
-	args '--class'
-	args 'csse374.revengd.examples.fixtures.CalculatorApp'
-	args 'java.lang.String'
-	args '-r'
-	args '--path'
-	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
-	
+    if(project.hasProperty('myargs')){
+        args(myargs.replace("\"","").split(' '))
+    } else {
+    	args '--class'
+    	args 'csse374.revengd.examples.fixtures.CalculatorApp'
+    	args 'java.lang.String'
+    	args '-r'
+    	args '--path'
+    	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
+	}
 //	args '--class' 
 //	args 'csse374.revengd.application.RevEngDApp'
 //  args 'csse374.revengd.application.AccessLevelParser'
