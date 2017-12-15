@@ -20,7 +20,7 @@ public class PlantUMLGenerator extends Analyzable {
 			Path filePath = Paths.get(System.getProperty("user.dir"), "build", "plantuml", "diagram.png");
 			Files.createDirectories(filePath.getParent());
 				
-			FileFormatOption option = new FileFormatOption(FileFormat.PNG, false);
+			FileFormatOption option = new FileFormatOption(FileFormat.SVG, false);
 			DiagramDescription description = reader.outputImage(out, option);
 			System.out.println("UML diagram generated at: " + filePath.toString());
 			System.out.println(description);

@@ -21,7 +21,7 @@ public class RevEngDApp {
 	public static void main(String[] args) throws FileNotFoundException {
 		CLParser parser = new CLParser();
 		Map<String, String> argMap = parser.parseAll(args);
-		 OutputStream out = new FileOutputStream("./output/UML.png");
+		 OutputStream out = new FileOutputStream("./output/UML.svg");
 		 Analyzable umlRender = new UMLRender();
 		 Map<String, IFilter> availableFilters = new HashMap<>();
 		 availableFilters.put("public", new PublicFilter());
