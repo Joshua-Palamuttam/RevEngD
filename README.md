@@ -3,29 +3,10 @@
 [![build status](https://ada.csse.rose-hulman.edu/CSSE374-Public/RevEngD/badges/master/build.svg)](https://ada.csse.rose-hulman.edu/CSSE374-Public/RevEngD/commits/master)
 [![coverage report](https://ada.csse.rose-hulman.edu/CSSE374-Public/RevEngD/badges/master/coverage.svg)](https://ada.csse.rose-hulman.edu/CSSE374-Public/RevEngD/commits/master)
 
-This is a starter repository for **Software Design - CSSE 374** term project. This application reverse engineers the design of a supplied codebase using [SOOT](https://github.com/Sable/soot), a bytecode instrumentation framework. You will need to learn a few things about SOOT to do a good job in the project. Use these references whenever you get stuck:
-1. [SOOT Survival Guide PDF](http://www.brics.dk/SootGuide/sootsurvivorsguide.pdf)
-2. [Fundamental Soot Objects](https://github.com/Sable/soot/wiki/Fundamental-Soot-objects)
-3. [Other Online Help](https://github.com/Sable/soot/wiki/Getting-help)
-
+This is a starter repository for **Software Design - CSSE 374** term project. This application reverse engineers the design of a supplied codebase using [SOOT](https://github.com/Sable/soot), a bytecode instrumentation framework.
 ## Software Needed
 1. Install the latest version of [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) in your machine and setup the system's `PATH` variable to point to the JDK's `bin` directory (append the path to the JDK's `bin` directory onto the `PATH` variable). 
 2. Install [Graphviz](http://www.graphviz.org/download/) and setup the system's `PATH` variable to point to the GraphViz's `bin` directory.
-
-## About Seed Contents
-The repo, as is, contains four examples for you to try out and expand. Lets' take a quick tour of the repo contents:
-
-1. [SceneBuilder API](/src/main/java/csse374/revengd/soot/SceneBuilder.java) - Helps with setting up SOOT for a whole program analysis.
-2. [Examples / Todos](/src/main/java/csse374/revengd/examples/driver)  - There are four examples for you to **review and expand upon** in the [csse374.revengd.examples.driver](/src/main/java/csse374/revengd/examples/driver) package:
-   * **SimpleDirectoryLoading** - Shows how to load Java classes from a directory in SOOT and prints the fields and methods of the classes.
-   * **TypeHierarchy** - Shows how to use the type hierarchy provided by SOOT.
-   * **ControlFlowGraph** - Shows how to get the statements inside a method and search for specific method calls from within the method.
-   * **PointerAnalysis** - Shows how to resolve dynamic dispatch target(s) of a method call statically using pointer analysis. 
-   * **PlantUMLGenerator** - Shows how to generate PNG or other format output from a sample PlantUML code programmatically. 
-   * **ExamplesDriver** - Implements REPL to drive the above four examples from command prompt.
-3. [Fixtures](/src/main/java/csse374/revengd/examples/fixtures) - Contains a sample calculator application for running test and examples.
-
-Each example has some **TODOs** for you to complete. Please complete them to solidify your understanding of the concepts.
 
 ## Cloning the Repo
 You can clone the repo locally using Git Bash/Shell as follows:
@@ -37,42 +18,49 @@ git clone git@ada.csse.rose-hulman.edu:CSSE374-Public/RevEngD.git
 ## Using IDE
 You can import the cloned folder as a **Gradle Project** in Eclipse or IntelliJ IDEs.
 
-### How to run the program
-From the command line gradlew run -Pmyargs="(put arguments in here)"
-
-### What each team member did
-We all were at each meeting, and switched drivers after every major feature was added.
-
-
-## Running the Examples
-
-gradlew run -Pmyargs="--class csse374.revengd.examples.fixtures.CalculatorApp javax.swing.JComponent
--r -- path C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main --accesslevel private"
-
-gradlew run -Pmyargs="--class csse374.revengd.examples.fixtures.CalculatorApp java.lang.String
--r -- path C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main --accesslevel private"
-
-
-### Running From Command Line
+## How to run the program
+From the command line 
 ```bash
-cd RevEngD
-./gradlew run
+./gradlew run -Pmyargs="<args>"
 ```
-It should present the following prompt:
+Where `<args>` can be any of the following:
+- `--path <absolute path>` **REQUIRED** This is the path to analyze Java bytecode. The path given must be an absolute path.
+- `--class <main class> <other classes>` **REQUIRED** This is a list of the fully-qualified class names to analyze. The first class specified must have a main method. After the main class, any number of fully-qualified class names can be listed.
+  **Note** If the codebase you are analyzing does not have a class with a main method, you must create a "dummy" class that has a main method inside the codebase.
+- `-r` This is a recursive flag. This tells the application to recursively load all the supertypes of the classes specified by the `--class` flag.
+- `--accesslevel <level>` This flag allows the UML to only render to a certain access level. `<level>` can be either `private`, `protected`, or `public`. 
+    - `private` will render all classes, methods, and fields. 
+    - `protected` will render only public and protected classes, methods, and fields. 
+    - `public` will render only pubilc classes, methods, and fields.
+
+The following is a very basic example of how to run from the command line:
 ```bash
-========================= Your choices ========================= 
-1 - E1SimpleDirectoryLoading
-2 - E2TypeHierarchy
-3 - E3ControlFlowGraph
-4 - E4PointerAnalysis
-5 - E5PlantUMLGenerator
-========================== End choices ========================= 
-Please enter your choice (number) or press q to quit: 
+./gradlew run -Pmyargs="--path /absolute/path/to/codebase --class mainpackage.MainClass"
 ```
-Enter the number corresponding to the example that you want to run, sit back, and enjoy the ride. Make sure you review the code in the project before running the examples. 
+**Note** how the entire list of arguments is surrounded in double quotes.
 
-### Running From Eclipse/IntelliJ
-In your IDE, open the Gradle Tasks view and double-click on the **run** task under **application**. 
+## Team Member Contributions
+### Milestone 1
+The team met 4 times each week to work on this milestone. At each meeting, every team member was present and contributed to the progression of the project. All work done on the project was completed at our meetings as a group. Whenever we were coding, we rotated drivers after each major feature was completed.
 
-## Other Notes
-The project is configured to use Log4J, which you can also use for your own classes. See [SceneBuilder API](/src/main/java/csse374/revengd/soot/SceneBuilder.java) for an example. 
+## Running the Demos
+### Milestone 1
+#### java.lang.String Demo
+```bash
+gradlew run --offline -Pmyargs="--path C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main --class csse374.revengd.examples.fixtures.CalculatorApp java.lang.String -r"
+```
+
+#### Lab1-1 Strategy Demo
+```bash
+gradlew run -Pmyargs="--path C:\EclipseWorkspaces\csse374\Lab1-1\build\classes\main --class problem.DataStandardizerApp problem.AmazonLineParser problem.DataStandardizer problem.GoogleLineParser problem.GrouponLineParser problem.ILineParser problem.MicrosoftLineParser"
+```
+
+#### javax.swing.JComponent Demo
+```bash
+gradlew run -Pmyargs="--path C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main --class csse374.revengd.examples.fixtures.CalculatorApp javax.swing.JComponent -r"
+```
+
+#### This Project's Public API Demo
+```bash
+gradlew run -Pmyargs="--path C:/EclipseWorkspaces/csse374-project/RevEngD/build/classes/main --class csse374.revengd.application.RevEngDApp csse374.revengd.application.Analyzable csse374.revengd.application.PlantUMLGenerator csse374.revengd.application.Relationship csse374.revengd.application.AnalyzableData csse374.revengd.application.PrivateFilter csse374.revengd.application.RelationshipFinder csse374.revengd.application.CLParser csse374.revengd.application.ProtectedFilter csse374.revengd.application.CodeAnalyzer csse374.revengd.application.PublicFilter csse374.revengd.application.SootLoader csse374.revengd.application.IFilter csse374.revengd.application.RecursiveLoader csse374.revengd.application.UMLRender --accesslevel public"
+```
