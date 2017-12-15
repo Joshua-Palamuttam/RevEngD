@@ -23,20 +23,7 @@ public class UMLRender extends Analyzable {
 		Collection<Relationship> relationships = data.getRelationships();
 		str.append("@startuml\n");
 		if(relationships != null) {
-			relationships.forEach(r ->{
-				boolean keep = true;
-				if(!activeFilters.isEmpty()) {
-					for(IFilter f : activeFilters) {
-						keep &= f.filterClass(r.getThisClass());
-					}
-				}
-				
-				if(keep) {
-					str.append(getClassString(r));
-
-				}
 			
-			});
 			relationships.forEach(r ->{
 				boolean keep = true;
 				if(!activeFilters.isEmpty()) {
@@ -47,8 +34,11 @@ public class UMLRender extends Analyzable {
 				
 				if(keep) {
 					str.append(
-							getFieldsString(r)
+							getClassString(r)
+							+" { \n"
+							+ getFieldsString(r)
 							+ getMethodsString(r)
+							+"} \n"
 							+ getExtendsString(r)
 							+ getImplementsString(r)
 							+ getHasAString(r)
@@ -72,7 +62,7 @@ public class UMLRender extends Analyzable {
 			}else{
 				str.append("class ");
 			}
-			str.append(r.getThisClass().getName()+"\n");
+			str.append(r.getThisClass().getName());
 		return str.toString();
 	}
 	
@@ -109,7 +99,7 @@ public class UMLRender extends Analyzable {
 				String sig = f.getSignature().replace("<", "").replace(">", "");
 				String [] splitField = sig.split(":");
 				
-				str.append(splitField[0] + " : " + modifiers + splitField[1] + "\n");
+				str.append(modifiers + splitField[1] + "\n");
 			}
 			
 		});
@@ -151,7 +141,7 @@ public class UMLRender extends Analyzable {
 				String sig = m.getSignature().replace("<", "").replace(">", "");
 				String [] splitField = sig.split(":");
 				
-				str.append(splitField[0] + " : " + modifiers + splitField[1] + "\n");
+				str.append(modifiers + splitField[1] + "\n");
 			}
 			
 		});
@@ -176,7 +166,7 @@ public class UMLRender extends Analyzable {
 					
 				}
 				else{
-					return getClassString(r).trim()+ " extends "+r.getExtendz().getName()+"\n";
+					return getClassString(r)+ " extends "+r.getExtendz().getName()+"\n";
 				}
 			}
 		}
@@ -187,7 +177,7 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 		Set<SootClass> implementz = r.getImplementz();
 		if(implementz != null){
-			String className = getClassString(r).trim();
+			String className = getClassString(r);
 			implementz.forEach(i ->{
 				boolean keep = true;
 				if(!activeFilters.isEmpty()) {
