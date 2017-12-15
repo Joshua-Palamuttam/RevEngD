@@ -11,7 +11,7 @@ public class CLParser {
 		StringBuilder params = new StringBuilder();
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].startsWith("-")) {
-				argMap.put(flag, params.toString());
+				argMap.put(flag, params.toString().trim());
 				flag = args[i];
 				params = new StringBuilder();
 			} else {
