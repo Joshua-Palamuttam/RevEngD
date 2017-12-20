@@ -22,6 +22,7 @@ The repo, as is, contains four examples for you to try out and expand. Lets' tak
    * **ControlFlowGraph** - Shows how to get the statements inside a method and search for specific method calls from within the method.
    * **PointerAnalysis** - Shows how to resolve dynamic dispatch target(s) of a method call statically using pointer analysis. 
    * **PlantUMLGenerator** - Shows how to generate PNG or other format output from a sample PlantUML code programmatically. 
+   * **ExtractGnericsInfo** - Shows how to parse bytecode signature in fields and methods to extract generics-related information, such as extracting String from List<String>.
    * **ExamplesDriver** - Implements REPL to drive the above four examples from command prompt.
 3. [Fixtures](/src/main/java/csse374/revengd/examples/fixtures) - Contains a sample calculator application for running test and examples.
 
@@ -51,6 +52,7 @@ It should present the following prompt:
 3 - E3ControlFlowGraph
 4 - E4PointerAnalysis
 5 - E5PlantUMLGenerator
+6 - E6ExtractGenericsInfo
 ========================== End choices ========================= 
 Please enter your choice (number) or press q to quit: 
 ```
