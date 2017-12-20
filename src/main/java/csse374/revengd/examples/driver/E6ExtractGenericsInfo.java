@@ -2,15 +2,24 @@ package csse374.revengd.examples.driver;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 
 import csse374.revengd.soot.MainMethodMatcher;
 import csse374.revengd.soot.SceneBuilder;
+import edu.rosehulman.jvm.sigevaluator.FieldEvaluator;
+import edu.rosehulman.jvm.sigevaluator.GenericType;
+import edu.rosehulman.jvm.sigevaluator.MethodEvaluator;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
+import soot.Type;
+import soot.tagkit.Tag;
 
-public class E1SimpleDirectoryLoading implements Runnable {
+public class E6ExtractGenericsInfo implements Runnable {
+	// We will use this class to abstract all types including generic types
+
+	
 	@Override
 	public void run() {
 		String dirToLoad = Paths.get(System.getProperty("user.dir"), "build", "classes", "java", "main").toString();
@@ -24,25 +33,9 @@ public class E1SimpleDirectoryLoading implements Runnable {
 				.addExclusions(Arrays.asList("org.*", "com.*"))						// Exclude other library classes from analysis 
 				.build();															// This creates the SOOT's Scene object which has the result of SOOT analysis
 		
-		// TODO: 1. Can you make it load only the classes in the csse374.revengd.examples.fixtures package?
-		
-		// Let's list all of the classes we have loaded from the supplied directory. 
-		// These classes are called application classes in SOOT
-		System.out.println("==============================================================");
-		System.out.println("Application classes loaded by SOOT:");
-		scene.getApplicationClasses().forEach(clazz -> {
-			System.out.println(clazz.getName() );
-		});
-
-		// We can also lookup a class using the Scene API, see below
-		SootClass appClass = scene.getSootClass("csse374.revengd.examples.fixtures.CalculatorApp");
-		print(appClass);
-
 		// This class has field of type List<String>. See how to extract the Generics info here
 		SootClass unrelatedClass = scene.getSootClass("csse374.revengd.examples.fixtures.UnrelatedClass");
 		print(unrelatedClass);
-		
-		// TODO: 2. Can you print methods of CalculatorB? 
 	}
 	
 	void print(SootClass clazz) {
@@ -70,13 +63,26 @@ public class E1SimpleDirectoryLoading implements Runnable {
 		builder.append(field.getName());
 		builder.append(": ");
 		
-		
-		// NOTE: The SootField.getSignature() if not null will have information about Generics
-		String fieldSignature = field.getSignature(); 
-		if(fieldSignature != null)
-			builder.append(fieldSignature);
-		else
-			builder.append(field.getType());
+		Tag signatureTag = field.getTag("SignatureTag");
+		if(signatureTag != null) {
+			// Use SignatureEvaluator API for parsing the field signature
+			String signature = signatureTag.toString();
+			FieldEvaluator fieldEvaluator = new FieldEvaluator(signature);
+			GenericType fieldType = fieldEvaluator.getType();
+			builder.append(fieldType.toString());
+			
+			// TODO: Try playing with the following methods
+//			fieldType.getContainerType();
+//			fieldType.getAllElementTypes();
+//			fieldType.getAllContainerTypes();
+//			fieldType.getAllElementTypes();
+//			fieldType.isArray();
+//			fieldType.getDimension();
+		}
+		else {
+			// Bytecode signature for this field is unavailable, so let's use soot API
+			builder.append(field.getType().toString());
+		}
 		
 		System.out.println(builder);
 	}
@@ -91,8 +97,40 @@ public class E1SimpleDirectoryLoading implements Runnable {
 		}
 		// Similar checkout other methods available in the SootMethod API
 		builder.append(method.getName());
-		builder.append("(...): ");
-		builder.append(method.getReturnType());
+		
+		Tag signatureTag = method.getTag("SignatureTag");
+		if(signatureTag != null) {
+			String signature = signatureTag.toString();
+			MethodEvaluator evaluator = new MethodEvaluator(signature);
+			
+			List<GenericType> paramTypes = evaluator.getParameterTypes();
+			builder.append("(");
+			for(int i = 0; i < paramTypes.size(); ++i) {
+				builder.append(paramTypes.get(i));
+				if(i != paramTypes.size() - 1) {
+					builder.append(", ");
+				}
+			}
+			builder.append("): ");
+			
+			GenericType returnType = evaluator.getReturnType();
+			builder.append(returnType);
+		}
+		else {
+			List<Type> argTypes = method.getParameterTypes();
+			builder.append("(");
+			for(int i = 0; i < argTypes.size(); ++i) {
+				builder.append(argTypes.get(i));
+				if(i != argTypes.size() - 1) {
+					builder.append(", ");
+				}
+			}
+			builder.append("): ");
+			
+			Type returnType = method.getReturnType();
+			builder.append(returnType);
+		}
+		
 		System.out.println(builder);		
 	}
 }

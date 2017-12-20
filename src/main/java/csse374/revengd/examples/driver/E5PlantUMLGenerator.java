@@ -1,6 +1,5 @@
 package csse374.revengd.examples.driver;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -34,11 +33,11 @@ public class E5PlantUMLGenerator implements Runnable {
 		
 		SourceStringReader reader = new SourceStringReader(umlSource.toString());
 		try {
-			Path filePath = Paths.get(System.getProperty("user.dir"), "build", "plantuml", "diagram.png");
+			Path filePath = Paths.get(System.getProperty("user.dir"), "build", "plantuml", "diagram.svg");
 			Files.createDirectories(filePath.getParent());
 				
 			OutputStream outStream = new FileOutputStream(filePath.toFile());
-			FileFormatOption option = new FileFormatOption(FileFormat.PNG, false);
+			FileFormatOption option = new FileFormatOption(FileFormat.SVG, false);
 			DiagramDescription description = reader.outputImage(outStream, option);
 			logger.info("UML diagram generated at: " + filePath.toString());
 			logger.info(description);
