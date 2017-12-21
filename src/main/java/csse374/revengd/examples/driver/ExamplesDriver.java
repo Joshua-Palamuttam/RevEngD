@@ -14,7 +14,8 @@ public class ExamplesDriver {
 				new E2TypeHierarchy(),
 				new E3ControlFlowGraph(),
 				new E4PointerAnalysis(),
-				new E5PlantUMLGenerator()
+				new E5PlantUMLGenerator(),
+				new E6ExtractGenericsInfo()
 		);
 	}
 	

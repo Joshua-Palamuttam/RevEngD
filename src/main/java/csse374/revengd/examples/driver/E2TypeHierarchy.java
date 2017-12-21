@@ -13,7 +13,7 @@ import soot.SootClass;
 public class E2TypeHierarchy implements Runnable {
 	@Override
 	public void run() {
-		String dirToLoad = Paths.get(System.getProperty("user.dir"), "build", "classes", "main").toString();
+		String dirToLoad = Paths.get(System.getProperty("user.dir"), "build", "classes", "java", "main").toString();
 		
 		Scene scene = SceneBuilder.create()
 				.addDirectory(dirToLoad)												// Add the directory from which to load the file or jars
