@@ -73,7 +73,7 @@ public class E6ExtractGenericsInfo implements Runnable {
 			
 			// TODO: Try playing with the following methods
 //			fieldType.getContainerType();
-//			fieldType.getAllElementTypes();
+//			fieldType.getElementTypes();
 //			fieldType.getAllContainerTypes();
 //			fieldType.getAllElementTypes();
 //			fieldType.isArray();
