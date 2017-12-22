@@ -1,6 +1,7 @@
 package csse374.revengd.examples.fixtures;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,11 @@ public class UnrelatedClass {
 	int[] intArray;
 	
 	Map<String, List<String>[]> mapListArray;
+	
+	int hiInt;
+	String myString;
+	
+	List<CalculatorA> ca;
 
 	public UnrelatedClass() {
 		this.genericList = Arrays.asList("Aloha! What a beautiful day!", "Hey!");
@@ -39,12 +45,16 @@ public class UnrelatedClass {
 		return this.randomMap;
 	}
 	
-	public void sayConditionalHello(boolean goodMood) {
+	public void sayConditionalHello(boolean goodMood, CalculatorA ca) {
 		if(goodMood)
 			System.out.println(genericList.get(0));
 		else
 			System.out.println(genericList.get(1));
 		
 		System.out.println("Just adding some numbers: " + new CalculatorA().add(1,2,3));
+	}
+	
+	public List<CalculatorB> doIt() {
+		return null;
 	}
 }

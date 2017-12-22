@@ -2,9 +2,16 @@ package csse374.revengd.application;
 
 import java.io.OutputStream;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import edu.rosehulman.jvm.sigevaluator.FieldEvaluator;
+import edu.rosehulman.jvm.sigevaluator.GenericType;
+import edu.rosehulman.jvm.sigevaluator.MethodEvaluator;
 import soot.SootClass;
+import soot.Type;
+import soot.tagkit.Tag;
 
 public class UMLRender extends Analyzable {
 
@@ -96,10 +103,23 @@ public class UMLRender extends Analyzable {
 				if(f.isFinal()){
 					modifiers += "final ";
 				}
-				String sig = f.getSignature().replace("<", "").replace(">", "");
-				String [] splitField = sig.split(":");
 				
-				str.append(modifiers + splitField[1] + "\n");
+				String type;
+				Tag signatureTag = f.getTag("SignatureTag");
+				if(signatureTag != null) {
+					// Use SignatureEvaluator API for parsing the field signature
+					String signature = signatureTag.toString();
+					FieldEvaluator fieldEvaluator = new FieldEvaluator(signature);
+					GenericType fieldType = fieldEvaluator.getType();
+					type = fieldType.toString();
+				}
+				else {
+					// Bytecode signature for this field is unavailable, so let's use soot API
+					type = f.getType().toString();
+				}
+				
+				String name = f.getName();
+				str.append(modifiers + type +" " + name + "\n");
 			}
 			
 		});
@@ -138,10 +158,41 @@ public class UMLRender extends Analyzable {
 				if(m.isFinal()){
 					modifiers += "final ";
 				}
-				String sig = m.getSignature().replace("<", "").replace(">", "");
-				String [] splitField = sig.split(":");
 				
-				str.append(modifiers + splitField[1] + "\n");
+				String rType;
+				StringBuilder params = new StringBuilder();
+				Tag signatureTag = m.getTag("SignatureTag");
+				
+				// TODO: Workaround because java.* breaks methodEvaluator
+				if(signatureTag != null && !m.getDeclaringClass().toString().startsWith("java")) {
+					// Use SignatureEvaluator API for parsing the field signature
+					String signature = signatureTag.toString();
+					MethodEvaluator methodEvaluator = new MethodEvaluator(signature);
+					
+					GenericType returnType = methodEvaluator.getReturnType();
+					rType = returnType.toString();
+					List<GenericType> paramTypes = methodEvaluator.getParameterTypes();
+					for (GenericType param : paramTypes) {
+						params.append(param.toString());
+						params.append(", ");
+					}
+					
+				}
+				else {
+					rType = m.getReturnType().toString() + " ";
+					List<Type> paramTypes = m.getParameterTypes();
+					
+					for (Type param : paramTypes) {
+						params.append(param.toString());
+						params.append(", ");
+					}
+				}
+				
+				if (params.length() > 0) {
+					params.delete(params.length()-2, params.length());
+				}
+				
+				str.append(modifiers + rType + " " + m.getName() + "(" + params.toString() + ")\n");
 			}
 			
 		});
@@ -208,33 +259,38 @@ public class UMLRender extends Analyzable {
 	
 	public String getUsesString(Relationship r) {
 		StringBuilder str = new StringBuilder();
-		Set<SootClass> usez = r.getUses();
-		if(usez != null){
+		Map<SootClass, Boolean> usesMap = r.getUses();
+		
+		if(usesMap != null && !usesMap.isEmpty()){
+			Set<SootClass> usez = usesMap.keySet();
 			String className = r.getThisClass().getName();
 			usez.forEach(u ->{
-				
 				boolean keep = true;
 				if(!activeFilters.isEmpty()) {
 					for(IFilter f : activeFilters) {
 						keep &= f.filterClass(u);
 					}
 				}
+				keep &= !r.getHas().containsKey(u);
+				
+				String arrowEnd = usesMap.get(u) ? "\"*\" " : "";
 				
 				if(keep) {
-					str.append(className + " ..> " + u.getName() + "\n");
+					str.append(className + " ..> " + arrowEnd + u.getName() + "\n");
 				}
 				
-	
-			});
 				
+			});
 		}
 		return str.toString();
 	}
 	
 	public String getHasAString(Relationship r) {
 		StringBuilder str = new StringBuilder();
-		Set<SootClass> haz = r.getHas();
-		if(haz != null){
+		Map<SootClass, Boolean> hasMap = r.getHas();
+		
+		if(hasMap != null && !hasMap.isEmpty()){
+			Set<SootClass> haz = hasMap.keySet();
 			String className = r.getThisClass().getName();
 			haz.forEach(h ->{
 				boolean keep = true;
@@ -244,8 +300,10 @@ public class UMLRender extends Analyzable {
 					}
 				}
 				
+				String arrowEnd = hasMap.get(h) ? "\"*\" " : "";
+				
 				if(keep) {
-					str.append(className + " --> " + h.getName() + "\n");
+					str.append(className + " --> " + arrowEnd + h.getName() + "\n");
 				}
 				
 				
