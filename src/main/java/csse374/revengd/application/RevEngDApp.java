@@ -31,9 +31,18 @@ public class RevEngDApp {
 		CodeAnalyzer ca = new CodeAnalyzer();
 
 		ca.addAnalyzable(new SootLoader());
-		ca.addAnalyzable(new RecursiveLoader());
-		ca.addAnalyzable(new RelationshipFinder());
-		ca.addAnalyzable(umlRender);
+		if(argMap.containsKey("--sequence")) {
+			Analyzable sequenceDiagram = new SequenceDiagramRender();
+			availableFilters = new HashMap<>();
+			availableFilters.put("JDK", new JDKFilter());
+			sequenceDiagram.setAvailableFilterMap(availableFilters);
+			ca.addAnalyzable(sequenceDiagram);
+		}
+		else {
+			ca.addAnalyzable(new RecursiveLoader());
+			ca.addAnalyzable(new RelationshipFinder());
+			ca.addAnalyzable(umlRender);
+		}
 		ca.addAnalyzable(new PlantUMLGenerator());
 		AnalyzableData data = new AnalyzableData(argMap);
 

@@ -38,19 +38,30 @@ mainClassName = "csse374.revengd.application.RevEngDApp"
 applicationDefaultJvmArgs = ["-Xms512m", "-Xmx1024m"]
 
 run {
+	args '--class'
+   	args 'headfirst.designpatterns.observer.weather.WeatherStation'
+	args '--path'
+//	args 'C:/EclipseWorkspaces/csse374/Lab2-1/build/classes/main'
+	args 'C:/Users/Administrator/Desktop/CS/Junior/Quarter 2/Software Design/Lab2-1/build/classes/main'
+	args '--sequence'
+	args '--method'
+	args '<headfirst.designpatterns.observer.weather.WeatherStation: void main(java.lang.String[])>'
+	args '--depth'
+	args '5'
+
+
 //	standardInput = System.in
 
 //    if(project.hasProperty('myargs')){
 //        args(myargs.replace("\"","").split(' '))
 //    } else {
-    	args '--class'
-    	args 'csse374.revengd.examples.fixtures.CalculatorApp'
-    	args 'csse374.revengd.examples.fixtures.UnrelatedClass'
-    	args 'csse374.revengd.examples.fixtures.CalculatorA'
-        args 'csse374.revengd.examples.fixtures.CalculatorB'
-    	args '-r'
-    	args '--path'
-    	args 'C:/EclipseWorkspaces/csse374/RevEngD/build/classes/main'
+//    	args '--class'
+//    	args 'csse374.revengd.examples.fixtures.CalculatorApp'
+//    	args 'csse374.revengd.examples.fixtures.UnrelatedClass'
+//    	args 'csse374.revengd.examples.fixtures.CalculatorA'
+//        args 'csse374.revengd.examples.fixtures.CalculatorB'
+//    	args '-r'
+    	
 //    	args '--accesslevel' 
 //        args 'private'
 //	}
