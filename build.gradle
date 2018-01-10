@@ -42,7 +42,10 @@ run {
    	args 'headfirst.designpatterns.observer.weather.WeatherStation'
 	args '--path'
 //	args 'C:/EclipseWorkspaces/csse374/Lab2-1/build/classes/main'
-	args 'C:/Users/Administrator/Desktop/CS/Junior/Quarter 2/Software Design/Lab2-1/build/classes/main'
+//  P
+//	args 'C:/Users/Administrator/Desktop/CS/Junior/Quarter 2/Software Design/Lab2-1/build/classes/main'
+	args 'C:/EclipseWorkspaces/csse374/Lab2-1/build/classes/main'
+
 	args '--sequence'
 	args '--method'
 	args '<headfirst.designpatterns.observer.weather.WeatherStation: void main(java.lang.String[])>'

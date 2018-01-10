@@ -1,15 +1,23 @@
 package csse374.revengd.application;
 
+import java.util.List;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import soot.Body;
+import soot.Hierarchy;
+import soot.MethodOrMethodContext;
 import soot.Scene;
+import soot.SootClass;
 import soot.SootMethod;
+import soot.Type;
 import soot.Unit;
 import soot.Value;
 import soot.jimple.AssignStmt;
 import soot.jimple.InvokeExpr;
 import soot.jimple.InvokeStmt;
+import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.tagkit.LineNumberTag;
 import soot.tagkit.Tag;
 import soot.toolkits.graph.ExceptionalUnitGraph;
@@ -17,15 +25,17 @@ import soot.toolkits.graph.UnitGraph;
 
 public class SequenceDiagramRender extends Analyzable {
 	private UnitGraph graph;
+	private Scene scene;
 
 	public void analyze(AnalyzableData data, OutputStream out) {
 		int depth = Integer.parseInt(data.getConfigMap().get("--depth"));
 		String methodName = data.getConfigMap().get("--method");
 		Scene scene = data.getScene();
+		this.scene = scene;
 		SootMethod entryMethod = scene.getMethod(methodName);
 		StringBuilder str = new StringBuilder();
 		str.append("@startuml\n");
-		recursiveMethodGenerator(entryMethod, str, depth);
+		recursiveMethodGenerator(entryMethod, str, depth, entryMethod.getDeclaringClass());
 
 		str.append("@enduml");
 
@@ -34,12 +44,27 @@ public class SequenceDiagramRender extends Analyzable {
 
 	}
 
-	public void recursiveMethodGenerator(SootMethod method, StringBuilder str, int depth) {
-		System.out.println(method.getSignature());
-		if(depth == 0 || method.getDeclaringClass().getName().startsWith("java")) {
-			return;
+	public void recursiveMethodGenerator(SootMethod method, StringBuilder str, int depth, SootClass callingClass) {
+		String callingName = callingClass.getName();
+		String recievingName = method.getDeclaringClass().getName();
+		str.append(callingName + " -> " + recievingName + ": ");
+		String[] methodArray = method.getSignature().split(" ");
+		String methodCall = methodArray[methodArray.length - 1];
+		str.append(methodCall.substring(0, methodCall.length()-1) + "\n");
+		boolean active = (callingClass.equals(method.getDeclaringClass()));
+		if (!active) {
+			str.append("activate " + recievingName + "\n");
 		}
-		
+		System.out.println(method.getSignature());
+
+		if (depth == 0 || method == null || method.getDeclaringClass().getName().startsWith("java")) {
+			if (!active) {
+				str.append("deactivate " + recievingName + "\n");
+			}
+			return;
+
+		}
+
 		Body body = method.retrieveActiveBody();
 		UnitGraph cfg = new ExceptionalUnitGraph(body);
 		cfg.forEach(stmt -> {
@@ -49,32 +74,25 @@ public class SequenceDiagramRender extends Analyzable {
 				if (op instanceof InvokeExpr) {
 					InvokeExpr invkExpr = (InvokeExpr) op;
 					SootMethod nextMethod = invkExpr.getMethod();
-					recursiveMethodGenerator(nextMethod, str, depth - 1);
+					nextMethod = ResolvedMethodFinder.resolveMethod(scene, stmt, nextMethod);
+					recursiveMethodGenerator(nextMethod, str, depth - 1, method.getDeclaringClass());
 				}
 			} else if (stmt instanceof InvokeStmt) {
 				SootMethod nextMethod = ((InvokeStmt) stmt).getInvokeExpr().getMethod();
-				
-				recursiveMethodGenerator(nextMethod, str, depth - 1);
+
+				nextMethod = ResolvedMethodFinder.resolveMethod(scene, stmt, nextMethod);
+				recursiveMethodGenerator(nextMethod, str, depth - 1, method.getDeclaringClass());
 			}
 		});
-	}
 
-	void prettyPrint(String title, Iterable<Unit> stmts) {
-		System.out.println("-------------------------------------------------");
-		System.out.println(title);
-		System.out.println("-------------------------------------------------");
-		stmts.forEach(stmt -> {
-			System.out.format("[%d] [%s] %s%n", this.getLineNumber(stmt), stmt.getClass().getName(), stmt.toString());
-		});
-		System.out.println("-------------------------------------------------");
-	}
-
-	int getLineNumber(Unit stmt) {
-		for (Tag tag : stmt.getTags()) {
-			if (tag instanceof LineNumberTag)
-				return ((LineNumberTag) tag).getLineNumber();
+		Type returnType = method.getReturnType();
+		if (!returnType.toString().equals("void")) {
+			str.append(recievingName + " --> " + callingName + ": " + returnType + "\n");
 		}
-		return -1;
+		if (!active) {
+			str.append("deactivate " + recievingName + "\n");
+		}
+
 	}
 
 }
