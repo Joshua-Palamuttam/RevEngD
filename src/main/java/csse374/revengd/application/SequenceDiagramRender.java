@@ -28,14 +28,26 @@ public class SequenceDiagramRender extends Analyzable {
 	private Scene scene;
 
 	public void analyze(AnalyzableData data, OutputStream out) {
-		int depth = Integer.parseInt(data.getConfigMap().get("--depth"));
+		int depth = 5;
+		if (data.getConfigMap().containsKey("--depth")){
+			depth = Integer.parseInt(data.getConfigMap().get("--depth"));
+		}
 		String methodName = data.getConfigMap().get("--method");
+		
+		String filterName = "-JDK";
+		if(this.availableFilterMap != null && data.getConfigMap().containsKey(filterName)){
+			if(this.availableFilterMap.containsKey(filterName)){
+				this.activeFilters.add(this.availableFilterMap.get(filterName));
+			}
+		}
+		
 		Scene scene = data.getScene();
 		this.scene = scene;
 		SootMethod entryMethod = scene.getMethod(methodName);
 		StringBuilder str = new StringBuilder();
 		str.append("@startuml\n");
-		recursiveMethodGenerator(entryMethod, str, depth, entryMethod.getDeclaringClass());
+		
+		recursiveMethodGenerator(entryMethod, str, depth, entryMethod.getDeclaringClass(), true);
 
 		str.append("@enduml");
 
@@ -44,10 +56,17 @@ public class SequenceDiagramRender extends Analyzable {
 
 	}
 
-	public void recursiveMethodGenerator(SootMethod method, StringBuilder str, int depth, SootClass callingClass) {
+	public void recursiveMethodGenerator(SootMethod method, StringBuilder str, int depth, SootClass callingClass, boolean toplevel) {
+		if (!this.useFiltersOn(method)) {
+			return;
+		}
 		String callingName = callingClass.getName();
 		String recievingName = method.getDeclaringClass().getName();
-		str.append(callingName + " -> " + recievingName + ": ");
+		if (toplevel) {
+			str.append(" -> " + recievingName + ": ");
+		} else {
+			str.append(callingName + " -> " + recievingName + ": ");
+		}
 		String[] methodArray = method.getSignature().split(" ");
 		String methodCall = methodArray[methodArray.length - 1];
 		str.append(methodCall.substring(0, methodCall.length()-1) + "\n");
@@ -75,19 +94,23 @@ public class SequenceDiagramRender extends Analyzable {
 					InvokeExpr invkExpr = (InvokeExpr) op;
 					SootMethod nextMethod = invkExpr.getMethod();
 					nextMethod = ResolvedMethodFinder.resolveMethod(scene, stmt, nextMethod);
-					recursiveMethodGenerator(nextMethod, str, depth - 1, method.getDeclaringClass());
+					recursiveMethodGenerator(nextMethod, str, depth - 1, method.getDeclaringClass(), false);
 				}
 			} else if (stmt instanceof InvokeStmt) {
 				SootMethod nextMethod = ((InvokeStmt) stmt).getInvokeExpr().getMethod();
 
 				nextMethod = ResolvedMethodFinder.resolveMethod(scene, stmt, nextMethod);
-				recursiveMethodGenerator(nextMethod, str, depth - 1, method.getDeclaringClass());
+				recursiveMethodGenerator(nextMethod, str, depth - 1, method.getDeclaringClass(), false);
 			}
 		});
 
 		Type returnType = method.getReturnType();
 		if (!returnType.toString().equals("void")) {
-			str.append(recievingName + " --> " + callingName + ": " + returnType + "\n");
+			if (toplevel) {
+				str.append("<-- " + callingName + ": " + returnType + "\n");
+			} else {
+				str.append(recievingName + " --> " + callingName + ": " + returnType + "\n");
+			}
 		}
 		if (!active) {
 			str.append("deactivate " + recievingName + "\n");

@@ -20,7 +20,6 @@ public class UMLRender extends Analyzable {
 		String filterName = data.getConfigMap().get("--accesslevel");
 	
 		if(this.availableFilterMap != null){
-			
 			if(this.availableFilterMap.containsKey(filterName)){
 				this.activeFilters.add(this.availableFilterMap.get(filterName));
 			}
@@ -32,12 +31,7 @@ public class UMLRender extends Analyzable {
 		if(relationships != null) {
 			
 			relationships.forEach(r ->{
-				boolean keep = true;
-				if(!activeFilters.isEmpty()) {
-					for(IFilter f : activeFilters) {
-						keep &= f.filterClass(r.getThisClass());
-					}
-				}
+				boolean keep = this.useFiltersOn(r.getThisClass());
 				
 				if(keep) {
 					str.append(
@@ -78,12 +72,7 @@ public class UMLRender extends Analyzable {
 		
 		r.getThisClass().getFields().forEach(f ->{
 			
-			boolean keep = true;
-			if(!activeFilters.isEmpty()) {
-				for(IFilter fil : activeFilters) {
-					keep &= fil.filterField(f);
-				}
-			}
+			boolean keep = this.useFiltersOn(f);
 			
 			if(keep) {
 				String modifiers = "";
@@ -130,12 +119,7 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 		r.getThisClass().getMethods().forEach(m ->{
 			
-			boolean keep = true;
-			if(!activeFilters.isEmpty()) {
-				for(IFilter f : activeFilters) {
-					keep &= f.filterMethod(m);
-				}
-			}
+			boolean keep = this.useFiltersOn(m);
 			
 			if(keep) {
 				String modifiers = "";
@@ -202,12 +186,7 @@ public class UMLRender extends Analyzable {
 	public String getExtendsString(Relationship r) {
 		if(r.getExtendz() != null){
 			
-			boolean keep = true;
-			if(!activeFilters.isEmpty()) {
-				for(IFilter f : activeFilters) {
-					keep &= f.filterClass(r.getExtendz());
-				}
-			}
+			boolean keep = this.useFiltersOn(r.getExtendz());
 			
 			if(keep) {
 			
@@ -230,12 +209,7 @@ public class UMLRender extends Analyzable {
 		if(implementz != null){
 			String className = getClassString(r);
 			implementz.forEach(i ->{
-				boolean keep = true;
-				if(!activeFilters.isEmpty()) {
-					for(IFilter f : activeFilters) {
-						keep &= f.filterClass(i);
-					}
-				}
+				boolean keep = this.useFiltersOn(i);
 				
 				if(keep) {
 					
@@ -265,12 +239,7 @@ public class UMLRender extends Analyzable {
 			Set<SootClass> usez = usesMap.keySet();
 			String className = r.getThisClass().getName();
 			usez.forEach(u ->{
-				boolean keep = true;
-				if(!activeFilters.isEmpty()) {
-					for(IFilter f : activeFilters) {
-						keep &= f.filterClass(u);
-					}
-				}
+				boolean keep = this.useFiltersOn(u);
 				keep &= !r.getHas().containsKey(u);
 				
 				String arrowEnd = usesMap.get(u) ? "\"*\" " : "";
@@ -293,12 +262,7 @@ public class UMLRender extends Analyzable {
 			Set<SootClass> haz = hasMap.keySet();
 			String className = r.getThisClass().getName();
 			haz.forEach(h ->{
-				boolean keep = true;
-				if(!activeFilters.isEmpty()) {
-					for(IFilter f : activeFilters) {
-						keep &= f.filterClass(h);
-					}
-				}
+				boolean keep = this.useFiltersOn(h);
 				
 				String arrowEnd = hasMap.get(h) ? "\"*\" " : "";
 				

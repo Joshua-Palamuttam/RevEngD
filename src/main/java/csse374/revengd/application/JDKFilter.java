@@ -8,20 +8,17 @@ public class JDKFilter implements IFilter {
 
 	@Override
 	public boolean filterClass(SootClass sootClass) {
-		// TODO Auto-generated method stub
-		return false;
+		return !sootClass.toString().startsWith("java.");
 	}
 
 	@Override
 	public boolean filterField(SootField sootField) {
-		// TODO Auto-generated method stub
-		return false;
+		return !sootField.getDeclaringClass().toString().startsWith("java.");
 	}
 
 	@Override
 	public boolean filterMethod(SootMethod sootMethod) {
-		// TODO Auto-generated method stub
-		return false;
+		return !sootMethod.getDeclaringClass().toString().startsWith("java.");
 	}
 
 }

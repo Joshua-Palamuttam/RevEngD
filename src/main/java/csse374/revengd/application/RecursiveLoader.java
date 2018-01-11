@@ -22,7 +22,9 @@ public class RecursiveLoader extends Analyzable {
 		temp.addAll(sootClasses);
 		
 		temp.forEach(t -> {
-			computeAllSuperTypes(t,sootClasses);
+			if (this.useFiltersOn(t)){
+				computeAllSuperTypes(t,sootClasses);
+			}
 		});
 		System.out.println("-------------After recursive---------");
 		sootClasses.forEach(clazz ->{
@@ -45,7 +47,7 @@ public class RecursiveLoader extends Analyzable {
 			directSuperTypes.addAll(clazz.getInterfaces());
 
 		directSuperTypes.forEach(aType -> {
-			if (!allSuperTypes.contains(aType)) {
+			if (!allSuperTypes.contains(aType) && this.useFiltersOn(aType)) {
 				allSuperTypes.add(aType);
 				this.computeAllSuperTypes(aType, allSuperTypes);
 			}

@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import soot.SootClass;
+import soot.SootField;
+import soot.SootMethod;
 
 public abstract class Analyzable {
 	protected Collection<IFilter> activeFilters = new ArrayList<>();
@@ -22,6 +24,36 @@ public abstract class Analyzable {
 	
 	public void removeFilter(IFilter filter) {
 		this.activeFilters.remove(filter);
+	}
+	
+	protected boolean useFiltersOn(SootClass clazz) {
+		boolean keep = true;
+		if(!this.activeFilters.isEmpty()) {
+			for(IFilter fil : this.activeFilters) {
+				keep &= fil.filterClass(clazz);
+			}
+		}
+		return keep;
+	}
+	
+	protected boolean useFiltersOn(SootField field) {
+		boolean keep = true;
+		if(!this.activeFilters.isEmpty()) {
+			for(IFilter fil : this.activeFilters) {
+				keep &= fil.filterField(field);
+			}
+		}
+		return keep;
+	}
+	
+	protected boolean useFiltersOn(SootMethod method) {
+		boolean keep = true;
+		if(!this.activeFilters.isEmpty()) {
+			for(IFilter fil : this.activeFilters) {
+				keep &= fil.filterMethod(method);
+			}
+		}
+		return keep;
 	}
 	
 	public void setAvailableFilterMap(Map<String, IFilter> availableFilters){

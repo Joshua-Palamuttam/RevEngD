@@ -21,20 +21,20 @@ public class RevEngDApp {
 	public static void main(String[] args) throws FileNotFoundException {
 		CLParser parser = new CLParser();
 		Map<String, String> argMap = parser.parseAll(args);
-		 OutputStream out = new FileOutputStream("./output/UML.svg");
-		 Analyzable umlRender = new UMLRender();
-		 Map<String, IFilter> availableFilters = new HashMap<>();
-		 availableFilters.put("public", new PublicFilter());
-		 availableFilters.put("private", new PrivateFilter());
-		 availableFilters.put("protected", new ProtectedFilter());
-		 umlRender.setAvailableFilterMap(availableFilters);
+		OutputStream out = new FileOutputStream("./output/UML.svg");
+		Analyzable umlRender = new UMLRender();
+		Map<String, IFilter> availableFilters = new HashMap<>();
+		availableFilters.put("public", new PublicFilter());
+		availableFilters.put("private", new PrivateFilter());
+		availableFilters.put("protected", new ProtectedFilter());
+		umlRender.setAvailableFilterMap(availableFilters);
 		CodeAnalyzer ca = new CodeAnalyzer();
 
 		ca.addAnalyzable(new SootLoader());
 		if(argMap.containsKey("--sequence")) {
 			Analyzable sequenceDiagram = new SequenceDiagramRender();
 			availableFilters = new HashMap<>();
-			availableFilters.put("JDK", new JDKFilter());
+			availableFilters.put("-JDK", new JDKFilter());
 			sequenceDiagram.setAvailableFilterMap(availableFilters);
 			ca.addAnalyzable(sequenceDiagram);
 		}
