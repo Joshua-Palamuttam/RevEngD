@@ -1,25 +1,15 @@
 package csse374.revengd.application;
 
-import java.util.List;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import soot.Body;
-import soot.Hierarchy;
-import soot.MethodOrMethodContext;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.Type;
-import soot.Unit;
 import soot.Value;
 import soot.jimple.AssignStmt;
 import soot.jimple.InvokeExpr;
 import soot.jimple.InvokeStmt;
-import soot.jimple.toolkits.callgraph.CallGraph;
-import soot.tagkit.LineNumberTag;
-import soot.tagkit.Tag;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 
@@ -27,6 +17,7 @@ public class SequenceDiagramRender extends Analyzable {
 	private UnitGraph graph;
 	private Scene scene;
 
+	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		int depth = 5;
 		if (data.getConfigMap().containsKey("--depth")){
@@ -93,13 +84,13 @@ public class SequenceDiagramRender extends Analyzable {
 				if (op instanceof InvokeExpr) {
 					InvokeExpr invkExpr = (InvokeExpr) op;
 					SootMethod nextMethod = invkExpr.getMethod();
-					nextMethod = ResolvedMethodFinder.resolveMethod(scene, stmt, nextMethod);
+					nextMethod = ResolvedMethodFinder.resolveMethod(this.scene, stmt, nextMethod);
 					recursiveMethodGenerator(nextMethod, str, depth - 1, method.getDeclaringClass(), false);
 				}
 			} else if (stmt instanceof InvokeStmt) {
 				SootMethod nextMethod = ((InvokeStmt) stmt).getInvokeExpr().getMethod();
 
-				nextMethod = ResolvedMethodFinder.resolveMethod(scene, stmt, nextMethod);
+				nextMethod = ResolvedMethodFinder.resolveMethod(this.scene, stmt, nextMethod);
 				recursiveMethodGenerator(nextMethod, str, depth - 1, method.getDeclaringClass(), false);
 			}
 		});

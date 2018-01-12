@@ -56,7 +56,7 @@ public class Relationship {
 	
 
 	public SootClass getThisClass() {
-		return thisClass;
+		return this.thisClass;
 	}
 
 	public void setThisClass(SootClass thisClass) {
@@ -64,7 +64,7 @@ public class Relationship {
 	}
 
 	public Map<SootClass, Boolean> getHas() {
-		return has;
+		return this.has;
 	}
 
 	public void setHas(Map<SootClass, Boolean> has) {
@@ -76,6 +76,10 @@ public class Relationship {
 			return;
 		}
 		
+		if (this.thisClass.equals(clazz)) {
+			return;
+		}
+		
 		if (this.has.containsKey(clazz)) {
 			many = this.has.get(clazz) || many;
 		}
@@ -83,7 +87,7 @@ public class Relationship {
 	}
 
 	public Map<SootClass, Boolean> getUses() {
-		return uses;
+		return this.uses;
 	}
 
 	public void setUses(Map<SootClass, Boolean> uses) {
@@ -95,6 +99,10 @@ public class Relationship {
 			return;
 		}
 		
+		if (this.extendz.equals(clazz) || this.implementz.contains(clazz) || this.has.containsKey(clazz) || this.thisClass.equals(clazz)) {
+			return;
+		}
+		
 		if (this.uses.containsKey(clazz)) {
 			many = this.uses.get(clazz) || many;
 		}
@@ -102,7 +110,7 @@ public class Relationship {
 	}
 
 	public Set<SootClass> getImplementz() {
-		return implementz;
+		return this.implementz;
 	}
 
 	public void setImplementz(Set<SootClass> implementz) {
@@ -110,7 +118,7 @@ public class Relationship {
 	}
 
 	public SootClass getExtendz() {
-		return extendz;
+		return this.extendz;
 	}
 
 	public void setExtendz(SootClass extendz) {

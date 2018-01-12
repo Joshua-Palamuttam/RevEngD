@@ -22,18 +22,21 @@ import soot.util.Chain;
 
 public class RelationshipFinder extends Analyzable {
 	private AnalyzableData data;
+	private boolean analyzeBodies;
 	
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		this.data = data;
 		boolean recur = data.getConfigMap().containsKey("-r");
+		this.analyzeBodies = data.getConfigMap().containsKey("--analyzeBodies");
 		Set<SootClass> sootClasses = data.getSootClasses();
 		Collection<Relationship> relationships = new ArrayList<>();
 		sootClasses.forEach(clazz -> {
 			Relationship r = new Relationship(clazz);
-			hasAFinder(r);
+			// order matters here
 			extendsAFinder(r);
 			implementsAFinder(r);
+			hasAFinder(r);
 			usesAFinder(r);
 			relationships.add(r);
 			r.filterIn(sootClasses);
@@ -143,33 +146,35 @@ public class RelationshipFinder extends Analyzable {
 		clazz.getMethods().forEach(m -> {
 			methodTypeFinder(r, m, scene);
 			
-			// analyze method bodies
-			Body body = m.retrieveActiveBody();
-			UnitGraph cfg = new ExceptionalUnitGraph(body);
-			cfg.forEach(stmt -> {
-				Value op = null;
-				if (stmt instanceof AssignStmt) {
-					op = ((AssignStmt) stmt).getRightOp();
-					if (op instanceof InvokeExpr) {
-						InvokeExpr invkExpr = (InvokeExpr) op;
-						SootMethod nextMethod = invkExpr.getMethod();
-						
+			if (this.analyzeBodies && !m.isAbstract()){
+				
+				// analyze method bodies
+				Body body = m.retrieveActiveBody();
+				UnitGraph cfg = new ExceptionalUnitGraph(body);
+				cfg.forEach(stmt -> {
+					Value op = null;
+					SootMethod nextMethod = null;
+					if (stmt instanceof AssignStmt) {
+						op = ((AssignStmt) stmt).getRightOp();
+						if (op instanceof InvokeExpr) {
+							InvokeExpr invkExpr = (InvokeExpr) op;
+							nextMethod = invkExpr.getMethod();
+						}
+					} else if (stmt instanceof InvokeStmt) {
+						nextMethod = ((InvokeStmt) stmt).getInvokeExpr().getMethod();
+					}
+					
+					if (nextMethod != null){
 						if (nextMethod.isConstructor()) {
 							r.addUses(nextMethod.getDeclaringClass(), false);
+						} else if (nextMethod.isStatic()){
+							r.addUses(nextMethod.getDeclaringClass(), false);
 						} else {
-							r.addUses(scene.getSootClass(nextMethod.getReturnType().toString()), false);
+							methodTypeFinder(r, m, scene);
 						}
-						
 					}
-				} else if (stmt instanceof InvokeStmt) {
-					SootMethod nextMethod = ((InvokeStmt) stmt).getInvokeExpr().getMethod();
-					if (nextMethod.isConstructor()) {
-						r.addUses(nextMethod.getDeclaringClass(), false);
-					} else {
-						r.addUses(scene.getSootClass(nextMethod.getReturnType().toString()), false);
-					}
-				}
-			});
+				});
+			}
 		});
 	}
 	

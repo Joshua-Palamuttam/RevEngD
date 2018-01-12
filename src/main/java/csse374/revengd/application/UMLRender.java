@@ -240,7 +240,7 @@ public class UMLRender extends Analyzable {
 			String className = r.getThisClass().getName();
 			usez.forEach(u ->{
 				boolean keep = this.useFiltersOn(u);
-				keep &= !r.getHas().containsKey(u);
+				//keep &= !r.getHas().containsKey(u);
 				
 				String arrowEnd = usesMap.get(u) ? "\"*\" " : "";
 				
