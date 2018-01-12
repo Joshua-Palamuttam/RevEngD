@@ -32,6 +32,9 @@ Where `<args>` can be any of the following:
     - `private` will render all classes, methods, and fields. 
     - `protected` will render only public and protected classes, methods, and fields. 
     - `public` will render only pubilc classes, methods, and fields.
+- `--analyzeBodies` This flag will analyze method bodies when looking for dependencies in UML diagrams
+- `--sequence` This flag will create a sequence diagram for a given method
+- `--method` specifies a fully qualified method name to generate a sequence diagram for
 
 The following is a very basic example of how to run from the command line:
 ```bash
@@ -41,6 +44,9 @@ The following is a very basic example of how to run from the command line:
 
 ## Team Member Contributions
 ### Milestone 1
+The team met 4 times each week to work on this milestone. At each meeting, every team member was present and contributed to the progression of the project. All work done on the project was completed at our meetings as a group. Whenever we were coding, we rotated drivers after each major feature was completed.
+
+### Milestone 2
 The team met 4 times each week to work on this milestone. At each meeting, every team member was present and contributed to the progression of the project. All work done on the project was completed at our meetings as a group. Whenever we were coding, we rotated drivers after each major feature was completed.
 
 ## Running the Demos
@@ -63,4 +69,30 @@ gradlew run -Pmyargs="--path C:/EclipseWorkspaces/csse374/RevEngD/build/classes/
 #### This Project's Public API Demo
 ```bash
 gradlew run -Pmyargs="--path C:/EclipseWorkspaces/csse374-project/RevEngD/build/classes/main --class csse374.revengd.application.RevEngDApp csse374.revengd.application.Analyzable csse374.revengd.application.PlantUMLGenerator csse374.revengd.application.Relationship csse374.revengd.application.AnalyzableData csse374.revengd.application.PrivateFilter csse374.revengd.application.RelationshipFinder csse374.revengd.application.CLParser csse374.revengd.application.ProtectedFilter csse374.revengd.application.CodeAnalyzer csse374.revengd.application.PublicFilter csse374.revengd.application.SootLoader csse374.revengd.application.IFilter csse374.revengd.application.RecursiveLoader csse374.revengd.application.UMLRender --accesslevel public"
+```
+
+### Milestone 2
+#### Pizza UML Demo
+```bash
+gradlew run --offline -Pmyargs="--class headfirst.factory.pizzaaf.PizzaTestDrive headfirst.factory.pizzaaf.BlackOlives headfirst.factory.pizzaaf.FreshClams headfirst.factory.pizzaaf.ParmesanCheese headfirst.factory.pizzaaf.ReggianoCheese headfirst.factory.pizzaaf.Cheese headfirst.factory.pizzaaf.FrozenClams headfirst.factory.pizzaaf.Pepperoni headfirst.factory.pizzaaf.Sauce headfirst.factory.pizzaaf.CheesePizza headfirst.factory.pizzaaf.Garlic headfirst.factory.pizzaaf.PepperoniPizza headfirst.factory.pizzaaf.SlicedPepperoni headfirst.factory.pizzaaf.ChicagoPizzaIngredientFactory headfirst.factory.pizzaaf.MarinaraSauce headfirst.factory.pizzaaf.PizzaIngredientFactory headfirst.factory.pizzaaf.Spinach headfirst.factory.pizzaaf.ChicagoPizzaStore headfirst.factory.pizzaaf.MozzarellaCheese headfirst.factory.pizzaaf.Pizza headfirst.factory.pizzaaf.ThickCrustDough headfirst.factory.pizzaaf.ClamPizza headfirst.factory.pizzaaf.Mushroom headfirst.factory.pizzaaf.PizzaStore headfirst.factory.pizzaaf.ThinCrustDough headfirst.factory.pizzaaf.Clams headfirst.factory.pizzaaf.NYPizzaIngredientFactory headfirst.factory.pizzaaf.VeggiePizza headfirst.factory.pizzaaf.Dough headfirst.factory.pizzaaf.NYPizzaStore headfirst.factory.pizzaaf.PlumTomatoSauce headfirst.factory.pizzaaf.Veggies headfirst.factory.pizzaaf.Eggplant headfirst.factory.pizzaaf.Onion headfirst.factory.pizzaaf.RedPepper --path C:/EclipseWorkspaces/csse374/Lab4-1/build/classes/main"
+```
+
+#### Lab 2-1 Demo
+```bash
+gradlew run --offline -Pmyargs="--class problem.AppLauncher problem.DirectoryChangeLogger problem.ExecutableFileRunner problem.AppplicationLauncher problem.DirectoryEvent problem.IDirectoryListener problem.DataFileRunner problem.DirectoryMinitorService problem.ProcessRunner --path C:/EclipseWorkspaces/csse374/Lab2-1/build/classes/main"
+```
+
+#### Weather Station Demo
+```bash
+gradlew run --offline -Pmyargs="--class headfirst.designpatterns.observer.weather.WeatherStation --path C:/EclipseWorkspaces/csse374/Lab2-1/build/classes/main --sequence --method <headfirst.designpatterns.observer.weather.WeatherStation: void main(java.lang.String[])> --depth 5 -JDK"
+```
+
+#### This Project Demo
+```bash
+gradlew run --offline -Pmyargs="--class csse374.revengd.application.RevEngDApp csse374.revengd.application.AnalyzableData csse374.revengd.application.IFilter csse374.revengd.application.ProtectedFilter csse374.revengd.application.Relationship csse374.revengd.application.SootLoader csse374.revengd.application.Analyzable csse374.revengd.application.JDKFilter csse374.revengd.application.PublicFilter csse374.revengd.application.ResolvedMethodFinder csse374.revengd.application.UMLRender csse374.revengd.application.CLParser csse374.revengd.application.PlantUMLGenerator csse374.revengd.application.RecursiveLoader csse374.revengd.application.CodeAnalyzer csse374.revengd.application.PrivateFilter csse374.revengd.application.RelationshipFinder csse374.revengd.application.SequenceDiagramRender --path C:/EclipseWorkspaces/csse374-project/RevEngD/build/classes/main --analyzeBodies"
+```
+
+#### Pizza Sequence Demo
+```bash
+gradlew run --offline -Pmyargs="--class headfirst.factory.pizzaaf.PizzaTestDrive --path C:/EclipseWorkspaces/csse374/Lab4-1/build/classes/main --sequence --method <headfirst.factory.pizzaaf.PizzaStore: headfirst.factory.pizzaaf.Pizza orderPizza(java.lang.String)> -JDK"
 ```
