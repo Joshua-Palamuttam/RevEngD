@@ -28,6 +28,9 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 		Collection<Relationship> relationships = data.getRelationships();
 		str.append("@startuml\n");
+		if (!data.getConfigMap().containsKey("--curved")) {
+			str.append("skinparam linetype ortho\n");
+		}
 		if(relationships != null) {
 			
 			relationships.forEach(r ->{
