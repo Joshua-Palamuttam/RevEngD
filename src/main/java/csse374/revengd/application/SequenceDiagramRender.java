@@ -20,20 +20,12 @@ public class SequenceDiagramRender extends Analyzable {
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		int depth = 5;
-		if (data.getConfigMap().containsKey("--depth")){
-			depth = Integer.parseInt(data.getConfigMap().get("--depth"));
+		if (data.getConfigMap().containsKey("depth")){
+			depth = Integer.parseInt(data.getConfigMap().get("depth"));
 		}
-		String methodName = data.getConfigMap().get("--method");
+		String methodName = data.getConfigMap().get("method");
 		
-		String filterName = "-JDK";
-		if(this.availableFilterMap != null && data.getConfigMap().containsKey(filterName)){
-			if(this.availableFilterMap.containsKey(filterName)){
-				this.activeFilters.add(this.availableFilterMap.get(filterName));
-			}
-		}
-		
-		Scene scene = data.getScene();
-		this.scene = scene;
+		this.scene = data.getScene();
 		SootMethod entryMethod = scene.getMethod(methodName);
 		StringBuilder str = new StringBuilder();
 		str.append("@startuml\n");

@@ -14,7 +14,7 @@ import soot.SootMethod;
 
 public abstract class Analyzable {
 	protected Collection<IFilter> activeFilters = new ArrayList<>();
-	protected Map<String, IFilter> availableFilterMap;
+	protected Map<String, IFilter> availableFilterMap = new HashMap<>();
 	
 	public abstract void analyze(AnalyzableData data, OutputStream out);
 	
@@ -58,5 +58,9 @@ public abstract class Analyzable {
 	
 	public void setAvailableFilterMap(Map<String, IFilter> availableFilters){
 		this.availableFilterMap = availableFilters;
+	}
+	
+	public void addActiveFilter(IFilter filter) {
+		this.activeFilters.add(filter);
 	}
 }

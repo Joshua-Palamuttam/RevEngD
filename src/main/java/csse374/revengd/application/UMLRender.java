@@ -17,18 +17,10 @@ public class UMLRender extends Analyzable {
 
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
-		String filterName = data.getConfigMap().get("--accesslevel");
-	
-		if(this.availableFilterMap != null){
-			if(this.availableFilterMap.containsKey(filterName)){
-				this.activeFilters.add(this.availableFilterMap.get(filterName));
-			}
-		}
-		
 		StringBuilder str = new StringBuilder();
 		Collection<Relationship> relationships = data.getRelationships();
 		str.append("@startuml\n");
-		if (!data.getConfigMap().containsKey("--curved")) {
+		if (!data.getConfigMap().containsKey("curved")) {
 			str.append("skinparam linetype ortho\n");
 		}
 		if(relationships != null) {
@@ -56,6 +48,7 @@ public class UMLRender extends Analyzable {
 		data.setUmlText(str.toString());
 //		out.write(str.toString());
 	}
+	
 	public String getClassString(Relationship r){
 		StringBuilder str = new StringBuilder();
 		
@@ -121,18 +114,15 @@ public class UMLRender extends Analyzable {
 	public String getMethodsString(Relationship r) {
 		StringBuilder str = new StringBuilder();
 		r.getThisClass().getMethods().forEach(m ->{
-			
 			boolean keep = this.useFiltersOn(m);
 			
 			if(keep) {
 				String modifiers = "";
 				if(m.isPrivate()){
 					modifiers += "- ";
-				}
-				else if(m.isProtected()){
+				} else if(m.isProtected()){
 					modifiers += "# ";
-				}
-				else{
+				} else{
 					modifiers += "+ ";
 				}
 				
@@ -188,19 +178,9 @@ public class UMLRender extends Analyzable {
 	
 	public String getExtendsString(Relationship r) {
 		if(r.getExtendz() != null){
-			
 			boolean keep = this.useFiltersOn(r.getExtendz());
-			
 			if(keep) {
-			
-				
-				if( r.getExtendz().getName().contains("$")){
-					return r.getThisClass().getName()+ " --|> "+r.getExtendz().getName()+"\n";
-					
-				}
-				else{
-					return getClassString(r)+ " extends "+r.getExtendz().getName()+"\n";
-				}
+				return r.getThisClass().getName()+ " -up--|> "+r.getExtendz().getName()+"\n";
 			}
 		}
 		return "";
@@ -210,26 +190,13 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 		Set<SootClass> implementz = r.getImplementz();
 		if(implementz != null){
-			String className = getClassString(r);
 			implementz.forEach(i ->{
 				boolean keep = this.useFiltersOn(i);
 				
 				if(keep) {
-					
-					if(i.getName().contains("$")){
-						
-						str.append(r.getThisClass().getName()+ " ..|> ");
-
-					}
-					else {
-						str.append(className + " implements ");
-
-					}
-					str.append(i.getName()+"\n");
+					str.append(r.getThisClass().getName()+ " -up..|> " + i.getName()+"\n");
 				}
-				
 			});
-				
 		}
 		return str.toString();
 	}

@@ -76,10 +76,6 @@ public class Relationship {
 			return;
 		}
 		
-		if (this.thisClass.equals(clazz)) {
-			return;
-		}
-		
 		if (this.has.containsKey(clazz)) {
 			many = this.has.get(clazz) || many;
 		}

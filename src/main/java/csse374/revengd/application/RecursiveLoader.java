@@ -7,17 +7,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import soot.Scene;
 import soot.SootClass;
 
 public class RecursiveLoader extends Analyzable {
 
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
-		Map<String, String> configMap  = data.getConfigMap();
-		if(!configMap.containsKey("-r")){
-			return;
-		}
+		Scene scene = data.getScene();
 		Set<SootClass> sootClasses = data.getSootClasses();
+		sootClasses.addAll(scene.getApplicationClasses());
+		
 		Set<SootClass> temp = new HashSet<>();
 		temp.addAll(sootClasses);
 		

@@ -16,18 +16,18 @@ public class SootLoader extends Analyzable {
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		Map<String, String> configMap  = data.getConfigMap();
-		String path = configMap.get("--path");
-		String classNamesString = configMap.get("--class");
+		String path = configMap.get("path");
+		String classNamesString = configMap.get("class");
 		String [] classNames = classNamesString.trim().split(" ");
 		
 		Scene scene = SceneBuilder.create()
-				.addClassPath(path)
-				.addClasses(Arrays.asList(classNames))
-				.setEntryClass(classNames[0]) //Should figure out a more flexible way to find main.
-				.addEntryPointMatcher(new MainMethodMatcher(classNames[0])) //Will need to be updated.
+				.addDirectory(path)
+				.setEntryClass(classNames[0])
+				.addEntryPointMatcher(new MainMethodMatcher(classNames[0]))
 				.build();
 		
 		Set<SootClass> sootClasses = new HashSet<>();
+
 		System.out.println("----Loaded----");
 		for(int i = 0; i < classNames.length; i++) {
 			SootClass clazz = scene.getSootClass(classNames[i]);
