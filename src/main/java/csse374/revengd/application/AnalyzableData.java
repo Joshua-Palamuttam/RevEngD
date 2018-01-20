@@ -2,6 +2,10 @@ package csse374.revengd.application;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
+
 import soot.Scene;
 import soot.SootClass;
 
@@ -12,9 +16,11 @@ public class AnalyzableData {
 	private Set <SootClass> sootClasses;
 	private Collection <Relationship> relationships;
 	private String umlText;
+	private SetMultimap<String, IPattern> patterns;
 	
 	public AnalyzableData(Map<String, String> argMap) {
 		this.configMap = argMap;
+		this.patterns = HashMultimap.create();
 	}
 	public Map<String, String> getConfigMap() {
 		return configMap;
@@ -45,6 +51,12 @@ public class AnalyzableData {
 	}
 	public void setUmlText(String umlText) {
 		this.umlText = umlText;
+	}
+	public Set<IPattern> getPatternsByName(String name){
+		return patterns.get(name);
+	}
+	public void putPattern(String name, IPattern p){
+		patterns.put(name, p);
 	}
 	
 

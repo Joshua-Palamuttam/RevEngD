@@ -56,6 +56,9 @@ public class RevEngDApp {
 				ca.addAnalyzable(new RecursiveLoader());
 			}
 			ca.addAnalyzable(new RelationshipFinder());
+			if (argMap.get("pattern").contains("singleton")){
+				ca.addAnalyzable(new SingletonDetector());
+			}
 			ca.addAnalyzable(umlRender);
 		}
 		
