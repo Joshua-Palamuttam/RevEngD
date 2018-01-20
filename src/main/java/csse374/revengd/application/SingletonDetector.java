@@ -21,8 +21,8 @@ public class SingletonDetector extends Analyzable {
 	}
 
 	private boolean isSingleton(Relationship r) {
-		 return  r.getHas().containsKey(r.getThisClass())
-				 && !r.getHas().get(r.getThisClass()) 
+		 return  r.has(r.getThisClass())
+				 && !r.hasMany(r.getThisClass()) 
 				 && r.getThisClass().getMethods().stream().anyMatch(m -> {
 					 return m.getReturnType().equals(r.getThisClass());
 				 });

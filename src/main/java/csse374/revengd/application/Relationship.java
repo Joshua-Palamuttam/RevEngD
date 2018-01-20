@@ -1,5 +1,7 @@
 package csse374.revengd.application;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +19,9 @@ public class Relationship {
 	
 	public Relationship(SootClass clazz) {
 		this.thisClass = clazz;
+		this.has = new HashMap<>();
+		this.uses = new HashMap<>();
+		this.implementz = new HashSet<>();
 	}
 	
 	public void filterIn(Set<SootClass> keep) {
@@ -121,5 +126,11 @@ public class Relationship {
 		this.extendz = extendz;
 	}
 	
-
+	public boolean has(SootClass clazz){
+		return this.has.containsKey(clazz);
+	}
+	
+	public boolean hasMany(SootClass clazz){
+		return this.has.get(clazz);
+	}
 }
