@@ -177,6 +177,7 @@ public class UMLRender extends Analyzable {
 	}
 	
 	public String getExtendsString(Relationship r) {
+		
 		if(r.getExtendz() != null){
 			boolean keep = this.useFiltersOn(r.getExtendz());
 			if(keep) {

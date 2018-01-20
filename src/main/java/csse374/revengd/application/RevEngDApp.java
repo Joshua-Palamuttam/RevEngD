@@ -19,6 +19,7 @@ import soot.SootClass;
 public class RevEngDApp {
 
 	public static void main(String[] args) throws FileNotFoundException {
+		Analyzable a; 
 		CLParser parser = new CLParser();
 		SettingsFileLoader settings = new SettingsFileLoader();
 		Map<String, String> argMap = parser.parseAll(args);
@@ -56,9 +57,22 @@ public class RevEngDApp {
 				ca.addAnalyzable(new RecursiveLoader());
 			}
 			ca.addAnalyzable(new RelationshipFinder());
-			if (argMap.get("pattern").contains("singleton")){
-				ca.addAnalyzable(new SingletonDetector());
+			if (argMap.containsKey("pattern")){
+				if (argMap.get("pattern").contains("singleton")){
+					a = new SingletonDetector();
+					a.addActiveFilter(new PrefixFilter(argMap));
+					ca.addAnalyzable(a);
+				}
+				if (argMap.get("pattern").contains("inheritance")){
+					a = new CompInheritanceDetector();
+					a.addActiveFilter(new PrefixFilter(argMap));
+					ca.addAnalyzable(a);
+					
+				}
+				
 			}
+		
+			
 			ca.addAnalyzable(umlRender);
 		}
 		

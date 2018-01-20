@@ -58,7 +58,15 @@ public class AnalyzableData {
 	public void putPattern(String name, IPattern p){
 		patterns.put(name, p);
 	}
-	
+	public Relationship getRelationship(SootClass clazz){
+		for(Relationship r : relationships){
+			if(r.getThisClass().equals(clazz)){
+				return r;
+			}
+			
+		}
+		return null;
+	}
 
 	
 }

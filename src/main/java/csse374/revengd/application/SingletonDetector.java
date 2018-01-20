@@ -3,13 +3,18 @@ package csse374.revengd.application;
 import java.io.OutputStream;
 import java.util.Collection;
 
+import soot.Scene;
+
 public class SingletonDetector extends Analyzable {
+	
+	private Scene scene;
 
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
+		this.scene = data.getScene();
 		Collection<Relationship> relationships = data.getRelationships();
 		relationships.forEach(r -> {
-			if(isSingleton(r)){
+			if(this.useFiltersOn(r.getThisClass()) && isSingleton(r)){
 				IPattern pattern = new Pattern("singleton");
 				pattern.putComponent("singleton", r);
 				data.putPattern("singleton", pattern);
@@ -24,7 +29,7 @@ public class SingletonDetector extends Analyzable {
 		 return  r.has(r.getThisClass())
 				 && !r.hasMany(r.getThisClass()) 
 				 && r.getThisClass().getMethods().stream().anyMatch(m -> {
-					 return m.getReturnType().equals(r.getThisClass());
+					 return this.scene.getSootClass(m.getReturnType().toString()).equals(r.getThisClass());
 				 });
 	
 	}

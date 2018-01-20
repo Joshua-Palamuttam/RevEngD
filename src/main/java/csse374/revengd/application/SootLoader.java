@@ -22,6 +22,7 @@ public class SootLoader extends Analyzable {
 		
 		Scene scene = SceneBuilder.create()
 				.addDirectory(path)
+				.addClasses(Arrays.asList(classNames))
 				.setEntryClass(classNames[0])
 				.addEntryPointMatcher(new MainMethodMatcher(classNames[0]))
 				.build();
