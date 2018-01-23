@@ -7,8 +7,8 @@ import soot.SootClass;
 public interface IPattern {
 
 	public Set<SootClass> getComponents(String name);
-	
 	public void putComponent(String name, Relationship r);
 	public String getPatternName();
+	public Set<SootClass> getAllComponents();
 	
 }

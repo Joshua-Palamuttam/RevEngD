@@ -39,7 +39,7 @@ public class RevEngDApp {
 			}
 			ca.addAnalyzable(sequenceDiagram);
 		} else {
-			Analyzable umlRender = new UMLRender();
+			UMLRender umlRender = new UMLRender();
 			String accessLevel = argMap.get("accessLevel");
 			if (null != accessLevel) {
 				if (accessLevel.equals("public")) {
@@ -58,15 +58,17 @@ public class RevEngDApp {
 			}
 			ca.addAnalyzable(new RelationshipFinder());
 			if (argMap.containsKey("pattern")){
-				if (argMap.get("pattern").contains("singleton")){
+				if (argMap.get("pattern").contains(SingletonDetector.PATTERN)){
 					a = new SingletonDetector();
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
+					umlRender.addModifier(new SingletonModifier());
 				}
-				if (argMap.get("pattern").contains("inheritance")){
+				if (argMap.get("pattern").contains(CompInheritanceDetector.PATTERN)){
 					a = new CompInheritanceDetector();
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
+					umlRender.addModifier(new CompInheritanceModifier());
 					
 				}
 				

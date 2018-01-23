@@ -1,6 +1,7 @@
 package csse374.revengd.application;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
@@ -19,8 +20,9 @@ public class Pattern implements IPattern {
 	
 	@Override
 	public Set<SootClass> getComponents(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.componentMap.get(name).stream().map(r->{
+			return r.getThisClass();
+		}).collect(Collectors.toSet());
 	}
 
 	@Override
@@ -33,6 +35,10 @@ public class Pattern implements IPattern {
 	
 		return this.patternName;
 		
+	}
+	
+	public Set<SootClass> getAllComponents(){
+		return this.getComponents("all");
 	}
 	
 

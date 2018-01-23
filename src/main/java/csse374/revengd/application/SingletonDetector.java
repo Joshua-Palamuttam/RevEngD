@@ -6,7 +6,8 @@ import java.util.Collection;
 import soot.Scene;
 
 public class SingletonDetector extends Analyzable {
-	
+	public static final String PATTERN = "singleton";
+	public static final String SINGLETON = "singleton";
 	private Scene scene;
 
 	@Override
@@ -15,10 +16,10 @@ public class SingletonDetector extends Analyzable {
 		Collection<Relationship> relationships = data.getRelationships();
 		relationships.forEach(r -> {
 			if(this.useFiltersOn(r.getThisClass()) && isSingleton(r)){
-				IPattern pattern = new Pattern("singleton");
-				pattern.putComponent("singleton", r);
-				data.putPattern("singleton", pattern);
-				System.out.println("SINGLETON!!!!!!!! " +r.getThisClass());
+				IPattern pattern = new Pattern(PATTERN);
+				pattern.putComponent(SINGLETON, r);
+				data.putPattern(PATTERN, pattern);
+//				System.out.println("SINGLETON!!!!!!!! " +r.getThisClass());
 			}
 			
 		});
