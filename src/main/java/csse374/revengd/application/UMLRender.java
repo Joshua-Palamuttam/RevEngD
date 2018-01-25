@@ -34,7 +34,7 @@ public class UMLRender extends Analyzable {
 			m.setAnalyzableData(data);
 			str.append(m.getHeaderMod());
 		}
-		if (!data.getConfigMap().containsKey("curved")) {
+		if (!data.getConfigMap().containsKey("curved") || data.getConfigMap().get("curved").equals("false")) {
 			str.append("skinparam linetype ortho\n");
 		}
 		if (relationships != null) {
