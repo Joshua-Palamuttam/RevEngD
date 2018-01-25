@@ -131,7 +131,7 @@ public class Relationship {
 	}
 	
 	public boolean hasMany(SootClass clazz){
-		return this.has.get(clazz);
+		return this.has(clazz) && this.has.get(clazz);
 	}
 	
 	public boolean uses(SootClass clazz){
@@ -139,6 +139,6 @@ public class Relationship {
 	}
 	
 	public boolean usesMany(SootClass clazz){
-		return this.uses.get(clazz);
+		return this.uses(clazz) && this.uses.get(clazz);
 	}
 }
