@@ -19,9 +19,10 @@ public class SootLoader extends Analyzable {
 		String path = configMap.get("path");
 		String classNamesString = configMap.get("class");
 		String [] classNames = classNamesString.trim().split(" ");
+		String [] pathNames = path.trim().split(" ");
 		
 		Scene scene = SceneBuilder.create()
-				.addDirectory(path)
+				.addDirectories(Arrays.asList(pathNames))
 				.addClasses(Arrays.asList(classNames))
 				.setEntryClass(classNames[0])
 				.addEntryPointMatcher(new MainMethodMatcher(classNames[0]))

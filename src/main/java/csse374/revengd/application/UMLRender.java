@@ -212,7 +212,15 @@ public class UMLRender extends Analyzable {
 				boolean keep = this.useFiltersOn(i);
 
 				if (keep) {
-					str.append(r.getThisClass().getName() + " -up..|> " + i.getName() + "\n");
+					String modifier = "";
+					for (UMLModifier m : this.modifiers) {
+						modifier = m.getImplementsMod(r.getThisClass(), i);
+						if (!modifier.equals("")) {
+							break;
+						}
+					}
+					
+					str.append(r.getThisClass().getName() + " -up..|> " + i.getName() + modifier + "\n");
 				}
 			});
 		}
@@ -233,7 +241,15 @@ public class UMLRender extends Analyzable {
 				String arrowEnd = usesMap.get(u) ? "\"*\" " : "";
 
 				if (keep) {
-					str.append(className + " ..> " + arrowEnd + u.getName() + "\n");
+					String modifier = "";
+					for (UMLModifier m : this.modifiers) {
+						modifier = m.getUsesMod(r.getThisClass(), u);
+						if (!modifier.equals("")) {
+							break;
+						}
+					}
+					
+					str.append(className + " ..> " + arrowEnd + u.getName() + modifier + "\n");
 				}
 
 			});
@@ -254,7 +270,15 @@ public class UMLRender extends Analyzable {
 				String arrowEnd = hasMap.get(h) ? "\"*\" " : "";
 
 				if (keep) {
-					str.append(className + " --> " + arrowEnd + h.getName() + "\n");
+					String modifier = "";
+					for (UMLModifier m : this.modifiers) {
+						modifier = m.getHasMod(r.getThisClass(), h);
+						if (!modifier.equals("")) {
+							break;
+						}
+					}
+					
+					str.append(className + " --> " + arrowEnd + h.getName() + modifier + "\n");
 				}
 
 			});

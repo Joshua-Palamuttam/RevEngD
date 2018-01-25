@@ -31,7 +31,6 @@ public class SettingsFileLoader {
 		if (configMap.containsKey("settings")) {
 			userPath = configMap.get("settings");
 		}
-		
 		if (null != userPath) {
 			String appConfigPath = rootPath + userPath;
 			Properties appProps = new Properties(defaultProps);

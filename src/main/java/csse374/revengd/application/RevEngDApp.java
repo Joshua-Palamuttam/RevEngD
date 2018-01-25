@@ -23,10 +23,9 @@ public class RevEngDApp {
 		CLParser parser = new CLParser();
 		SettingsFileLoader settings = new SettingsFileLoader();
 		Map<String, String> argMap = parser.parseAll(args);
+		System.out.println(argMap);
 		settings.loadSettings(argMap);
 		
-		System.out.println(argMap);
-		System.out.println(argMap.get("path"));
 		
 		OutputStream out = new FileOutputStream("./output/UML.svg");
 		CodeAnalyzer ca = new CodeAnalyzer();
@@ -53,7 +52,10 @@ public class RevEngDApp {
 			if (argMap.containsKey("exclude")) {
 				umlRender.addActiveFilter(new PrefixFilter(argMap));
 			}
-			if (argMap.containsKey("r")) {
+			if (argMap.containsKey("synthetic") && argMap.get("synthetic").equals("false")) {
+				umlRender.addActiveFilter(new SyntheticFilter());
+			}
+			if (argMap.containsKey("r") && !argMap.get("r").equals("false")) {
 				ca.addAnalyzable(new RecursiveLoader());
 			}
 			ca.addAnalyzable(new RelationshipFinder());
@@ -69,11 +71,10 @@ public class RevEngDApp {
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
 					umlRender.addModifier(new CompInheritanceModifier());
-					
 				}
-				
 			}
-		
+			
+			RuntimeLoader.loadPatterns(argMap, umlRender, ca);
 			
 			ca.addAnalyzable(umlRender);
 		}

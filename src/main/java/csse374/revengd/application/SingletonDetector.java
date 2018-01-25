@@ -28,12 +28,17 @@ public class SingletonDetector extends Analyzable {
 
 	private boolean isSingleton(Relationship r) {
 		 return  r.has(r.getThisClass())
-				 && !r.hasMany(r.getThisClass()) 
+				 && !r.hasMany(r.getThisClass())
+				 && r.getThisClass().getFields().stream().allMatch(f -> {
+					 return !(f.getType().toString().equals(r.getThisClass().toString()))
+							 || f.isStatic();
+				 })
 				 && r.getThisClass().getMethods().stream().anyMatch(m -> {
 					 return this.scene.getSootClass(m.getReturnType().toString()).equals(r.getThisClass());
+				 })
+				 && r.getThisClass().getMethods().stream().allMatch(m -> {
+					 return !m.isConstructor()
+							 || !m.isPublic();
 				 });
-	
 	}
-	
-
 }

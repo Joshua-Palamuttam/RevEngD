@@ -133,4 +133,12 @@ public class Relationship {
 	public boolean hasMany(SootClass clazz){
 		return this.has.get(clazz);
 	}
+	
+	public boolean uses(SootClass clazz){
+		return this.uses.containsKey(clazz);
+	}
+	
+	public boolean usesMany(SootClass clazz){
+		return this.uses.get(clazz);
+	}
 }

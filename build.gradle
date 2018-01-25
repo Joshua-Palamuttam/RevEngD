@@ -21,6 +21,7 @@ eclipse {
 }
 
 dependencies {
+    runtime fileTree("../PatternDetectorExample/build/libs")
 	compile 'edu.rosehulman.jvm:SignatureEvaluator:1.0.+'	
 	compile 'ca.mcgill.sable:soot:3.+'
 	compile 'org.apache.logging.log4j:log4j-api:2.+'

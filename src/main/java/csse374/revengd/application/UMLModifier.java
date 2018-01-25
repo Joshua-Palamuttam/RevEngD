@@ -13,6 +13,8 @@ public interface UMLModifier {
 
 	public String getHasMod(SootClass startClazz, SootClass endClazz);
 	
+	public String getUsesMod(SootClass startClazz, SootClass endClazz);
+	
 	public void setAnalyzableData(AnalyzableData data);
 
 }
