@@ -4,6 +4,7 @@ package csse374.revengd.application;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RevEngDApp {
@@ -22,7 +23,15 @@ public class RevEngDApp {
 		ca.addAnalyzable(new SootLoader());
 		
 		if(argMap.containsKey("method")) {
-			Analyzable sequenceDiagram = new SequenceDiagramRender();
+			Map<String, IMethodResolutionAlgorithm> mraMap = new HashMap<>();
+			Map<String, AggregateMRA> agMap = new HashMap<>();
+			mraMap.put("hierarchy", new HierarchyMRA());
+			mraMap.put("callgraph", new CallGraphMRA());
+			
+			agMap.put("chain", new ChainMRA());
+			agMap.put("union", new UnionMRA());
+			agMap.put("intersection", new IntersectMRA());
+			Analyzable sequenceDiagram = new SequenceDiagramRender(mraMap,agMap);
 			if (argMap.containsKey("exclude")) {
 				sequenceDiagram.addActiveFilter(new PrefixFilter(argMap));
 			}

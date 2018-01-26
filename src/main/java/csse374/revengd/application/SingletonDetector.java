@@ -24,7 +24,6 @@ public class SingletonDetector extends Analyzable {
 				pattern.putComponent(SINGLETON, r);
 				data.putPattern(PATTERN, pattern);
 			}
-			
 		});
 		
 	}
