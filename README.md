@@ -117,17 +117,17 @@ gradlew run --offline -Pmyargs="--class headfirst.factory.pizzaaf.PizzaTestDrive
 ### Milestone 3
 #### JFrame Demo
 ```bash
-gradlew run -Pmyargs="--settings jframe.properties”
+gradlew run -Pmyargs="--settings demos/jframe.properties”
 ```
 
 #### Term Project Demo 
 ```bash
-gradlew run -Pmyargs="--settings term.properties”
+gradlew run -Pmyargs="--settings demos/term.properties”
 ```
 
 #### Singleton Demo
 ```bash
-gradlew run -Pmyargs="--settings singleton.properties”
+gradlew run -Pmyargs="--settings demos/singleton.properties”
 ```
 
 #### Bidirectional Arrow Demo
@@ -137,19 +137,33 @@ gradlew run -Pmyargs="--settings ../PatternDetectorExample/bidirectional.propert
 
 #### Demo One
 ```bash
-gradlew run -Pmyargs="--settings weather1.properties”
+gradlew run -Pmyargs="--settings demos/weather1.properties”
 ```
 
 ### Demo Two
 #### Union 
 ```bash
-gradlew run -Pmyargs="--settings weather2u.properties”
+gradlew run -Pmyargs="--settings demos/weather2u.properties”
 ```
 #### Intersection 
 ```bash
-gradlew run -Pmyargs="--settings weather2i.properties”
+gradlew run -Pmyargs="--settings demos/weather2i.properties”
 ```
 #### Chain
 ```bash
-gradlew run -Pmyargs="--settings weather2c.properties”
+gradlew run -Pmyargs="--settings demos/weather2c.properties”
+```
+
+### Demo Two Pattern Detector
+#### Union 
+```bash
+gradlew run -Pmyargs="--settings ../PatternDetectorExample/weather2u.properties”
+```
+#### Intersection 
+```bash
+gradlew run -Pmyargs="--settings ../PatternDetectorExample/weather2i.properties”
+```
+#### Chain
+```bash
+gradlew run -Pmyargs="--settings ../PatternDetectorExample/weather2c.properties”
 ```
