@@ -105,27 +105,40 @@ gradlew run --offline -Pmyargs="--class csse374.revengd.application.RevEngDApp c
 gradlew run --offline -Pmyargs="--class headfirst.factory.pizzaaf.PizzaTestDrive --path C:/EclipseWorkspaces/csse374/Lab4-1/build/classes/main --sequence --method <headfirst.factory.pizzaaf.PizzaStore: headfirst.factory.pizzaaf.Pizza orderPizza(java.lang.String)> -JDK"
 ```
 ### Milestone 3
-#### Pizza UML Demo
+#### JFrame Demo
 ```bash
-gradlew run --offline -Pmyargs="--class headfirst.factory.pizzaaf.PizzaTestDrive headfirst.factory.pizzaaf.BlackOlives headfirst.factory.pizzaaf.FreshClams headfirst.factory.pizzaaf.ParmesanCheese headfirst.factory.pizzaaf.ReggianoCheese headfirst.factory.pizzaaf.Cheese headfirst.factory.pizzaaf.FrozenClams headfirst.factory.pizzaaf.Pepperoni headfirst.factory.pizzaaf.Sauce headfirst.factory.pizzaaf.CheesePizza headfirst.factory.pizzaaf.Garlic headfirst.factory.pizzaaf.PepperoniPizza headfirst.factory.pizzaaf.SlicedPepperoni headfirst.factory.pizzaaf.ChicagoPizzaIngredientFactory headfirst.factory.pizzaaf.MarinaraSauce headfirst.factory.pizzaaf.PizzaIngredientFactory headfirst.factory.pizzaaf.Spinach headfirst.factory.pizzaaf.ChicagoPizzaStore headfirst.factory.pizzaaf.MozzarellaCheese headfirst.factory.pizzaaf.Pizza headfirst.factory.pizzaaf.ThickCrustDough headfirst.factory.pizzaaf.ClamPizza headfirst.factory.pizzaaf.Mushroom headfirst.factory.pizzaaf.PizzaStore headfirst.factory.pizzaaf.ThinCrustDough headfirst.factory.pizzaaf.Clams headfirst.factory.pizzaaf.NYPizzaIngredientFactory headfirst.factory.pizzaaf.VeggiePizza headfirst.factory.pizzaaf.Dough headfirst.factory.pizzaaf.NYPizzaStore headfirst.factory.pizzaaf.PlumTomatoSauce headfirst.factory.pizzaaf.Veggies headfirst.factory.pizzaaf.Eggplant headfirst.factory.pizzaaf.Onion headfirst.factory.pizzaaf.RedPepper --path C:/EclipseWorkspaces/csse374/Lab4-1/build/classes/main"
+gradlew run -Pmyargs="--settings jframe.properties”```
+
+#### Term Project Demo 
+```bash
+gradlew run -Pmyargs="--settings term.properties”
 ```
 
-#### Lab 2-1 Demo
+#### Singleton Demo
 ```bash
-gradlew run --offline -Pmyargs="--class problem.AppLauncher problem.DirectoryChangeLogger problem.ExecutableFileRunner problem.AppplicationLauncher problem.DirectoryEvent problem.IDirectoryListener problem.DataFileRunner problem.DirectoryMinitorService problem.ProcessRunner --path C:/EclipseWorkspaces/csse374/Lab2-1/build/classes/main"
+gradlew run -Pmyargs="--settings singleton.properties”
 ```
 
-#### Weather Station Demo
+#### Bidirectional Arrow Demo
 ```bash
-gradlew run --offline -Pmyargs="--class headfirst.designpatterns.observer.weather.WeatherStation --path C:/EclipseWorkspaces/csse374/Lab2-1/build/classes/main --sequence --method <headfirst.designpatterns.observer.weather.WeatherStation: void main(java.lang.String[])> --depth 5 -JDK"
+gradlew run -Pmyargs="--settings ../PatternDetectorExample/bidirectional.properties"
 ```
 
-#### This Project Demo
+#### Demo One
 ```bash
-gradlew run --offline -Pmyargs="--class csse374.revengd.application.RevEngDApp csse374.revengd.application.AnalyzableData csse374.revengd.application.IFilter csse374.revengd.application.ProtectedFilter csse374.revengd.application.Relationship csse374.revengd.application.SootLoader csse374.revengd.application.Analyzable csse374.revengd.application.JDKFilter csse374.revengd.application.PublicFilter csse374.revengd.application.ResolvedMethodFinder csse374.revengd.application.UMLRender csse374.revengd.application.CLParser csse374.revengd.application.PlantUMLGenerator csse374.revengd.application.RecursiveLoader csse374.revengd.application.CodeAnalyzer csse374.revengd.application.PrivateFilter csse374.revengd.application.RelationshipFinder csse374.revengd.application.SequenceDiagramRender --path C:/EclipseWorkspaces/csse374-project/RevEngD/build/classes/main --analyzeBodies"
+gradlew run -Pmyargs="--settings weather1.properties”
 ```
 
-#### Pizza Sequence Demo
+### Demo Two
+#### Union 
 ```bash
-gradlew run --offline -Pmyargs="--class headfirst.factory.pizzaaf.PizzaTestDrive --path C:/EclipseWorkspaces/csse374/Lab4-1/build/classes/main --sequence --method <headfirst.factory.pizzaaf.PizzaStore: headfirst.factory.pizzaaf.Pizza orderPizza(java.lang.String)> -JDK"
+gradlew run -Pmyargs="--settings weather2u.properties”
+```
+#### Intersection 
+```bash
+gradlew run -Pmyargs="--settings weather2i.properties”
+```
+#### Chain
+```bash
+gradlew run -Pmyargs="--settings weather2c.properties”
 ```
