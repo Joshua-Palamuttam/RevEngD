@@ -107,7 +107,8 @@ gradlew run --offline -Pmyargs="--class headfirst.factory.pizzaaf.PizzaTestDrive
 ### Milestone 3
 #### JFrame Demo
 ```bash
-gradlew run -Pmyargs="--settings jframe.properties”```
+gradlew run -Pmyargs="--settings jframe.properties”
+```
 
 #### Term Project Demo 
 ```bash
