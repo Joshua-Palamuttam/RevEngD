@@ -36,4 +36,42 @@ public class RuntimeLoader {
 			}
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static void loadMRAs(Map<String, String> argMap, Map<String, IMethodResolutionAlgorithm> mraMap, Map<String, AggregateMRA> agMap) {
+		String mras[] = argMap.get("mra").split(" ");
+		String ags[] = argMap.get("aggregate").split(" ");
+
+		Analyzable a;
+		Class<? extends IMethodResolutionAlgorithm> mra;
+		Class<? extends AggregateMRA> ag;
+		for (String s : mras) {
+			if (!mraMap.containsKey(s)) {
+				try {
+					mra = (Class<? extends IMethodResolutionAlgorithm>) Class.forName(s);
+					mraMap.put(s, mra.newInstance());
+				} catch (InstantiationException e) {
+					throw new RuntimeException();
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException();
+				} catch (ClassNotFoundException e) {
+					throw new RuntimeException();
+				}
+			}
+		}
+		for (String s : ags) {
+			if (!agMap.containsKey(s)) {
+				try {
+					ag = (Class<? extends AggregateMRA>) Class.forName(s);
+					agMap.put(s, ag.newInstance());
+				} catch (InstantiationException e) {
+					throw new RuntimeException();
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException();
+				} catch (ClassNotFoundException e) {
+					throw new RuntimeException();
+				}
+			}
+		}
+	}
 }

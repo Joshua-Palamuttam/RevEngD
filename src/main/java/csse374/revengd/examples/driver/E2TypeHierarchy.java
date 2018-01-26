@@ -36,7 +36,7 @@ public class E2TypeHierarchy implements Runnable {
 		// Now let's query the typeHierarchy for all the implementers of the ICalculator interface
 		SootClass iCalculator = scene.getSootClass("csse374.revengd.examples.fixtures.ICalculator");
 		Collection<SootClass> implementors = typeHierarchy.getImplementersOf(iCalculator);
-		this.prettyPrint("Implementors of ICalculator", implementors);
+		//this.prettyPrint("Implementors of ICalculator", implementors);
 
 		// TODO: Can you list all (direct and indirect) supertypes, including 
 		// classes and interfaces, of CalculatorC?
@@ -44,11 +44,11 @@ public class E2TypeHierarchy implements Runnable {
 		// See if there are methods in the SootClass that can help.
 	}
 	
-	<T> void prettyPrint(String title, Iterable<T> iterable) {
-		System.out.println("-------------------------------------------------");
-		System.out.println(title);
-		System.out.println("-------------------------------------------------");
-		iterable.forEach(item -> System.out.println(item));
-		System.out.println("-------------------------------------------------");
-	}
+//	<T> void prettyPrint(String title, Iterable<T> iterable) {
+//		System.out.println("-------------------------------------------------");
+//		System.out.println(title);
+//		System.out.println("-------------------------------------------------");
+//		iterable.forEach(item -> System.out.println(item));
+//		System.out.println("-------------------------------------------------");
+//	}
 }

@@ -33,7 +33,7 @@ public class SingletonDetector extends Analyzable {
 		supers.add(r.getThisClass());
 		supers.add(r.getExtendz());
 		supers.addAll(r.getImplementz());
-		
+		supers.remove(null);
 		 return  hasANonPublicStaticSupertype(r, supers)
 				 && publicStaticGetters(r, supers)
 				 && privateConstructors(r.getThisClass());
@@ -42,7 +42,8 @@ public class SingletonDetector extends Analyzable {
 	private boolean hasANonPublicStaticSupertype(Relationship r, Set<SootClass> supers) {
 		Set<String> stringSupers = supers.stream()
 				.map(clazz -> {
-					return clazz.toString();})
+					return clazz.toString();
+					})
 				.collect(Collectors.toSet());
 
 		return supers.stream().anyMatch(clazz -> {

@@ -10,12 +10,6 @@ import soot.SootMethod;
 import soot.Unit;
 
 public class IntersectMRA extends AggregateMRA {
-	private List<IMethodResolutionAlgorithm> algs;
-
-	public IntersectMRA() {
-		this.algs = new ArrayList<>();
-	}
-
 	@Override
 	public Set<SootMethod> resolve(Scene scene, Unit stmt, SootMethod method) {
 		Set<SootMethod> toReturn = null;

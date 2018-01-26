@@ -105,7 +105,12 @@ public class RelationshipFinder extends Analyzable {
 			String signature = signatureTag.toString();
 			MethodEvaluator methodEvaluator = new MethodEvaluator(signature);
 			Set<GenericType> depends = new HashSet<>();
+			try {
 			depends.add(methodEvaluator.getReturnType());
+			} catch (RuntimeException e){
+				System.out.println("------\n" + r.getThisClass() + "\n");
+				throw e;
+			}
 			depends.addAll(methodEvaluator.getParameterTypes());
 			for (GenericType depend : depends) {
 				//elementTypes is empty if the GenericType is not a collection
@@ -146,7 +151,7 @@ public class RelationshipFinder extends Analyzable {
 		clazz.getMethods().forEach(m -> {
 			methodTypeFinder(r, m, scene);
 			
-			if (this.analyzeBodies && !m.isAbstract()){
+			if (this.analyzeBodies && m.isConcrete()){
 				
 				// analyze method bodies
 				Body body = m.retrieveActiveBody();

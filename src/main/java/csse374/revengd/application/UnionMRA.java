@@ -10,11 +10,6 @@ import soot.SootMethod;
 import soot.Unit;
 
 public class UnionMRA extends AggregateMRA {
-	private List<IMethodResolutionAlgorithm> algs;
-
-	public UnionMRA() {
-		this.algs = new ArrayList<>();
-	}
 
 	@Override
 	public Set<SootMethod> resolve(Scene scene, Unit stmt, SootMethod method) {

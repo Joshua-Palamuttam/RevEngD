@@ -31,7 +31,8 @@ public class RevEngDApp {
 			agMap.put("chain", new ChainMRA());
 			agMap.put("union", new UnionMRA());
 			agMap.put("intersection", new IntersectMRA());
-			Analyzable sequenceDiagram = new SequenceDiagramRender(mraMap,agMap);
+			RuntimeLoader.loadMRAs(argMap, mraMap, agMap);
+			Analyzable sequenceDiagram = new SequenceDiagramRender(mraMap, agMap);
 			if (argMap.containsKey("exclude")) {
 				sequenceDiagram.addActiveFilter(new PrefixFilter(argMap));
 			}
