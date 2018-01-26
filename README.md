@@ -38,11 +38,17 @@ Where `<args>` can be any of the following:
     - `public` will render only pubilc classes, methods, and fields.
 - `--analyzeBodies` This flag will analyze method bodies when looking for dependencies in UML diagrams
 - `--method` specifies a fully qualified method name to generate a sequence diagram for
-- `--include` specifies a fully qualified class or classes to include despite being in the exclude
-- `--exclude` specifies a fully qualified class or classes to exclude 
-- `--mra` specified the order and which method resolution algorithms will be used
-- `--aggregate` specifies the aggregate alogithm used
+- `--include` specifies package prefixes to include despite being in the exclude
+- `--exclude` specifies package prefixes to exclude 
+- `--mra` method resolution algorithm to use for sequence diagrams
+    - `hierarchy` uses class hierarchy to resolve method calls
+    - `callgraph` uses context sensitive call graph to resolve method calls
+- `--aggregate` specifies the aggregate method resolution alogithm used. The aggregate algorithm uses the method resolution algoritms specifed with the `--mra` flag
+    - `union` takes the union of the results from all MRAs specified
+    - `intersection` takes the intersection of the results from all MRAs specified
+    - `chain` uses the results from the first MRA that finds any methods in the list of MRAs given
 - `--synthetic` This is a flag to determine if synthetic methods should be rendered.
+- `--settings` specifies a Java properties file to load settings from
 
 The following is a very basic example of how to run from the command line:
 ```bash
