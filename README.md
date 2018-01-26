@@ -44,6 +44,12 @@ The following is a very basic example of how to run from the command line:
 ```bash
 ./gradlew run -Pmyargs="--path /absolute/path/to/codebase --class mainpackage.MainClass"
 ```
+The following is an example of how to run from the commandline with a property file:
+```bash
+./gradlew run -Pmyargs="--settings default.properties 
+```
+
+
 **Note** how the entire list of arguments is surrounded in double quotes.
 
 ## Team Member Contributions
