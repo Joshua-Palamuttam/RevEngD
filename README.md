@@ -33,8 +33,12 @@ Where `<args>` can be any of the following:
     - `protected` will render only public and protected classes, methods, and fields. 
     - `public` will render only pubilc classes, methods, and fields.
 - `--analyzeBodies` This flag will analyze method bodies when looking for dependencies in UML diagrams
-- `--sequence` This flag will create a sequence diagram for a given method
 - `--method` specifies a fully qualified method name to generate a sequence diagram for
+- `--include` specifies a fully qualified class or classes to include despite being in the exclude
+- `--exclude` specifies a fully qualified class or classes to exclude 
+- `--mra` specified the order and which method resolution algorithms will be used
+- `--aggregate` specifies the aggregate alogithm used
+- `--synthetic` This is a flag to determine if synthetic methods should be rendered.
 
 The following is a very basic example of how to run from the command line:
 ```bash
