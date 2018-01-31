@@ -4,6 +4,10 @@
 [![coverage report](https://ada.csse.rose-hulman.edu/CSSE374-Public/RevEngD/badges/master/coverage.svg)](https://ada.csse.rose-hulman.edu/CSSE374-Public/RevEngD/commits/master)
 
 This is a repository for Josh Heidecker, Josh Kuhn, and Josh Palamuttam's **Software Design - CSSE 374** term project. This application reverse engineers the design of a supplied codebase using [SOOT](https://github.com/Sable/soot), a bytecode instrumentation framework.
+
+## UML Diagram
+<http://www.plantuml.com/plantuml/svg/xLdDSjis43w7Ju6nBzH4LXwWhYQgdCHkhTPZnQTE3p09KvY200j0QcoFtxsB7v8WHIfKBTS-z2AHnBU_s5qiW8zAOwdNEOlKdvGNME8SCSg9lYy84bAlHCI59eYHEut47ReccqyyEviL1KB7oJtc9vaaX4SvfZnUQabvzliV2CjCZT1ZXD3yyWfBHIGgtD-FY9E_gw_nw0V0B71nwaZ7oFrF3GVu3717Dx5_CyPYozfG_RRMnLe3de3AOgqzwy-KaN0eFffy4FRzmytYSg8ssP4bdt7CxX_mBIC8hBycFAsq0vnxtrRl0jXh8a6_3QRCKBiFofEUOxKo-AaZRQCce4PyLAnl6KsEnfRYohwuyNYqYqhI3TQa97DlW-XW_X9DqehIlpTeAnzC5D6p9YCmA6xpjaHpaHBdH_1TWil93RuQDm0mmHESfhNBOuDR2g4l1Kuh7JfHroHPIqKtP0YKOKq5LojQVAPy1xgojf_P5SDSGoHy8Pn8h4N9guQTOOrHQdwStSsHs4KmqBnxvsKudyI6P6mY5iQU8b03cGoBeeHXfS84C_dp7Zr2XcgQFA6De2dgo3DWucchP7EKNNbLvL4VZoNH6WQKoIFdSdIy82bTvqk2lvXSzzojEWmG9KNS9IyH_8vQHzGYMYuqx4xGJcABCF6oJ60wa3A_xXlHf-Rxt32U8bK-4cM7vu8nY7M8YTCmEAP81cyEwcIQFFXAlkd8cjYQqU_R5-5RfILED6fRsc5bNoqfxGsKhw7mlYbpq2dvMChq4H9tHEXugrgEwZc4sFUbm8j1T_OlW4YIYr9iFsgxSYXJEWRQ7CPWLHaGp0Lao9OdIzLzIWqq-QbEiaPHUJ4fxNhqGeAg1GiTduaq8_8djYPzigfGBto5i_7U2ZZul10flQDchdB_v0FktwWQYCs8Ir7t6eTEGhAD_4m9IuT15mIQbO7OJyurWx0NUS58JhWU1eSEO3O8U0D5gWTOJUpM8lH20THOo5sGN5AbJsi-Ky_RF3yh3kgY4oouWJMr6AiVvL0Txd12ojBXhBqLWX7CVGsoyHHNwy2e0s83oKBiKnV41P35kCTm8e8k3T4g8agbq2jfrMpbtf9YGNVwTjJw-UmNB_zuBcck17zBBYDtz5kfNglZwj7IzpzbQsSvsCxdVODTt8KQlOgLotkkLqHNgJJGqFzUqKP9VgpwJoiEwHLLzgdkwSgnSIbZYbPObQrS7sGDQq3LtZPRsSeJ3otXRWLuY1fzrzTIexX3IsTxFP25-16QJ2PHsF__jIOy8MSKPnBdW_eAy4zFLt62BfnhhuaIR6qyEcEPa5IlSfHB71sYomBE6v8wERxFglAxjOUgvnfwMajN1a6ziHYZ6qurKZhNuv0Wzp5YfgEBOG4BbP3vNC2IzKql2LVKDEjNmgvXrYn5rI4bdSzsCk_Ws5nH-wUcUyjNXgYZcvOktCUakcVb871nFTiILOLNbacImIe2e5fylyxGeR3C5R-ITpo4OdHmqowCXnKip4FDGtlQ5mfu9HldAqpvdlRPbd9_0mUH7Tx2SzZnO9cixhki3DUf_YmwVDRCCMDV92vMRqcf9THzHhJWPyIqeqBs1yM1TorvSS5N1Ep2PiNQG_hpn0Sbz0fhUERVAPX-JJTRNz1PS3D7_WGESPoJO6C4qYfC21a72pYO__3W8xxQJtfDVWLi7FQLFGg6mL9YgfvoiMQQvi6vJVFqB2aLh7eNl_RNAho--VKa1OSPVVDKRz-9EH02UDmMO6KlVB-uGn5_jj14sbkMkO67XW1ktiMYFd9u3fTp_2noSpwn7_rJSFuvym-xV1-4O0WpKtBSTSx-_rGTRAeQPxRDK-uEnzkBYdQnxvtMgjnsXC3Xqsrlr_Kj7mUnvqKZhzxoh3cKv_xhcU1onfV5xiiPTqKr3iwFxSLOoeaSjo_tMZMrqTxrUMnd5nAT83Qe8QnF3EFTcycHtSO65sYJoRJfgoZgtjuQO3_l7KIX6wAeuJ8xtCobjcxbVLtx-_OTt1Pb8AazjiEGXe8d9w62KKjNCngk-i6u7VF7CstX0SFU4SC_gcFES0joAWhpozhZOpZw27W8q7y0>
+
 ## Software Needed
 1. Install the latest version of [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) in your machine and setup the system's `PATH` variable to point to the JDK's `bin` directory (append the path to the JDK's `bin` directory onto the `PATH` variable). 
 2. Install [Graphviz](http://www.graphviz.org/download/) and setup the system's `PATH` variable to point to the GraphViz's `bin` directory.
@@ -34,11 +38,17 @@ Where `<args>` can be any of the following:
     - `public` will render only pubilc classes, methods, and fields.
 - `--analyzeBodies` This flag will analyze method bodies when looking for dependencies in UML diagrams
 - `--method` specifies a fully qualified method name to generate a sequence diagram for
-- `--include` specifies a fully qualified class or classes to include despite being in the exclude
-- `--exclude` specifies a fully qualified class or classes to exclude 
-- `--mra` specified the order and which method resolution algorithms will be used
-- `--aggregate` specifies the aggregate alogithm used
+- `--include` specifies package prefixes to include despite being in the exclude
+- `--exclude` specifies package prefixes to exclude 
+- `--mra` method resolution algorithm to use for sequence diagrams
+    - `hierarchy` uses class hierarchy to resolve method calls
+    - `callgraph` uses context sensitive call graph to resolve method calls
+- `--aggregate` specifies the aggregate method resolution alogithm used. The aggregate algorithm uses the method resolution algoritms specifed with the `--mra` flag
+    - `union` takes the union of the results from all MRAs specified
+    - `intersection` takes the intersection of the results from all MRAs specified
+    - `chain` uses the results from the first MRA that finds any methods in the list of MRAs given
 - `--synthetic` This is a flag to determine if synthetic methods should be rendered.
+- `--settings` specifies a Java properties file to load settings from
 
 The following is a very basic example of how to run from the command line:
 ```bash
@@ -46,7 +56,7 @@ The following is a very basic example of how to run from the command line:
 ```
 The following is an example of how to run from the commandline with a property file:
 ```bash
-./gradlew run -Pmyargs="--settings default.properties 
+./gradlew run -Pmyargs="--settings default.properties"
 ```
 
 
@@ -64,9 +74,6 @@ The team met 4 times each week to work on this milestone. At each meeting, every
 
 
 ## Running the Demos
-
-## UML Diagram
-<http://www.plantuml.com/plantuml/uml/xLdDSjis43w7Ju6nBzH4LXwWhYQgdCHkhTPZnQTE3p09KvY200j0QcoFtxsB7v8WHIfKBTS-z2AHnBU_s5qiW8zAOwdNEOlKdvGNME8SCSg9lYy84bAlHCI59eYHEut47ReccqyyEviL1KB7oJtc9vaaX4SvfZnUQabvzliV2CjCZT1ZXD3yyWfBHIGgtD-FY9E_gw_nw0V0B71nwaZ7oFrF3GVu3717Dx5_CyPYozfG_RRMnLe3de3AOgqzwy-KaN0eFffy4FRzmytYSg8ssP4bdt7CxX_mBIC8hBycFAsq0vnxtrRl0jXh8a6_3QRCKBiFofEUOxKo-AaZRQCce4PyLAnl6KsEnfRYohwuyNYqYqhI3TQa97DlW-XW_X9DqehIlpTeAnzC5D6p9YCmA6xpjaHpaHBdH_1TWil93RuQDm0mmHESfhNBOuDR2g4l1Kuh7JfHroHPIqKtP0YKOKq5LojQVAPy1xgojf_P5SDSGoHy8Pn8h4N9guQTOOrHQdwStSsHs4KmqBnxvsKudyI6P6mY5iQU8b03cGoBeeHXfS84C_dp7Zr2XcgQFA6De2dgo3DWucchP7EKNNbLvL4VZoNH6WQKoIFdSdIy82bTvqk2lvXSzzojEWmG9KNS9IyH_8vQHzGYMYuqx4xGJcABCF6oJ60wa3A_xXlHf-Rxt32U8bK-4cM7vu8nY7M8YTCmEAP81cyEwcIQFFXAlkd8cjYQqU_R5-5RfILED6fRsc5bNoqfxGsKhw7mlYbpq2dvMChq4H9tHEXugrgEwZc4sFUbm8j1T_OlW4YIYr9iFsgxSYXJEWRQ7CPWLHaGp0Lao9OdIzLzIWqq-QbEiaPHUJ4fxNhqGeAg1GiTduaq8_8djYPzigfGBto5i_7U2ZZul10flQDchdB_v0FktwWQYCs8Ir7t6eTEGhAD_4m9IuT15mIQbO7OJyurWx0NUS58JhWU1eSEO3O8U0D5gWTOJUpM8lH20THOo5sGN5AbJsi-Ky_RF3yh3kgY4oouWJMr6AiVvL0Txd12ojBXhBqLWX7CVGsoyHHNwy2e0s83oKBiKnV41P35kCTm8e8k3T4g8agbq2jfrMpbtf9YGNVwTjJw-UmNB_zuBcck17zBBYDtz5kfNglZwj7IzpzbQsSvsCxdVODTt8KQlOgLotkkLqHNgJJGqFzUqKP9VgpwJoiEwHLLzgdkwSgnSIbZYbPObQrS7sGDQq3LtZPRsSeJ3otXRWLuY1fzrzTIexX3IsTxFP25-16QJ2PHsF__jIOy8MSKPnBdW_eAy4zFLt62BfnhhuaIR6qyEcEPa5IlSfHB71sYomBE6v8wERxFglAxjOUgvnfwMajN1a6ziHYZ6qurKZhNuv0Wzp5YfgEBOG4BbP3vNC2IzKql2LVKDEjNmgvXrYn5rI4bdSzsCk_Ws5nH-wUcUyjNXgYZcvOktCUakcVb871nFTiILOLNbacImIe2e5fylyxGeR3C5R-ITpo4OdHmqowCXnKip4FDGtlQ5mfu9HldAqpvdlRPbd9_0mUH7Tx2SzZnO9cixhki3DUf_YmwVDRCCMDV92vMRqcf9THzHhJWPyIqeqBs1yM1TorvSS5N1Ep2PiNQG_hpn0Sbz0fhUERVAPX-JJTRNz1PS3D7_WGESPoJO6C4qYfC21a72pYO__3W8xxQJtfDVWLi7FQLFGg6mL9YgfvoiMQQvi6vJVFqB2aLh7eNl_RNAho--VKa1OSPVVDKRz-9EH02UDmMO6KlVB-uGn5_jj14sbkMkO67XW1ktiMYFd9u3fTp_2noSpwn7_rJSFuvym-xV1-4O0WpKtBSTSx-_rGTRAeQPxRDK-uEnzkBYdQnxvtMgjnsXC3Xqsrlr_Kj7mUnvqKZhzxoh3cKv_Bm-Z4ABcDy6Uo-Z75NKkFWlDXUXAMSo77xCgzLGnljNCj3Zr5qWjYWvgu-_OjtRmn7TaiQN8PD9jEctL7KlLKrm7xUEuX24wEeuGuxtCoBjcxbtLlx-_PzsXPb8AazjiEGXe8d9w62KKjNCngkuC6u7VD7BMtX0SFU4SC_gkF9S0lo8mfpnThZupFw27W8ldy0>
 
 ### Milestone 1
 #### java.lang.String Demo
@@ -117,17 +124,17 @@ gradlew run --offline -Pmyargs="--class headfirst.factory.pizzaaf.PizzaTestDrive
 ### Milestone 3
 #### JFrame Demo
 ```bash
-gradlew run -Pmyargs="--settings jframe.properties”
+gradlew run -Pmyargs="--settings demos/jframe.properties”
 ```
 
 #### Term Project Demo 
 ```bash
-gradlew run -Pmyargs="--settings term.properties”
+gradlew run -Pmyargs="--settings demos/term.properties”
 ```
 
 #### Singleton Demo
 ```bash
-gradlew run -Pmyargs="--settings singleton.properties”
+gradlew run -Pmyargs="--settings demos/singleton.properties”
 ```
 
 #### Bidirectional Arrow Demo
@@ -137,19 +144,33 @@ gradlew run -Pmyargs="--settings ../PatternDetectorExample/bidirectional.propert
 
 #### Demo One
 ```bash
-gradlew run -Pmyargs="--settings weather1.properties”
+gradlew run -Pmyargs="--settings demos/weather1.properties”
 ```
 
-### Demo Two
-#### Union 
+#### Demo Two
+##### Union 
 ```bash
-gradlew run -Pmyargs="--settings weather2u.properties”
+gradlew run -Pmyargs="--settings demos/weather2u.properties”
 ```
-#### Intersection 
+##### Intersection 
 ```bash
-gradlew run -Pmyargs="--settings weather2i.properties”
+gradlew run -Pmyargs="--settings demos/weather2i.properties”
 ```
-#### Chain
+##### Chain
 ```bash
-gradlew run -Pmyargs="--settings weather2c.properties”
+gradlew run -Pmyargs="--settings demos/weather2c.properties”
+```
+
+#### Demo Two Pattern Detector
+##### Union 
+```bash
+gradlew run -Pmyargs="--settings ../PatternDetectorExample/weather2u.properties”
+```
+##### Intersection 
+```bash
+gradlew run -Pmyargs="--settings ../PatternDetectorExample/weather2i.properties”
+```
+##### Chain
+```bash
+gradlew run -Pmyargs="--settings ../PatternDetectorExample/weather2c.properties”
 ```
