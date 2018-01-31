@@ -11,6 +11,8 @@ import edu.rosehulman.jvm.sigevaluator.FieldEvaluator;
 import edu.rosehulman.jvm.sigevaluator.GenericType;
 import edu.rosehulman.jvm.sigevaluator.MethodEvaluator;
 import soot.SootClass;
+import soot.SootField;
+import soot.SootMethod;
 import soot.Type;
 import soot.tagkit.Tag;
 
@@ -40,11 +42,17 @@ public class UMLRender extends Analyzable {
 		if (relationships != null) {
 
 			relationships.forEach(r -> {
-				boolean keep = this.useFiltersOn(r.getThisClass());
-
-				if (keep) {
-					str.append(getClassString(r) + " { \n" + getFieldsString(r) + getMethodsString(r) + "} \n"
-							+ getExtendsString(r) + getImplementsString(r) + getHasAString(r) + getUsesString(r));
+				if (this.useFiltersOn(r.getThisClass())) {
+					str.append(getClassString(r))
+						.append(" { \n") 
+						.append(getFieldsString(r)) 
+						.append(getMethodsString(r))
+						.append("} \n")
+						.append(getExtendsString(r))
+						.append(getImplementsString(r))
+						.append(getHasAString(r))
+						.append(getUsesString(r))
+						.append(getFooterString(r));
 				}
 			});
 		}
@@ -52,7 +60,6 @@ public class UMLRender extends Analyzable {
 		str.append("@enduml");
 		System.out.println(str);
 		data.setUmlText(str.toString());
-		// out.write(str.toString());
 	}
 
 	public String getClassString(Relationship r) {
@@ -67,10 +74,9 @@ public class UMLRender extends Analyzable {
 		}
 		str.append(r.getThisClass().getName());
 		for (UMLModifier m : this.modifiers) {
-			String classMod = m.getClassMod(r.getThisClass());
-			if (!classMod.equals("")) {
-				str.append(classMod);
-				break;
+			String modified = m.getClassMod(str.toString(), r.getThisClass());
+			if (!modified.equals(str.toString())) {
+				return modified;
 			}
 		}
 		return str.toString();
@@ -80,127 +86,70 @@ public class UMLRender extends Analyzable {
 		StringBuilder str = new StringBuilder();
 
 		r.getThisClass().getFields().forEach(f -> {
-
-			boolean keep = this.useFiltersOn(f);
-
-			if (keep) {
-				String modifiers = "";
-				if (f.isPrivate()) {
-					modifiers += "- ";
-				} else if (f.isProtected()) {
-					modifiers += "# ";
-				} else {
-					modifiers += "+ ";
+			if (this.useFiltersOn(f)) {
+				String toAppend = getSingularFieldString(f);
+				for (UMLModifier mod : this.modifiers) {
+					String modifier = mod.getFieldMod(toAppend, f);
+					if (!modifier.equals(toAppend)) {
+						toAppend = modifier;
+						break;
+					}
 				}
-
-				if (f.isStatic()) {
-					modifiers += "{static} ";
-				}
-				if (f.isFinal()) {
-					modifiers += "final ";
-				}
-
-				String type;
-				Tag signatureTag = f.getTag("SignatureTag");
-				if (signatureTag != null) {
-					// Use SignatureEvaluator API for parsing the field signature
-					String signature = signatureTag.toString();
-					FieldEvaluator fieldEvaluator = new FieldEvaluator(signature);
-					GenericType fieldType = fieldEvaluator.getType();
-					type = fieldType.toString();
-				} else {
-					// Bytecode signature for this field is unavailable, so let's use soot API
-					type = f.getType().toString();
-				}
-
-				String name = f.getName();
-				str.append(modifiers + type + " " + name + "\n");
+				str.append(toAppend);
+				str.append("\n");
 			}
-
 		});
+		for (UMLModifier mod : this.modifiers) {
+			String modifier = mod.getExtraFields(r);
+			if (!modifier.equals("")) {
+				str.append(modifier);
+				break;
+			}
+		}
 		return str.toString();
 	}
 
 	public String getMethodsString(Relationship r) {
 		StringBuilder str = new StringBuilder();
 		r.getThisClass().getMethods().forEach(m -> {
-			boolean keep = this.useFiltersOn(m);
-
-			if (keep) {
-				String modifiers = "";
-				if (m.isPrivate()) {
-					modifiers += "- ";
-				} else if (m.isProtected()) {
-					modifiers += "# ";
-				} else {
-					modifiers += "+ ";
-				}
-
-				if (m.isAbstract()) {
-					modifiers += "{abstract} ";
-				}
-				if (m.isStatic()) {
-					modifiers += "{static} ";
-				}
-				if (m.isFinal()) {
-					modifiers += "final ";
-				}
-
-				String rType;
-				StringBuilder params = new StringBuilder();
-				Tag signatureTag = m.getTag("SignatureTag");
-
-				// TODO: Workaround because java.* breaks methodEvaluator
-				if (signatureTag != null && !m.getDeclaringClass().toString().startsWith("java")) {
-					// Use SignatureEvaluator API for parsing the field signature
-					String signature = signatureTag.toString();
-					MethodEvaluator methodEvaluator = new MethodEvaluator(signature);
-
-					GenericType returnType = methodEvaluator.getReturnType();
-					rType = returnType.toString();
-					List<GenericType> paramTypes = methodEvaluator.getParameterTypes();
-					for (GenericType param : paramTypes) {
-						params.append(param.toString());
-						params.append(", ");
-					}
-
-				} else {
-					rType = m.getReturnType().toString() + " ";
-					List<Type> paramTypes = m.getParameterTypes();
-
-					for (Type param : paramTypes) {
-						params.append(param.toString());
-						params.append(", ");
+			if (this.useFiltersOn(m)) {
+				String toAppend = getSingularMethodString(m);
+				for (UMLModifier mod : this.modifiers) {
+					String modifier = mod.getMethodMod(toAppend, m);
+					if (!modifier.equals(toAppend)) {
+						toAppend = modifier;
+						break;
 					}
 				}
-
-				if (params.length() > 0) {
-					params.delete(params.length() - 2, params.length());
-				}
-
-				str.append(modifiers + rType + " " + m.getName() + "(" + params.toString() + ")\n");
+				str.append(toAppend);
+				str.append("\n");
 			}
-
 		});
+		for (UMLModifier mod : this.modifiers) {
+			String modifier = mod.getExtraMethods(r);
+			if (!modifier.equals("")) {
+				str.append(modifier);
+				break;
+			}
+		}
 		return str.toString();
 	}
 
 	public String getExtendsString(Relationship r) {
-
-		if (r.getExtendz() != null) {
-			boolean keep = this.useFiltersOn(r.getExtendz());
-			if (keep) {
-				String modifier = "";
-				for (UMLModifier m : this.modifiers) {
-					modifier = m.getExtendsMod(r.getThisClass(), r.getExtendz());
-					if (!modifier.equals("")) {
-						break;
-					}
+		String toReturn = "";
+		if (r.getExtendz() != null && this.useFiltersOn(r.getExtendz())) {
+			toReturn = r.getThisClass().getName() + " -up--|> " + r.getExtendz().getName();
+			
+			for (UMLModifier m : this.modifiers) {
+				String modifier = m.getExtendsMod(toReturn, r.getThisClass(), r.getExtendz());
+				if (!modifier.equals(toReturn)) {
+					toReturn = modifier;
+					break;
 				}
-				return r.getThisClass().getName() + " -up--|> " + r.getExtendz().getName() + " " + modifier + "\n";
 			}
+			return toReturn + "\n";
 		}
-		return "";
+		return toReturn;
 
 	}
 
@@ -209,18 +158,17 @@ public class UMLRender extends Analyzable {
 		Set<SootClass> implementz = r.getImplementz();
 		if (implementz != null) {
 			implementz.forEach(i -> {
-				boolean keep = this.useFiltersOn(i);
-
-				if (keep) {
-					String modifier = "";
+				if (this.useFiltersOn(i)) {
+					String toAppend = getSingularImplementsString(r.getThisClass(), i);
 					for (UMLModifier m : this.modifiers) {
-						modifier = m.getImplementsMod(r.getThisClass(), i);
-						if (!modifier.equals("")) {
+						String modifier = m.getImplementsMod(toAppend, r.getThisClass(), i);
+						if (!modifier.equals(toAppend)) {
+							toAppend = modifier;
 							break;
 						}
 					}
-					
-					str.append(r.getThisClass().getName() + " -up..|> " + i.getName() + modifier + "\n");
+					str.append(toAppend);
+					str.append("\n");
 				}
 			});
 		}
@@ -230,28 +178,22 @@ public class UMLRender extends Analyzable {
 	public String getUsesString(Relationship r) {
 		StringBuilder str = new StringBuilder();
 		Map<SootClass, Boolean> usesMap = r.getUses();
-
 		if (usesMap != null && !usesMap.isEmpty()) {
 			Set<SootClass> usez = usesMap.keySet();
-			String className = r.getThisClass().getName();
+			SootClass startClazz = r.getThisClass();
 			usez.forEach(u -> {
-				boolean keep = this.useFiltersOn(u);
-				// keep &= !r.getHas().containsKey(u);
-
-				String arrowEnd = usesMap.get(u) ? "\"*\" " : "";
-
-				if (keep) {
-					String modifier = "";
+				if (this.useFiltersOn(u)) {
+					String toAppend = getSingularUsesString(startClazz, u, r.usesMany(u));
 					for (UMLModifier m : this.modifiers) {
-						modifier = m.getUsesMod(r.getThisClass(), u);
-						if (!modifier.equals("")) {
+						String modifier = m.getUsesMod(toAppend, startClazz, u);
+						if (!modifier.equals(toAppend)) {
+							toAppend = modifier;
 							break;
 						}
 					}
-					
-					str.append(className + " ..> " + arrowEnd + u.getName() + modifier + "\n");
+					str.append(toAppend);
+					str.append("\n");	
 				}
-
 			});
 		}
 		return str.toString();
@@ -263,27 +205,148 @@ public class UMLRender extends Analyzable {
 
 		if (hasMap != null && !hasMap.isEmpty()) {
 			Set<SootClass> haz = hasMap.keySet();
-			String className = r.getThisClass().getName();
+			SootClass startClass = r.getThisClass();
 			haz.forEach(h -> {
-				boolean keep = this.useFiltersOn(h);
-
-				String arrowEnd = hasMap.get(h) ? "\"*\" " : "";
-
-				if (keep) {
-					String modifier = "";
+				if (this.useFiltersOn(h)) {
+					String toAppend = getSingularHasString(startClass, h, r.usesMany(h));
 					for (UMLModifier m : this.modifiers) {
-						modifier = m.getHasMod(r.getThisClass(), h);
-						if (!modifier.equals("")) {
+						String modifier = m.getHasMod(toAppend, startClass, h);
+						if (!modifier.equals(toAppend)) {
+							toAppend = modifier;
 							break;
 						}
 					}
-					
-					str.append(className + " --> " + arrowEnd + h.getName() + modifier + "\n");
+					str.append(toAppend);
+					str.append("\n");	
 				}
-
 			});
 		}
 		return str.toString();
+	}
+	
+	private String getFooterString(Relationship r) {
+		String footer = "";
+		for (UMLModifier m : this.modifiers) {
+			footer = m.getNotes(r);
+			if (!footer.equals("")) {
+				break;
+			}
+		}
+		return footer;
+	}
+	
+	private static String getSingularMethodString(SootMethod m) {
+		StringBuilder str = new StringBuilder();
+
+		String prefix = "";
+		if (m.isPrivate()) {
+			prefix += "- ";
+		} else if (m.isProtected()) {
+			prefix += "# ";
+		} else if (m.isPublic()) {
+			prefix += "+ ";
+		} else {
+			prefix += "~ ";
+		}
+
+		if (m.isAbstract()) {
+			prefix += "{abstract} ";
+		}
+		if (m.isStatic()) {
+			prefix += "{static} ";
+		}
+		if (m.isFinal()) {
+			prefix += "final ";
+		}
+
+		String rType;
+		StringBuilder params = new StringBuilder();
+		Tag signatureTag = m.getTag("SignatureTag");
+
+		if (signatureTag != null && !m.getDeclaringClass().toString().startsWith("java")) {
+			String signature = signatureTag.toString();
+			MethodEvaluator methodEvaluator = new MethodEvaluator(signature);
+
+			GenericType returnType = methodEvaluator.getReturnType();
+			rType = returnType.toString();
+			List<GenericType> paramTypes = methodEvaluator.getParameterTypes();
+			for (GenericType param : paramTypes) {
+				params.append(param.toString());
+				params.append(", ");
+			}
+		} else {
+			rType = m.getReturnType().toString() + " ";
+			List<Type> paramTypes = m.getParameterTypes();
+
+			for (Type param : paramTypes) {
+				params.append(param.toString());
+				params.append(", ");
+			}
+		}
+
+		if (params.length() > 0) {
+			params.delete(params.length() - 2, params.length());
+		}
+
+		str.append(prefix + rType + " " + m.getName() + "(" + params.toString() + ")");
+
+		return str.toString();
+	}
+	
+	private static String getSingularFieldString(SootField f) {
+		StringBuilder str = new StringBuilder();
+		
+		String access = "";
+		if (f.isPrivate()) {
+			access += "- ";
+		} else if (f.isProtected()) {
+			access += "# ";
+		} else if (f.isPrivate()) {
+			access += "+ ";
+		} else {
+			access += "~ ";
+		}
+
+		if (f.isStatic()) {
+			access += "{static} ";
+		}
+		if (f.isFinal()) {
+			access += "final ";
+		}
+
+		String type;
+		Tag signatureTag = f.getTag("SignatureTag");
+		if (signatureTag != null) {
+			// Use SignatureEvaluator API for parsing the field signature
+			String signature = signatureTag.toString();
+			FieldEvaluator fieldEvaluator = new FieldEvaluator(signature);
+			GenericType fieldType = fieldEvaluator.getType();
+			type = fieldType.toString();
+		} else {
+			// Bytecode signature for this field is unavailable, so let's use soot API
+			type = f.getType().toString();
+		}
+
+		String name = f.getName();
+		str.append(access + type + " " + name);
+	
+		return str.toString();
+	}
+	
+	private static String getSingularHasString(SootClass startClazz, SootClass endClazz, boolean many) {
+		String className = startClazz.getName();
+		String arrowEnd = many ? "\"*\" " : "";
+		return className + " --> " + arrowEnd + endClazz.getName();
+	}
+	
+	private static String getSingularUsesString(SootClass startClazz, SootClass endClazz, boolean many) {
+		String className = startClazz.getName();
+		String arrowEnd = many ? "\"*\" " : "";
+		return className + " ..> " + arrowEnd + endClazz.getName();
+	}
+	
+	private static String getSingularImplementsString(SootClass startClazz, SootClass endClazz) {
+			return startClazz.getName() + " -up..|> " + endClazz.getName();
 	}
 
 	public void addModifier(UMLModifier m) {

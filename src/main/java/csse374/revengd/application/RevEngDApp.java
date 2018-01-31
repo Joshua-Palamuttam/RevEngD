@@ -24,13 +24,13 @@ public class RevEngDApp {
 		
 		if(argMap.containsKey("method")) {
 			Map<String, IMethodResolutionAlgorithm> mraMap = new HashMap<>();
-			Map<String, AggregateMRA> agMap = new HashMap<>();
+			Map<String, AggregateStrategy> agMap = new HashMap<>();
 			mraMap.put("hierarchy", new HierarchyMRA());
 			mraMap.put("callgraph", new CallGraphMRA());
 			
-			agMap.put("chain", new ChainMRA());
-			agMap.put("union", new UnionMRA());
-			agMap.put("intersection", new IntersectMRA());
+			agMap.put("chain", new ChainAggregateStrategy());
+			agMap.put("union", new UnionAggregateStrategy());
+			agMap.put("intersection", new IntersectAggregateStrategy());
 			RuntimeLoader.loadMRAs(argMap, mraMap, agMap);
 			Analyzable sequenceDiagram = new SequenceDiagramRender(mraMap, agMap);
 			if (argMap.containsKey("exclude")) {

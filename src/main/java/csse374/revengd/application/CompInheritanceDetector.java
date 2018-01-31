@@ -28,8 +28,8 @@ public class CompInheritanceDetector extends Analyzable {
 
 	private boolean isInheritance(Relationship r) {
 		 return  !(r.getExtendz() == null) 
-				 && (this.useFiltersOn(r.getExtendz()) 
-						 && !r.getExtendz().isAbstract());
+				&& (this.useFiltersOn(r.getExtendz()) 
+				&& !r.getExtendz().isAbstract());
 	
 	}
 		

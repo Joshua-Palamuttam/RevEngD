@@ -23,11 +23,11 @@ public class SequenceDiagramRender extends Analyzable {
 	private Scene scene;
 	private IMethodResolutionAlgorithm mra;
 	private Map<String, IMethodResolutionAlgorithm> mraMap;
-	private Map<String, AggregateMRA> agMap;
+	private Map<String, AggregateStrategy> agMap;
 
-	public SequenceDiagramRender(Map<String, IMethodResolutionAlgorithm> mraMap, Map<String, AggregateMRA> agMap) {
+	public SequenceDiagramRender(Map<String, IMethodResolutionAlgorithm> mraMap, Map<String, AggregateStrategy> agMap2) {
 		this.mraMap = mraMap;
-		this.agMap = agMap;
+		this.agMap = agMap2;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class SequenceDiagramRender extends Analyzable {
 
 		if (configMap.containsKey("mra")) {
 			if (configMap.containsKey("aggregate")) {
-				AggregateMRA aggie = this.agMap.get(configMap.get("aggregate"));
+				AggregateMRA aggie = new AggregateMRA(this.agMap.get(configMap.get("aggregate")));
 				for (String s : configMap.get("mra").split(" ")) {
 					aggie.add(this.mraMap.get(s));
 				}

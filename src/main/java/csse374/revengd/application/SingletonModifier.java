@@ -13,17 +13,17 @@ public class SingletonModifier extends AbstractUMLModifier{
 	}
 
 	@Override
-	public String getClassMod(SootClass clazz) {
+	public String getClassMod(String original, SootClass clazz) {
 		Set<IPattern> singletonPatterns = this.data.getPatternsByName(SingletonDetector.PATTERN);
 		if(singletonPatterns == null) {
-			return "";
+			return original;
 		}
 		for(IPattern p : singletonPatterns) {
 			if(p.getComponents(SingletonDetector.SINGLETON).contains(clazz)) {
-				return STEREOTYPE;
+				return original + " " + STEREOTYPE;
 			}			
 		}
-		return "";
+		return original;
 	}
 	
 	public void setAnalyzableData(AnalyzableData data) {

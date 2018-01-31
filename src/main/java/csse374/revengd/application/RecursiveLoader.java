@@ -16,7 +16,12 @@ public class RecursiveLoader extends Analyzable {
 	public void analyze(AnalyzableData data, OutputStream out) {
 		Scene scene = data.getScene();
 		Set<SootClass> sootClasses = data.getSootClasses();
-		sootClasses.addAll(scene.getApplicationClasses());
+		
+		scene.getApplicationClasses().forEach(clazz -> {
+			if (this.useFiltersOn(clazz)){
+				sootClasses.add(clazz);				
+			}
+		});
 		
 		Set<SootClass> temp = new HashSet<>();
 		temp.addAll(sootClasses);
