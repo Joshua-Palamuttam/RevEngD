@@ -73,7 +73,7 @@ public class RevEngDApp {
 					umlRender.addModifier(new CompInheritanceModifier());
 				}
 				if (argMap.get("pattern").contains(DIPViolationDetector.PATTERN)){
-					a = new CompInheritanceDetector();
+					a = new DIPViolationDetector();
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
 					umlRender.addModifier(new CompInheritanceModifier());

@@ -100,9 +100,9 @@ public class Relationship {
 			return;
 		}
 		
-		if (this.extendz.equals(clazz) || this.implementz.contains(clazz) || this.has.containsKey(clazz) || this.thisClass.equals(clazz)) {
-			return;
-		}
+//		if (this.extendz.equals(clazz) || this.implementz.contains(clazz) || this.has.containsKey(clazz) || this.thisClass.equals(clazz)) {
+//			return;
+//		}
 		
 		if (this.uses.containsKey(clazz)) {
 			many = this.uses.get(clazz) || many;

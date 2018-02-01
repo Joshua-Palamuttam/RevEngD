@@ -134,8 +134,7 @@ public class RelationshipFinder extends Analyzable {
 				} else {
 					r.addUses(scene.getSootClass(typeString), false);
 				}
-			}
-			
+			}	
 		}
 	}
 	
@@ -156,7 +155,10 @@ public class RelationshipFinder extends Analyzable {
 				// analyze method bodies
 				Body body = m.retrieveActiveBody();
 				UnitGraph cfg = new ExceptionalUnitGraph(body);
+				System.out.println("------------");
+				System.out.println(m);
 				cfg.forEach(stmt -> {
+					System.out.println(stmt);
 					Value op = null;
 					SootMethod nextMethod = null;
 					if (stmt instanceof AssignStmt) {

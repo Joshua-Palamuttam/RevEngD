@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import soot.SootClass;
+import soot.SootMethod;
 
 public class DIPViolationDetector extends Analyzable {
 	
@@ -23,8 +24,8 @@ public class DIPViolationDetector extends Analyzable {
 			if(this.useFiltersOn(r.getThisClass())){
 				IPattern pattern = new Pattern(PATTERN);
 				boolean concreteReference = hasConcreteReference(r, pattern);
-				boolean concreteInheritance = hasConcreteInheritance(r, pattern);
-				boolean methodOverride = methodOverride(r, pattern);
+				boolean concreteInheritance = false;//hasConcreteInheritance(r, pattern);
+				boolean methodOverride = false;//methodOverride(r, pattern);
 				if(concreteReference || concreteInheritance || methodOverride){
 				
 				pattern.putComponent(VIOLATOR, r);
@@ -45,6 +46,7 @@ public class DIPViolationDetector extends Analyzable {
 		boolean notReturn = references.stream().allMatch(ref -> {
 			if(this.useFiltersOn(ref) && ref.isConcrete()){
 				pattern.putComponent(DEPENDENCY, data.getRelationship(ref));
+				System.out.println(r.getThisClass() +" " +r.getUses());
 				return false;
 			}
 			return true;
@@ -54,11 +56,24 @@ public class DIPViolationDetector extends Analyzable {
 	}
 	
 	private boolean methodOverride(Relationship r, IPattern pattern) {
+		Set<SootClass> superClasses = new HashSet<>();
 		SootClass extendz = r.getExtendz();
-		boolean notReturn = extendz.getMethods().stream().allMatch(m -> {
-			if(this.useFiltersOn(m) && m.isConcrete()){
-				if(r.getThisClass().getMethodByName(m.getName()) != null){
-					pattern.putComponent(DEPENDENCY, data.getRelationship(extendz));
+		SootClass superClazz = extendz;
+		while (superClazz != null) {
+			superClasses.add(superClazz);
+			if (superClazz.getName().equals("java.lang.Object"))
+				break;
+			superClazz = superClazz.getSuperclass();
+		}
+		
+		Set<SootMethod> methods = new HashSet<>();
+		for (SootClass clazz : superClasses) {
+			methods.addAll(clazz.getMethods());
+		}
+		boolean notReturn = methods.stream().allMatch(m -> {
+			if(this.useFiltersOn(m) && !m.isConstructor() && m.isConcrete()){
+				if(r.getThisClass().getMethodByNameUnsafe(m.getName()) != null){
+					pattern.putComponent(DEPENDENCY, data.getRelationship(m.getDeclaringClass()));
 					return false;
 				}
 				

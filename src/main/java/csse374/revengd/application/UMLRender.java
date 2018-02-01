@@ -182,6 +182,9 @@ public class UMLRender extends Analyzable {
 			Set<SootClass> usez = usesMap.keySet();
 			SootClass startClazz = r.getThisClass();
 			usez.forEach(u -> {
+				if (r.getExtendz().equals(u) || r.getImplementz().contains(u) || r.getHas().containsKey(u) || startClazz.equals(u)) {
+					return;
+				}
 				if (this.useFiltersOn(u)) {
 					String toAppend = getSingularUsesString(startClazz, u, r.usesMany(u));
 					for (UMLModifier m : this.modifiers) {
