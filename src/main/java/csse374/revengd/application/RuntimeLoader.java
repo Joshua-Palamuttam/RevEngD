@@ -11,10 +11,7 @@ public class RuntimeLoader {
 		}
 		String patterns[] = argMap.get("pattern_class").split(" ");
 		String modifiers[] = argMap.get("modifier_class").split(" ");
-		if (patterns.length != modifiers.length) {
-			System.err.println("Number of classes listed for pattern_class must be the same as the number of classes listed for modifier_class");
-			return;
-		}
+
 		Analyzable a;
 		Class<? extends Analyzable> pattern;
 		Class<? extends UMLModifier> modifier;
@@ -48,10 +45,13 @@ public class RuntimeLoader {
 						mra = (Class<? extends IMethodResolutionAlgorithm>) Class.forName(s);
 						mraMap.put(s, mra.newInstance());
 					} catch (InstantiationException e) {
+						e.printStackTrace();
 						throw new RuntimeException();
 					} catch (IllegalAccessException e) {
+						e.printStackTrace();
 						throw new RuntimeException();
 					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
 						throw new RuntimeException();
 					}
 				}
@@ -67,14 +67,42 @@ public class RuntimeLoader {
 						ag = (Class<? extends AggregateStrategy>) Class.forName(s);
 						agMap.put(s, ag.newInstance());
 					} catch (InstantiationException e) {
+						e.printStackTrace();
 						throw new RuntimeException();
 					} catch (IllegalAccessException e) {
+						e.printStackTrace();
 						throw new RuntimeException();
 					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
 						throw new RuntimeException();
 					}
 				}
 			}
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static ICodeAnalyzerFactory loadCodeAnalyzerFactory(Map<String, String> argMap) {
+		ICodeAnalyzerFactory caf = null;
+		if (argMap.containsKey("caf")) {
+			Class<? extends ICodeAnalyzerFactory> cafClass;
+			
+			try {
+				cafClass = (Class<? extends ICodeAnalyzerFactory>) Class.forName(argMap.get("caf"));
+				caf = cafClass.newInstance();
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException("Class <" + argMap.get("caf") +"> not found");
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+				throw new RuntimeException();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				throw new RuntimeException();
+			}
+			
+		} else {
+			caf = new CodeAnalyzerFactory();
+		}
+		return caf;
 	}
 }
