@@ -24,11 +24,11 @@ import soot.util.Chain;
 public class RelationshipFinder extends Analyzable {
 	private AnalyzableData data;
 	private boolean analyzeBodies;
-	
+
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		this.data = data;
-		this.analyzeBodies = !(data.getConfigMap().containsKey("methodbodies") 
+		this.analyzeBodies = !(data.getConfigMap().containsKey("methodbodies")
 				&& data.getConfigMap().get("methodbodies").equals("false"));
 		Set<SootClass> sootClasses = data.getSootClasses();
 		Collection<Relationship> relationships = new ArrayList<>();
@@ -41,118 +41,69 @@ public class RelationshipFinder extends Analyzable {
 			usesAFinder(r);
 			relationships.add(r);
 			r.filterIn(sootClasses);
-			//put IFilters in, probably in each method
+			// put IFilters in, probably in each method
 		});
 		data.setRelationships(relationships);
 	}
-	
+
 	private void hasAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if(clazz.getName().equals("java.lang.Object")){
+		if (clazz.getName().equals("java.lang.Object")) {
 			return;
 		}
 		Scene scene = this.data.getScene();
-		
+
 		r.setHas(new HashMap<>());
 		clazz.getFields().forEach(f -> {
-			Tag signatureTag = f.getTag("SignatureTag");
-			if(signatureTag != null) {
-				// Use SignatureEvaluator API for parsing the field signature
-				String signature = signatureTag.toString();
-				FieldEvaluator fieldEvaluator = new FieldEvaluator(signature);
-				GenericType fieldType = fieldEvaluator.getType();
-				Set<String> elementTypes = fieldType.getAllElementTypes();
-				elementTypes.forEach(element -> {
-					r.addHas(scene.getSootClass(element), true);
-				});
-				// Add container types as well maybe
-			}
-			//else {
-				String typeString = f.getType().toString();
-				if (typeString.contains("[]")){
-					r.addHas(scene.getSootClass(typeString.replace("[]", "")), true);
-				} else {
-					r.addHas(scene.getSootClass(typeString), false);
-				}
-			//}
+			Map<SootClass, Boolean> toAdd = TypeResolver.resolve(f, scene);
+			toAdd.keySet().forEach(c -> {
+				r.addHas(c, toAdd.get(c));
+			});
 		});
-		
+
 	}
-	
+
 	private void extendsAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if(clazz.getName().equals("java.lang.Object")){
+		if (clazz.getName().equals("java.lang.Object")) {
 			return;
 		}
 		SootClass sClazz = clazz.getSuperclass();
 		r.setExtendz(sClazz);
 	}
-	
+
 	public void implementsAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if(clazz.getName().equals("java.lang.Object")){
+		if (clazz.getName().equals("java.lang.Object")) {
 			return;
 		}
 		Chain<SootClass> iClazz = clazz.getInterfaces();
 		Set<SootClass> iClazzSet = new HashSet<>();
 		iClazzSet.addAll(iClazz);
-		r.setImplementz(iClazzSet);		
+		r.setImplementz(iClazzSet);
 	}
-	
+
 	private void methodTypeFinder(Relationship r, SootMethod m, Scene scene) {
-		Tag signatureTag = m.getTag("SignatureTag");
-		if(signatureTag != null && !m.getDeclaringClass().toString().startsWith("java")) {
-			// Use SignatureEvaluator API for parsing the field signature
-			String signature = signatureTag.toString();
-			MethodEvaluator methodEvaluator = new MethodEvaluator(signature);
-			Set<GenericType> depends = new HashSet<>();
-			try {
-			depends.add(methodEvaluator.getReturnType());
-			} catch (RuntimeException e){
-				System.out.println("------\n" + r.getThisClass() + "\n");
-				throw e;
-			}
-			depends.addAll(methodEvaluator.getParameterTypes());
-			for (GenericType depend : depends) {
-				//elementTypes is empty if the GenericType is not a collection
-				Set<String> elementTypes = depend.getAllElementTypes();
-				if (elementTypes.isEmpty()) {
-					r.addUses(scene.getSootClass(depend.getContainerType()), false);
-				} else {
-					elementTypes.forEach(element -> {
-						r.addUses(scene.getSootClass(element), true);
-					});
-				}
-			}
-		} else {
-			Set<Type> depends = new HashSet<>();
-			depends.add(m.getReturnType());
-			depends.addAll(m.getParameterTypes());
-			for (Type depend : depends) {
-				String typeString = depend.toString();
-				if (typeString.contains("[]")){
-					r.addUses(scene.getSootClass(typeString.replace("[]", "")), true);
-				} else {
-					r.addUses(scene.getSootClass(typeString), false);
-				}
-			}	
-		}
+		Map<SootClass, Boolean> toAdd = TypeResolver.resolve(m, scene);
+		toAdd.keySet().forEach(c -> {
+			r.addUses(c, toAdd.get(c));
+		});
 	}
-	
+
 	public void usesAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if(clazz.getName().equals("java.lang.Object")){
+		if (clazz.getName().equals("java.lang.Object")) {
 			return;
 		}
-		
+
 		Scene scene = this.data.getScene();
-		
+
 		r.setUses(new HashMap<>());
 		clazz.getMethods().forEach(m -> {
 			methodTypeFinder(r, m, scene);
-			
-			if (this.analyzeBodies && m.isConcrete()){
-				
+
+			if (this.analyzeBodies && m.isConcrete()) {
+
 				// analyze method bodies
 				Body body = m.retrieveActiveBody();
 				UnitGraph cfg = new ExceptionalUnitGraph(body);
@@ -174,11 +125,11 @@ public class RelationshipFinder extends Analyzable {
 						JNewExpr newStmt = (JNewExpr) stmt;
 						r.addUses(scene.getSootClass(newStmt.getType().toString()), false);
 					}
-					
-					if (nextMethod != null){
+
+					if (nextMethod != null) {
 						if (nextMethod.isConstructor()) { // TODO: LOOK HERE think more about this logic
-							//r.addUses(nextMethod.getDeclaringClass(), false);
-						} else if (nextMethod.isStatic()){
+							// r.addUses(nextMethod.getDeclaringClass(), false);
+						} else if (nextMethod.isStatic()) {
 							r.addUses(nextMethod.getDeclaringClass(), false);
 							methodTypeFinder(r, nextMethod, scene);
 						} else {
@@ -189,6 +140,5 @@ public class RelationshipFinder extends Analyzable {
 			}
 		});
 	}
-	
-	
+
 }
