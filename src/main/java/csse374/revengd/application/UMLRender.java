@@ -269,13 +269,24 @@ public class UMLRender extends Analyzable {
 		if (signatureTag != null && !m.getDeclaringClass().toString().startsWith("java")) {
 			String signature = signatureTag.toString();
 			MethodEvaluator methodEvaluator = new MethodEvaluator(signature);
-
-			GenericType returnType = methodEvaluator.getReturnType();
-			rType = returnType.toString();
-			List<GenericType> paramTypes = methodEvaluator.getParameterTypes();
-			for (GenericType param : paramTypes) {
-				params.append(param.toString());
-				params.append(", ");
+			
+			try {
+				GenericType returnType = methodEvaluator.getReturnType();
+				rType = returnType.toString();
+			} catch (RuntimeException e) {
+				rType = m.getReturnType().toString();
+			}
+			try {
+				List<GenericType> paramTypes = methodEvaluator.getParameterTypes();
+				for (GenericType param : paramTypes) {
+					params.append(param.toString());
+					params.append(", ");
+				}
+			} catch (RuntimeException e) {
+				for (Type type : m.getParameterTypes()) {
+					params.append(type.toString());
+					params.append(", ");
+				}
 			}
 		} else {
 			rType = m.getReturnType().toString() + " ";

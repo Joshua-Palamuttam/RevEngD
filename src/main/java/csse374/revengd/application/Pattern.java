@@ -1,5 +1,6 @@
 package csse374.revengd.application;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,9 @@ public class Pattern implements IPattern {
 	
 	@Override
 	public Set<SootClass> getComponents(String name) {
+		if (!this.componentMap.containsKey(name)) {
+			return new HashSet<>();
+		}
 		return this.componentMap.get(name).stream().map(r->{
 			return r.getThisClass();
 		}).collect(Collectors.toSet());
@@ -44,25 +48,34 @@ public class Pattern implements IPattern {
 
 	@Override
 	public void putComponent(String name, Relationship r) {
-		componentMap.put(name, r);
-		componentMap.put("all", r);
+		if (r == null) {
+			return;
+		}
+		this.componentMap.put(name, r);
+		this.componentMap.put("all", r);
 	}
 	
 	@Override
 	public void putMethod(String name, SootMethod m) {
-		methodMap.put(name, m);
-		methodMap.put("all", m);
+		if (m == null) {
+			return;
+		}
+		this.methodMap.put(name, m);
+		this.methodMap.put("all", m);
 		
 	}
 
 	@Override
 	public void putField(String name, SootField f) {
-		fieldMap.put(name, f);
-		fieldMap.put("all", f);
-		
+		if (f == null) {
+			return;
+		}
+		this.fieldMap.put(name, f);
+		this.fieldMap.put("all", f);
 	}
 	
 	
+	@Override
 	public Set<SootClass> getAllComponents(){
 		return this.getComponents("all");
 	}
@@ -77,6 +90,7 @@ public class Pattern implements IPattern {
 		return this.getFields("all");
 	}
 	
+	@Override
 	public String getPatternName(){
 		
 		return this.patternName;

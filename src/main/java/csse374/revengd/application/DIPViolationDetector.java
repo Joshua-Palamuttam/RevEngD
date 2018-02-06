@@ -95,24 +95,37 @@ public class DIPViolationDetector extends Analyzable {
 						if (op instanceof JNewExpr) {
 							usesNew = true;
 							JNewExpr newStmt = (JNewExpr) op;
-							pattern.putComponent(DEPENDENCY, 
-									data.getRelationship(scene.getSootClass(newStmt.getType().toString())));
+							SootClass newClass = scene.getSootClass(newStmt.getType().toString());
+							if (this.useFiltersOn(newClass)) {
+								pattern.putComponent(DEPENDENCY, 
+									data.getRelationship(newClass));
+							}
+							
 						} else if (op instanceof JCastExpr) {
 							usesCast = true;
 							JCastExpr castStmt = (JCastExpr) op;
-							pattern.putComponent(DEPENDENCY,
-									data.getRelationship(scene.getSootClass(castStmt.getCastType().toString())));
+							SootClass newClass = scene.getSootClass(castStmt.getType().toString());
+							if (this.useFiltersOn(newClass)) {
+								pattern.putComponent(DEPENDENCY, 
+									data.getRelationship(newClass));
+							}
 						}
 					} else if (stmt instanceof JNewExpr) {
 						usesNew = true;
 						JNewExpr newStmt = (JNewExpr) stmt;
-						pattern.putComponent(DEPENDENCY, 
-								data.getRelationship(scene.getSootClass(newStmt.getType().toString())));
+						SootClass newClass = scene.getSootClass(newStmt.getType().toString());
+						if (this.useFiltersOn(newClass)) {
+							pattern.putComponent(DEPENDENCY, 
+								data.getRelationship(newClass));
+						}
 					} else if (stmt instanceof JCastExpr) {
 						usesCast = true;
 						JCastExpr castStmt = (JCastExpr) stmt;
-						pattern.putComponent(DEPENDENCY,
-								data.getRelationship(scene.getSootClass(castStmt.getCastType().toString())));
+						SootClass newClass = scene.getSootClass(castStmt.getType().toString());
+						if (this.useFiltersOn(newClass)) {
+							pattern.putComponent(DEPENDENCY, 
+								data.getRelationship(newClass));
+						}
 					}
 				}
 			}

@@ -65,7 +65,7 @@ public class CodeAnalyzerFactory implements ICodeAnalyzerFactory {
 					a = new DIPViolationDetector();
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
-					umlRender.addModifier(new CompInheritanceModifier());
+					umlRender.addModifier(new DIPViolationModifier());
 				}
 			}
 			
