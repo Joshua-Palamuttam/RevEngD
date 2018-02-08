@@ -238,7 +238,7 @@ public class UMLRender extends Analyzable {
 		return footer;
 	}
 	
-	private static String getSingularMethodString(SootMethod m) {
+	public static String getSingularMethodString(SootMethod m) {
 		StringBuilder str = new StringBuilder();
 
 		String prefix = "";
@@ -307,7 +307,7 @@ public class UMLRender extends Analyzable {
 		return str.toString();
 	}
 	
-	private static String getSingularFieldString(SootField f) {
+	public static String getSingularFieldString(SootField f) {
 		StringBuilder str = new StringBuilder();
 		
 		String access = "";
@@ -347,19 +347,19 @@ public class UMLRender extends Analyzable {
 		return str.toString();
 	}
 	
-	private static String getSingularHasString(SootClass startClazz, SootClass endClazz, boolean many) {
+	public static String getSingularHasString(SootClass startClazz, SootClass endClazz, boolean many) {
 		String className = startClazz.getName();
 		String arrowEnd = many ? "\"*\" " : "";
 		return className + " --> " + arrowEnd + endClazz.getName();
 	}
 	
-	private static String getSingularUsesString(SootClass startClazz, SootClass endClazz, boolean many) {
+	public static String getSingularUsesString(SootClass startClazz, SootClass endClazz, boolean many) {
 		String className = startClazz.getName();
 		String arrowEnd = many ? "\"*\" " : "";
 		return className + " ..> " + arrowEnd + endClazz.getName();
 	}
 	
-	private static String getSingularImplementsString(SootClass startClazz, SootClass endClazz) {
+	public static String getSingularImplementsString(SootClass startClazz, SootClass endClazz) {
 			return startClazz.getName() + " -up..|> " + endClazz.getName();
 	}
 

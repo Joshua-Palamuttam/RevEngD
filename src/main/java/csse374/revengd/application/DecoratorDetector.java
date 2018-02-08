@@ -5,12 +5,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import soot.Body;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
+import soot.Unit;
+import soot.Value;
+import soot.jimple.AssignStmt;
+import soot.jimple.internal.JInstanceFieldRef;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.graph.UnitGraph;
 
 public class DecoratorDetector extends Analyzable {
 	public static final String PATTERN = "decorator";
@@ -26,16 +34,13 @@ public class DecoratorDetector extends Analyzable {
 	
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
-		this.scene = data.getScene();
 		this.data = data;
+		this.scene = this.data.getScene();
 		Collection<Relationship> relationships = data.getRelationships();		
 		relationships.forEach(r -> {
-			if(this.useFiltersOn(r.getThisClass())) {
-				SootClass component = this.getComponentClass(r);
-				SootClass candidate = r.getThisClass();
-				
-				System.out.println(candidate + "    " + component);
-				
+			SootClass candidate = r.getThisClass();
+			if(this.useFiltersOn(candidate)) {
+				SootClass component = this.getComponentClass(r, true);
 				if (null == component
 						|| !this.hasComponentAsParam(candidate, component)
 						|| !this.usesComponent(candidate, component)) {
@@ -60,14 +65,18 @@ public class DecoratorDetector extends Analyzable {
 		});
 	}
 	
-	private SootClass getComponentClass(Relationship r) {
+	private SootClass getComponentClass(Relationship r, boolean isCandidate) {
 		if (!this.useFiltersOn(r.getThisClass())
-				|| r.getThisClass().getName().equals("java.lang.Object")
-				|| r.getHas().isEmpty()) {
+				|| r.getThisClass().getName().equals("java.lang.Object")) {
 			return null;
 		}
 		
-		Set<SootClass> has = r.getHas().keySet();
+		Set<SootClass> has = r.getThisClass().getFields()
+				.stream()
+				.filter(f -> {return isCandidate || !f.isPrivate();})
+				.flatMap(f -> {return TypeResolver.resolve(f, this.scene).keySet().stream();})
+				.collect(Collectors.toSet());
+		
 		Set<SootClass> superTypes = new HashSet<>();
 		this.computeAllSuperTypes(r.getThisClass(), superTypes);
 		SootClass component = null;
@@ -82,7 +91,7 @@ public class DecoratorDetector extends Analyzable {
 		}
 		SootClass superClass = r.getThisClass().getSuperclass();
 		
-		return this.getComponentClass(this.data.getRelationship(superClass));
+		return this.getComponentClass(this.data.getRelationship(superClass), false);
 	}
 	
 	private boolean hasComponentAsParam(SootClass candidate, SootClass component) {
@@ -99,7 +108,7 @@ public class DecoratorDetector extends Analyzable {
 		}).collect(Collectors.toList());
 		
 		boolean hasSetter = notDecorated.stream().anyMatch(m -> {
-			Set<SootClass> params = TypeResolver.resolveMethodParameters(m, scene).keySet();
+			Set<SootClass> params = TypeResolver.resolveMethodParameters(m, this.scene).keySet();
 			return params.contains(component);
 		});
 		if (hasSetter) {
@@ -110,15 +119,84 @@ public class DecoratorDetector extends Analyzable {
 	}
 	
 	private boolean usesComponent(SootClass candidate, SootClass component) {
-		return true;
+		Set<String> componentSubSigs = component.getMethods().stream()
+				.filter(m -> m.isPublic())
+				.filter(m -> !m.isConstructor())
+				.map(m -> m.getSubSignature())
+				.collect(Collectors.toSet());
+		
+		return candidate.getMethods().stream()
+			.filter(m -> m.isConcrete())
+			.filter(m -> !m.isConstructor())
+			.filter(m -> componentSubSigs.contains(m.getSubSignature()))
+			.anyMatch(m -> {
+				Body body = m.retrieveActiveBody();
+				UnitGraph cfg = new ExceptionalUnitGraph(body);
+				for (Unit stmt : cfg) {
+					Value op = null;
+					if (stmt instanceof AssignStmt) {
+						op = ((AssignStmt) stmt).getRightOp();
+						if (op instanceof JInstanceFieldRef) {
+							Map<SootClass, Boolean> fieldTypes = TypeResolver.resolve(((JInstanceFieldRef) op).getField(), scene);
+							if (fieldTypes.containsKey(component)) {
+								return true;
+							}
+						}
+					} else if (stmt instanceof JInstanceFieldRef) {
+						Map<SootClass, Boolean> fieldTypes = TypeResolver.resolve(((JInstanceFieldRef) stmt).getField(), scene);
+						if (fieldTypes.containsKey(component)) {
+							return true;
+						}
+					}
+				}
+				return false;
+			});
 	}
 	
+	@SuppressWarnings("boxing")
 	private boolean goodConstructor(SootClass candidate, SootClass component, IPattern pattern) {
-		return false;
+		return candidate.getMethods().stream()
+			.filter(m -> m.isConstructor())
+			.map(m -> {
+				boolean toReturn = TypeResolver.resolveMethodParameters(m, scene).keySet().stream()
+						.anyMatch(clazz -> {
+							return clazz.equals(component);
+						});
+				if (!toReturn) {
+					pattern.putMethod(CONSTRUCTOR, m);
+				}
+				return toReturn;
+			})
+			.reduce((b1, b2) -> {return b1 && b2;})
+			.orElse(false);
 	}
 	
 	private boolean overridesMethods(SootClass candidate, SootClass component, IPattern pattern) {
-		return false;
+		Set<String> componentSubSigs = component.getMethods().stream()
+				.filter(m -> m.isPublic())
+				.filter(m -> !m.isConstructor())
+				.map(m -> m.getSubSignature())
+				.collect(Collectors.toSet());
+		
+		SootClass superClass = candidate;
+		Set<String> candidateSubSigs = new HashSet<>();
+		while(this.useFiltersOn(superClass) && !superClass.equals(component) && !superClass.getName().equals("java.lang.Object")) {
+			candidateSubSigs.addAll(superClass.getMethods().stream()
+			.filter(m -> !m.isConstructor())
+			.filter(m -> componentSubSigs.contains(m.getSubSignature()))
+			.map(m -> m.getSubSignature())
+			.collect(Collectors.toSet()));
+			superClass = superClass.getSuperclass();
+		}
+		
+		boolean toReturn = true;
+		for (String ss : componentSubSigs) {
+			if (!candidateSubSigs.contains(ss)) {
+				toReturn = false;
+				pattern.putMethod(UNDECORATED_METHOD, component.getMethod(ss));
+			}
+		}
+		return toReturn;
 	}
 	
 	private void computeAllSuperTypes(final SootClass clazz, final Collection<SootClass> allSuperTypes) {

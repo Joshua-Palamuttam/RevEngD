@@ -1,5 +1,6 @@
 package csse374.revengd.application;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,7 +54,10 @@ public class AnalyzableData {
 		this.umlText = umlText;
 	}
 	public Set<IPattern> getPatternsByName(String name){
-		return patterns.get(name);
+		if (patterns.containsKey(name)) {
+			return patterns.get(name);
+		}
+		return new HashSet<>();
 	}
 	public void putPattern(String name, IPattern p){
 		patterns.put(name, p);
