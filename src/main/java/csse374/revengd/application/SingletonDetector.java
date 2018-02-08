@@ -6,17 +6,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import soot.Scene;
 import soot.SootClass;
 
 public class SingletonDetector extends Analyzable {
 	public static final String PATTERN = "singleton";
 	public static final String SINGLETON = "singleton";
-	private Scene scene;
 
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
-		this.scene = data.getScene();
 		Collection<Relationship> relationships = data.getRelationships();
 		relationships.forEach(r -> {
 			if(this.useFiltersOn(r.getThisClass()) && isSingleton(r)){
@@ -28,7 +25,7 @@ public class SingletonDetector extends Analyzable {
 		
 	}
 
-	private boolean isSingleton(Relationship r) {
+	private static boolean isSingleton(Relationship r) {
 		Set<SootClass> supers = new HashSet<>();
 		supers.add(r.getThisClass());
 		supers.add(r.getExtendz());
@@ -39,7 +36,7 @@ public class SingletonDetector extends Analyzable {
 				 && privateConstructors(r.getThisClass());
 	}
 	
-	private boolean hasANonPublicStaticSupertype(Relationship r, Set<SootClass> supers) {
+	private static boolean hasANonPublicStaticSupertype(Relationship r, Set<SootClass> supers) {
 		Set<String> stringSupers = supers.stream()
 				.map(clazz -> {
 					return clazz.toString();
@@ -55,7 +52,7 @@ public class SingletonDetector extends Analyzable {
 				});
 	}
 	
-	private boolean publicStaticGetters(Relationship r, Set<SootClass> supers) {
+	private static boolean publicStaticGetters(Relationship r, Set<SootClass> supers) {
 		Set<String> stringSupers = supers.stream()
 				.map(clazz -> {
 					return clazz.toString();})
@@ -67,7 +64,7 @@ public class SingletonDetector extends Analyzable {
 		 });
 	}
 	
-	private boolean privateConstructors(SootClass clazz) {
+	private static boolean privateConstructors(SootClass clazz) {
 		return clazz.getMethods().stream().allMatch(m -> {
 			 return !m.isConstructor()
 					 || !m.isPublic();

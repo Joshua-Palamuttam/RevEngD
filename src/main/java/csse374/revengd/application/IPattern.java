@@ -11,6 +11,7 @@ public interface IPattern {
 	public Set<SootClass> getComponents(String name);
 	public void putComponent(String name, Relationship r);
 	public String getPatternName();
+	public void setPatternName(String name);
 	public Set<SootClass> getAllComponents();
 	public Set<SootMethod> getMethods(String name);
 	public Set<SootField> getFields(String name);

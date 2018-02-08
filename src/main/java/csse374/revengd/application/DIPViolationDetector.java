@@ -42,10 +42,8 @@ public class DIPViolationDetector extends Analyzable {
 				boolean concreteInheritance = hasConcreteInheritance(r, pattern);
 				boolean methodOverride = methodOverride(r, pattern);
 				if (concreteReference || concreteInheritance || methodOverride) {
-
 					pattern.putComponent(VIOLATOR, r);
 					data.putPattern(PATTERN, pattern);
-					System.out.println("skinny DIP !!!!!!!!!!! " + r.getThisClass().getName());
 				}
 			}
 		});

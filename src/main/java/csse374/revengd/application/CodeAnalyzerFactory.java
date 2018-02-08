@@ -67,6 +67,12 @@ public class CodeAnalyzerFactory implements ICodeAnalyzerFactory {
 					ca.addAnalyzable(a);
 					umlRender.addModifier(new DIPViolationModifier());
 				}
+				if (argMap.get("pattern").contains(DecoratorDetector.PATTERN)){
+					a = new DecoratorDetector();
+					a.addActiveFilter(new PrefixFilter(argMap));
+					ca.addAnalyzable(a);
+					umlRender.addModifier(new DecoratorModifier());
+				}
 			}
 			
 			RuntimeLoader.loadPatterns(argMap, umlRender, ca);

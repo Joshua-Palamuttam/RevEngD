@@ -92,9 +92,12 @@ public class Pattern implements IPattern {
 	
 	@Override
 	public String getPatternName(){
-		
 		return this.patternName;
-		
+	}
+	
+	@Override
+	public void setPatternName(String name){
+		this.patternName = name;
 	}
 	
 

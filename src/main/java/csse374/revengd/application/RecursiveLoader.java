@@ -4,7 +4,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import soot.Scene;
@@ -38,14 +37,14 @@ public class RecursiveLoader extends Analyzable {
 		System.out.println("-------------------------------------");
 	}
 
-	void computeAllSuperTypes(final SootClass clazz, final Collection<SootClass> allSuperTypes) {
+	private void computeAllSuperTypes(final SootClass clazz, final Collection<SootClass> allSuperTypes) {
 		if (clazz.getName().equals("java.lang.Object"))
 			return;
 
-		Collection<SootClass> directSuperTypes = new ArrayList<SootClass>();
+		Collection<SootClass> directSuperTypes = new ArrayList<>();
 
 		SootClass superClazz = clazz.getSuperclass();
-		if (superClazz != null)
+		if (superClazz != null && this.useFiltersOn(superClazz))
 			directSuperTypes.add(superClazz);
 
 		if (clazz.getInterfaceCount() > 0)

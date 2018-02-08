@@ -4,7 +4,7 @@ import java.util.Set;
 
 import soot.SootClass;
 
-public class SingletonModifier extends AbstractUMLModifier{
+public class SingletonModifier extends AbstractUMLModifier {
 	private final static String STEREOTYPE = "<<Singleton>>";
 	private final static String COLOR = "Blue";
 	@Override
@@ -24,10 +24,6 @@ public class SingletonModifier extends AbstractUMLModifier{
 			}			
 		}
 		return original;
-	}
-	
-	public void setAnalyzableData(AnalyzableData data) {
-		this.data = data;
 	}
 	
 }
