@@ -40,11 +40,18 @@ public class DecoratorModifier extends AbstractUMLModifier {
 		StringBuilder mod = new StringBuilder();
 		mod.append(original);
 		boolean alreadyComponent = false;
+		boolean alreadyDecorator = false;
 		for(IPattern p : decoratorPatterns) {
 			if(p.getComponents(DecoratorDetector.GOOD_DECORATOR).contains(clazz)) {
-				mod.append(" " + DECORATOR_STEREOTYPE);
+				if (!alreadyDecorator) {
+					alreadyDecorator = true;
+					mod.append(" " + DECORATOR_STEREOTYPE);
+				}
 			} else if (p.getComponents(DecoratorDetector.BAD_DECORATOR).contains(clazz)) {
-				mod.append(" " + DECORATOR_STEREOTYPE_BAD);
+				if (!alreadyDecorator) {
+					alreadyDecorator = true;
+					mod.append(" " + DECORATOR_STEREOTYPE_BAD);
+				}
 			} else if (p.getComponents(DecoratorDetector.COMPONENT).contains(clazz)) {
 				if (!alreadyComponent) {
 					alreadyComponent = true;

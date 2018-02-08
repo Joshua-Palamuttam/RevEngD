@@ -30,7 +30,8 @@ public class AdapterModifier extends AbstractUMLModifier {
 
 		StringBuilder mod = new StringBuilder();
 		mod.append(original);
-
+		
+		//boolean already
 		for(IPattern p : patterns) {
 			if(p.getComponents(AdapterDetector.ADAPTEE).contains(clazz)) {
 				mod.append(" " + ADAPTEE_STEREOTYPE);

@@ -43,7 +43,7 @@ public class AdapterDetector extends Analyzable {
 				SootClass target = getTarget(candidate);
 				if (target == null 
 						|| !this.useFiltersOn(target)
-						|| !implementsAllPublicMethods(candidate, target)) {
+						|| !implementsAllPublicMethods(candidate, target, overrideRatio)) {
 					return;
 				}
 				
@@ -76,7 +76,7 @@ public class AdapterDetector extends Analyzable {
 		int candidateCount = (int) candidate.getMethods().stream()
 		.filter(m -> publicTargetMethods.contains(m.getSubSignature()))
 		.filter(m -> {
-			return TypeResolver.methodBodyUsesField(m, adaptee, scene);
+			return TypeResolver.methodBodyUsesField(m, adaptee, this.scene);
 		})
 		.count();
 		
@@ -100,7 +100,7 @@ public class AdapterDetector extends Analyzable {
 			.filter(m -> m.isConstructor())
 			.filter(m -> m.isPublic())
 			.flatMap(m -> {
-				return TypeResolver.resolveMethodParameters(m, scene).keySet().stream();
+				return TypeResolver.resolveMethodParameters(m, this.scene).keySet().stream();
 			})
 			.filter(clazz -> {
 				return this.useFiltersOn(clazz) && rCandidate.has(clazz) && !clazz.equals(target);
@@ -109,18 +109,27 @@ public class AdapterDetector extends Analyzable {
 			.orElse(null);
 	}
 
-	private static boolean implementsAllPublicMethods(SootClass candidate, SootClass target) {
+	private static boolean implementsAllPublicMethods(SootClass candidate, SootClass target, double overrideRatio) {
+		int targetCount, candidateCount;
+		
 		Set<String> candidateSubSigs = candidate.getMethods().stream()
 				.filter(m -> m.isPublic())
 				.filter(m -> !m.isConstructor())
 				.map(m -> m.getSubSignature())
 				.collect(Collectors.toSet());
 		
-		return target.getMethods().stream()
+		Stream<SootMethod> targetMethods = target.getMethods().stream()
+				.filter(m -> m.isPublic())
+				.filter(m -> !m.isConstructor());
+		targetCount = (int) targetMethods.count();
+		
+		candidateCount = (int) target.getMethods().stream()
 				.filter(m -> m.isPublic())
 				.filter(m -> !m.isConstructor())
-				.allMatch(m -> {
+				.filter(m -> {
 					return candidateSubSigs.contains(m.getSubSignature());
-				});
+				}).count();
+		
+		return (double) candidateCount / (double) targetCount >= overrideRatio;
 	}
 }

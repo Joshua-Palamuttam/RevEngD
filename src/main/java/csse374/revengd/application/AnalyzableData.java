@@ -69,7 +69,7 @@ public class AnalyzableData {
 			}
 			
 		}
-		return null;
+		return new Relationship(clazz);
 	}
 
 	

@@ -99,11 +99,15 @@ public class TypeResolver {
 			// Use SignatureEvaluator API for parsing the field signature
 			String signature = signatureTag.toString();
 			FieldEvaluator fieldEvaluator = new FieldEvaluator(signature);
-			GenericType fieldType = fieldEvaluator.getType();
-			Set<String> elementTypes = fieldType.getAllElementTypes();
-			elementTypes.forEach(element -> {
-				classMap.put(scene.getSootClass(element), true);
-			});
+			try {
+				GenericType fieldType = fieldEvaluator.getType();
+				Set<String> elementTypes = fieldType.getAllElementTypes();
+				elementTypes.forEach(element -> {
+					classMap.put(scene.getSootClass(element), true);
+				});
+			} catch (RuntimeException e) {
+
+			}
 			// Add container types as well maybe
 		}
 		String typeString = f.getType().toString();

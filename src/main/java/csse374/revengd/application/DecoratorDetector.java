@@ -90,7 +90,6 @@ public class DecoratorDetector extends Analyzable {
 			return component;
 		}
 		SootClass superClass = r.getThisClass().getSuperclass();
-		
 		return this.getComponentClass(this.data.getRelationship(superClass), false);
 	}
 	
