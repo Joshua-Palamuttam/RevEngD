@@ -4,7 +4,6 @@ package csse374.revengd.application;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 public class RevEngDApp {
@@ -18,7 +17,8 @@ public class RevEngDApp {
 		ICodeAnalyzerFactory caFactory = RuntimeLoader.loadCodeAnalyzerFactory(argMap);
 
 		CodeAnalyzer ca = caFactory.getCodeAnalyzer(argMap);
-		OutputStream out = new FileOutputStream("./output/UML.svg");
+		String output = argMap.getOrDefault("output", "./output/UML.svg");
+		OutputStream out = new FileOutputStream(output);
 		AnalyzableData data = new AnalyzableData(argMap);
 		ca.analyze(data, out);
 		out.close();

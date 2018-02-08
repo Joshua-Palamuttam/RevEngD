@@ -28,8 +28,8 @@ public class RelationshipFinder extends Analyzable {
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		this.data = data;
-		this.analyzeBodies = !(data.getConfigMap().containsKey("methodbodies")
-				&& data.getConfigMap().get("methodbodies").equals("false"));
+		this.analyzeBodies = !(data.getConfigMap().containsKey("method_bodies")
+				&& data.getConfigMap().get("method_bodies").equals("false"));
 		Set<SootClass> sootClasses = data.getSootClasses();
 		Collection<Relationship> relationships = new ArrayList<>();
 		sootClasses.forEach(clazz -> {

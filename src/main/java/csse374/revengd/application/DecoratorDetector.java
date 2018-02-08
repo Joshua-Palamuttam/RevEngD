@@ -130,26 +130,7 @@ public class DecoratorDetector extends Analyzable {
 			.filter(m -> !m.isConstructor())
 			.filter(m -> componentSubSigs.contains(m.getSubSignature()))
 			.anyMatch(m -> {
-				Body body = m.retrieveActiveBody();
-				UnitGraph cfg = new ExceptionalUnitGraph(body);
-				for (Unit stmt : cfg) {
-					Value op = null;
-					if (stmt instanceof AssignStmt) {
-						op = ((AssignStmt) stmt).getRightOp();
-						if (op instanceof JInstanceFieldRef) {
-							Map<SootClass, Boolean> fieldTypes = TypeResolver.resolve(((JInstanceFieldRef) op).getField(), scene);
-							if (fieldTypes.containsKey(component)) {
-								return true;
-							}
-						}
-					} else if (stmt instanceof JInstanceFieldRef) {
-						Map<SootClass, Boolean> fieldTypes = TypeResolver.resolve(((JInstanceFieldRef) stmt).getField(), scene);
-						if (fieldTypes.containsKey(component)) {
-							return true;
-						}
-					}
-				}
-				return false;
+				return TypeResolver.methodBodyUsesField(m, component, scene);
 			});
 	}
 	

@@ -9,12 +9,19 @@ import java.util.Set;
 import edu.rosehulman.jvm.sigevaluator.FieldEvaluator;
 import edu.rosehulman.jvm.sigevaluator.GenericType;
 import edu.rosehulman.jvm.sigevaluator.MethodEvaluator;
+import soot.Body;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
 import soot.Type;
+import soot.Unit;
+import soot.Value;
+import soot.jimple.AssignStmt;
+import soot.jimple.internal.JInstanceFieldRef;
 import soot.tagkit.Tag;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.graph.UnitGraph;
 
 public class TypeResolver {
 	public static Map<SootClass, Boolean> resolveMethodParameters(SootMethod m, Scene scene) {
@@ -107,5 +114,28 @@ public class TypeResolver {
 		}
 		return classMap;
 
+	}
+	
+	public static boolean methodBodyUsesField(SootMethod m, SootClass clazz, Scene scene) {
+		Body body = m.retrieveActiveBody();
+		UnitGraph cfg = new ExceptionalUnitGraph(body);
+		for (Unit stmt : cfg) {
+			Value op = null;
+			if (stmt instanceof AssignStmt) {
+				op = ((AssignStmt) stmt).getRightOp();
+				if (op instanceof JInstanceFieldRef) {
+					Map<SootClass, Boolean> fieldTypes = TypeResolver.resolve(((JInstanceFieldRef) op).getField(), scene);
+					if (fieldTypes.containsKey(clazz)) {
+						return true;
+					}
+				}
+			} else if (stmt instanceof JInstanceFieldRef) {
+				Map<SootClass, Boolean> fieldTypes = TypeResolver.resolve(((JInstanceFieldRef) stmt).getField(), scene);
+				if (fieldTypes.containsKey(clazz)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

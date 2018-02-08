@@ -95,4 +95,9 @@ public class DecoratorModifier extends AbstractUMLModifier {
 		}
 		return original;
 	}
+
+	@Override
+	public String getUsesMod(String original, SootClass startClazz, SootClass endClazz) {
+		return this.getHasMod(original, startClazz, endClazz);
+	}
 }
