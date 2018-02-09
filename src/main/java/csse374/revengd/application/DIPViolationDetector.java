@@ -30,6 +30,7 @@ public class DIPViolationDetector extends Analyzable {
 	private AnalyzableData data;
 	private Scene scene;
 
+	@SuppressWarnings("hiding")
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		this.addAllAvailableFilters();

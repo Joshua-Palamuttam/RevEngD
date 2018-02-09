@@ -1,6 +1,5 @@
 package csse374.revengd.application;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -31,6 +30,7 @@ public class TypeResolver {
 	
 	
 	
+	@SuppressWarnings("boxing")
 	private static Map<SootClass, Boolean> resolveMethod(SootMethod m, Scene scene, String s) {
 		Tag signatureTag = m.getTag("SignatureTag");
 		Map<SootClass, Boolean> classMap = new HashMap<>();
@@ -102,6 +102,7 @@ public class TypeResolver {
 
 	}
 
+	@SuppressWarnings("boxing")
 	public static Map<SootClass, Boolean> resolve(SootField f, Scene scene) {
 		Tag signatureTag = f.getTag("SignatureTag");
 		Map<SootClass, Boolean> classMap = new HashMap<>();
@@ -116,9 +117,8 @@ public class TypeResolver {
 					classMap.put(scene.getSootClass(element), true);
 				});
 			} catch (RuntimeException e) {
-
+				// just continue
 			}
-			// Add container types as well maybe
 		}
 		String typeString = f.getType().toString();
 		if (typeString.contains("[]")) {

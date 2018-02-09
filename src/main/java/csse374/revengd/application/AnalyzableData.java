@@ -24,49 +24,49 @@ public class AnalyzableData {
 		this.patterns = HashMultimap.create();
 	}
 	public Map<String, String> getConfigMap() {
-		return configMap;
+		return this.configMap;
 	}
 	public void setConfigMap(Map<String, String> configMap) {
 		this.configMap = configMap;
 	}
 	public Scene getScene() {
-		return scene;
+		return this.scene;
 	}
 	public void setScene(Scene scene) {
 		this.scene = scene;
 	}
 	public Set<SootClass> getSootClasses() {
-		return sootClasses;
+		return this.sootClasses;
 	}
 	public void setSootClasses(Set<SootClass> sootClasses) {
 		this.sootClasses = sootClasses;
 	}
 	public Collection<Relationship> getRelationships() {
-		return relationships;
+		return this.relationships;
 	}
 	public void setRelationships(Collection<Relationship> relationships) {
 		this.relationships = relationships;
 	}
 	public String getUmlText() {
-		return umlText;
+		return this.umlText;
 	}
 	public void setUmlText(String umlText) {
 		this.umlText = umlText;
 	}
 	public Set<IPattern> getPatternsByName(String name){
-		if (patterns.containsKey(name)) {
-			return patterns.get(name);
+		if (this.patterns.containsKey(name)) {
+			return this.patterns.get(name);
 		}
 		return new HashSet<>();
 	}
 	public void putPattern(String name, IPattern p){
-		patterns.put(name, p);
+		this.patterns.put(name, p);
 	}
 	public Relationship getRelationship(SootClass clazz){
 		if (clazz == null) {
 			return null;
 		}
-		for(Relationship r : relationships){
+		for(Relationship r : this.relationships){
 			if(r.getThisClass().equals(clazz)){
 				return r;
 			}

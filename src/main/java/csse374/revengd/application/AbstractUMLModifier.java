@@ -1,7 +1,5 @@
 package csse374.revengd.application;
 
-import java.util.Set;
-
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;

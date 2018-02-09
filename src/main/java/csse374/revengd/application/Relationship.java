@@ -2,13 +2,11 @@ package csse374.revengd.application;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
 import soot.SootClass;
-import soot.SootField;
 
 public class Relationship {
 	private SootClass thisClass;
@@ -30,13 +28,6 @@ public class Relationship {
 			@Override
 			public boolean test(SootClass clazz) {
 				return (!keep.contains(clazz));
-			}
-		};
-		
-		Predicate<SootClass> inKeep = new Predicate<SootClass>() {
-			@Override
-			public boolean test(SootClass clazz) {
-				return (keep.contains(clazz));
 			}
 		};
 		
@@ -76,6 +67,7 @@ public class Relationship {
 		this.has = has;
 	}
 	
+	@SuppressWarnings("boxing")
 	public void addHas(SootClass clazz, boolean many) {
 		if (clazz == null || this.has == null) {
 			return;
@@ -95,6 +87,7 @@ public class Relationship {
 		this.uses = uses;
 	}
 	
+	@SuppressWarnings("boxing")
 	public void addUses(SootClass clazz, boolean many) {
 		if (clazz == null || this.uses == null) {
 			return;
@@ -137,6 +130,7 @@ public class Relationship {
 		return this.has.containsKey(clazz);
 	}
 	
+	@SuppressWarnings("boxing")
 	public boolean hasMany(SootClass clazz){
 		return this.has(clazz) && this.has.get(clazz);
 	}
@@ -145,6 +139,7 @@ public class Relationship {
 		return this.uses.containsKey(clazz);
 	}
 	
+	@SuppressWarnings("boxing")
 	public boolean usesMany(SootClass clazz){
 		return this.uses(clazz) && this.uses.get(clazz);
 	}

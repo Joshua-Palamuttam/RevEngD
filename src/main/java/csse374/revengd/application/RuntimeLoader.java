@@ -110,6 +110,7 @@ public class RuntimeLoader {
 		return caf;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static Map<String, IFilter> loadFilters(Map<String, String> argMap) {
 		Map<String, IFilter> filterMap = new HashMap<>();
 		if (argMap.containsKey("filter_class")) {

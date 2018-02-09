@@ -1,7 +1,6 @@
 package csse374.revengd.application;
 
 import java.io.OutputStream;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,12 +13,10 @@ import soot.Value;
 import soot.jimple.AssignStmt;
 import soot.jimple.InvokeExpr;
 import soot.jimple.InvokeStmt;
-import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 
 public class SequenceDiagramRender extends Analyzable {
-	private UnitGraph graph;
 	private Scene scene;
 	private IMethodResolutionAlgorithm mra;
 	private Map<String, IMethodResolutionAlgorithm> mraMap;
@@ -89,7 +86,7 @@ public class SequenceDiagramRender extends Analyzable {
 		}
 		System.out.println(method.getSignature());
 
-		if (depth == 0 || method == null || method.getDeclaringClass().getName().startsWith("java")) {
+		if (depth == 0 || method.getDeclaringClass().getName().startsWith("java")) {
 			if (!active) {
 				str.append("deactivate " + recievingName + "\n");
 			}

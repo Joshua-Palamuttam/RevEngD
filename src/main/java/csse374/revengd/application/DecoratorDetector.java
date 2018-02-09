@@ -5,21 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import soot.Body;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
-import soot.Unit;
-import soot.Value;
-import soot.jimple.AssignStmt;
-import soot.jimple.internal.JInstanceFieldRef;
-import soot.toolkits.graph.ExceptionalUnitGraph;
-import soot.toolkits.graph.UnitGraph;
 
 public class DecoratorDetector extends Analyzable {
 	public static final String PATTERN = "decorator";
@@ -33,6 +23,7 @@ public class DecoratorDetector extends Analyzable {
 	private Scene scene;
 	private AnalyzableData data;
 	
+	@SuppressWarnings("hiding")
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		this.addAllAvailableFilters();

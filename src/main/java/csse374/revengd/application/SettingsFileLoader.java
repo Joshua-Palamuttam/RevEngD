@@ -1,16 +1,14 @@
 package csse374.revengd.application;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.management.RuntimeErrorException;
-
 public class SettingsFileLoader {
 	
+	@SuppressWarnings("resource")
 	public void loadSettings(Map<String, String> configMap) {
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		rootPath = "";
@@ -42,13 +40,13 @@ public class SettingsFileLoader {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			this.loadFromProp(appProps, configMap);
+			SettingsFileLoader.loadFromProp(appProps, configMap);
 		} else {
-			this.loadFromProp(defaultProps, configMap);
+			SettingsFileLoader.loadFromProp(defaultProps, configMap);
 		}
 	}
 	
-	private void loadFromProp(Properties prop, Map<String, String> configMap) {
+	private static void loadFromProp(Properties prop, Map<String, String> configMap) {
 		prop.stringPropertyNames().forEach(name -> {
 			if (!configMap.containsKey(name)) {
 				configMap.put(name, prop.getProperty(name));

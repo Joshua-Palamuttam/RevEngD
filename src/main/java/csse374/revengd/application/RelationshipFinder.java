@@ -3,20 +3,15 @@ package csse374.revengd.application;
 import java.io.OutputStream;
 import java.util.*;
 
-import edu.rosehulman.jvm.sigevaluator.FieldEvaluator;
-import edu.rosehulman.jvm.sigevaluator.GenericType;
-import edu.rosehulman.jvm.sigevaluator.MethodEvaluator;
 import soot.Body;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
-import soot.Type;
 import soot.Value;
 import soot.jimple.AssignStmt;
 import soot.jimple.InvokeExpr;
 import soot.jimple.InvokeStmt;
 import soot.jimple.internal.JNewExpr;
-import soot.tagkit.Tag;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.util.Chain;
@@ -25,6 +20,7 @@ public class RelationshipFinder extends Analyzable {
 	private AnalyzableData data;
 	private boolean analyzeBodies;
 
+	@SuppressWarnings("hiding")
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		this.data = data;
@@ -46,6 +42,7 @@ public class RelationshipFinder extends Analyzable {
 		data.setRelationships(relationships);
 	}
 
+	@SuppressWarnings("boxing")
 	private void hasAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
 		if (clazz.getName().equals("java.lang.Object")) {
@@ -63,7 +60,7 @@ public class RelationshipFinder extends Analyzable {
 
 	}
 
-	private void extendsAFinder(Relationship r) {
+	private static void extendsAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
 		if (!clazz.hasSuperclass()) {
 			return;
@@ -83,7 +80,8 @@ public class RelationshipFinder extends Analyzable {
 		r.setImplementz(iClazzSet);
 	}
 
-	private void methodTypeFinder(Relationship r, SootMethod m, Scene scene) {
+	@SuppressWarnings("boxing")
+	private static void methodTypeFinder(Relationship r, SootMethod m, Scene scene) {
 		Map<SootClass, Boolean> toAdd = TypeResolver.resolve(m, scene);
 		toAdd.keySet().forEach(c -> {
 			r.addUses(c, toAdd.get(c));

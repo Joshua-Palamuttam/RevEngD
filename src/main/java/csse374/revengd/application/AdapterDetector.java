@@ -7,16 +7,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import soot.Body;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
-import soot.Unit;
-import soot.Value;
-import soot.jimple.AssignStmt;
-import soot.jimple.internal.JInstanceFieldRef;
-import soot.toolkits.graph.ExceptionalUnitGraph;
-import soot.toolkits.graph.UnitGraph;
 
 public class AdapterDetector extends Analyzable {
 	public static final String PATTERN = "adapter";
@@ -27,6 +20,7 @@ public class AdapterDetector extends Analyzable {
 	private Scene scene;
 	private AnalyzableData data;
 	
+	@SuppressWarnings("hiding")
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
 		this.addAllAvailableFilters();
