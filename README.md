@@ -29,7 +29,7 @@ From the command line
 ./gradlew run -Pmyargs="--setting <path to settings file>"
 ```
 
-From the command line using the exported jar
+From the command line using the executable jar file
 Make sure when you run this in your terminal you go into the path where the runnable jar is, also in that path add a default.properties file. You can add all your arguments to the default file, or make a new properties file, but the default.properties file must be present in the same path as your executable jar.
 ```bash
 java -cp Revengd.jar csse374.revengd.application.RevEngDApp
@@ -74,6 +74,11 @@ The following is a very basic example of how to run from the command line:
 The following is an example of how to run from the commandline with a property file:
 ```bash
 ./gradlew run -Pmyargs="--settings default.properties"
+```
+
+The following is an example of how to run from the commandline with an executable jar:
+```bash
+java -cp Revengd.jar csse374.revengd.application.RevEngDApp --settings default.properties
 ```
 
 ## Team Member Contributions
