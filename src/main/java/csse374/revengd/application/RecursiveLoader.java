@@ -38,7 +38,7 @@ public class RecursiveLoader extends Analyzable {
 	}
 
 	private void computeAllSuperTypes(final SootClass clazz, final Collection<SootClass> allSuperTypes) {
-		if (clazz.getName().equals("java.lang.Object"))
+		if (!clazz.hasSuperclass())
 			return;
 
 		Collection<SootClass> directSuperTypes = new ArrayList<>();

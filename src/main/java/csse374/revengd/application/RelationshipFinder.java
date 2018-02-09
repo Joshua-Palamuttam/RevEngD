@@ -65,7 +65,7 @@ public class RelationshipFinder extends Analyzable {
 
 	private void extendsAFinder(Relationship r) {
 		SootClass clazz = r.getThisClass();
-		if (clazz.getName().equals("java.lang.Object")) {
+		if (!clazz.hasSuperclass()) {
 			return;
 		}
 		SootClass sClazz = clazz.getSuperclass();

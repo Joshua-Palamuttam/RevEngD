@@ -90,8 +90,8 @@ public class AdapterDetector extends Analyzable {
 
 
 	private static SootClass getTarget(SootClass candidate) {
-		if (candidate.getName().equals("java.lang.Object")) return null;
-		if (candidate.hasSuperclass() && candidate.getSuperclass().getName().equals("java.lang.Object")) {
+		if (!candidate.hasSuperclass()) return null;
+		if (candidate.getSuperclass().getName().equals("java.lang.Object")) {
 			if (candidate.getInterfaceCount() == 1) {
 				return candidate.getInterfaces().getFirst();
 			}
@@ -116,6 +116,9 @@ public class AdapterDetector extends Analyzable {
 
 	private static boolean implementsAllPublicMethods(SootClass candidate, SootClass target, double overrideRatio) {
 		int targetCount, candidateCount;
+		if (candidate.getMethods().stream().noneMatch(m -> m.isConcrete())) {
+			return true;
+		}
 		
 		Set<String> candidateSubSigs = candidate.getMethods().stream()
 				.filter(m -> m.isPublic())

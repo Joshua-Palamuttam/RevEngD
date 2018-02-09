@@ -77,7 +77,7 @@ public class Relationship {
 	}
 	
 	public void addHas(SootClass clazz, boolean many) {
-		if (this.has == null) {
+		if (clazz == null || this.has == null) {
 			return;
 		}
 		
@@ -96,7 +96,7 @@ public class Relationship {
 	}
 	
 	public void addUses(SootClass clazz, boolean many) {
-		if (this.uses == null) {
+		if (clazz == null || this.uses == null) {
 			return;
 		}
 		
@@ -116,6 +116,13 @@ public class Relationship {
 
 	public void setImplementz(Set<SootClass> implementz) {
 		this.implementz = implementz;
+	}
+	
+	public void addImplementz(SootClass clazz) {
+		if (clazz == null || this.implementz == null) {
+			return;
+		}
+		this.implementz.add(clazz);
 	}
 
 	public SootClass getExtendz() {

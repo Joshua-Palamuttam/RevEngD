@@ -67,8 +67,8 @@ public class DecoratorDetector extends Analyzable {
 	}
 	
 	private SootClass getComponentClass(Relationship r, boolean isCandidate) {
-		if (!this.useFiltersOn(r.getThisClass())
-				|| r.getThisClass().getName().equals("java.lang.Object")) {
+		if (!r.getThisClass().hasSuperclass()
+				|| !this.useFiltersOn(r.getThisClass())) {
 			return null;
 		}
 		
@@ -90,14 +90,12 @@ public class DecoratorDetector extends Analyzable {
 		if (null != component) {
 			return component;
 		}
-		System.out.println("-----------");
-		System.out.println(r.getThisClass());
 		SootClass superClass = r.getThisClass().getSuperclass();
 		return this.getComponentClass(this.data.getRelationship(superClass), false);
 	}
 	
 	private boolean hasComponentAsParam(SootClass candidate, SootClass component) {
-		if (candidate.getName().equals("java.lang.Object") || candidate.equals(component)) {
+		if (!candidate.hasSuperclass() || candidate.equals(component)) {
 			return false;
 		}
 		List<SootMethod> methods = candidate.getMethods();
@@ -173,6 +171,9 @@ public class DecoratorDetector extends Analyzable {
 			.filter(m -> componentSubSigs.contains(m.getSubSignature()))
 			.map(m -> m.getSubSignature())
 			.collect(Collectors.toSet()));
+			if (!superClass.hasSuperclass()) {
+				break;
+			}
 			superClass = superClass.getSuperclass();
 		}
 		
@@ -187,7 +188,7 @@ public class DecoratorDetector extends Analyzable {
 	}
 	
 	private void computeAllSuperTypes(final SootClass clazz, final Collection<SootClass> allSuperTypes) {
-		if (clazz.getName().equals("java.lang.Object"))
+		if (!clazz.hasSuperclass())
 			return;
 
 		Collection<SootClass> directSuperTypes = new ArrayList<>();

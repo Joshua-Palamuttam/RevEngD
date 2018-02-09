@@ -151,7 +151,7 @@ public class DIPViolationDetector extends Analyzable {
 		SootClass superClazz = extendz;
 		while (superClazz != null) {
 			superClasses.add(superClazz);
-			if (superClazz.getName().equals("java.lang.Object"))
+			if (!superClazz.hasSuperclass())
 				break;
 			superClazz = superClazz.getSuperclass();
 		}
