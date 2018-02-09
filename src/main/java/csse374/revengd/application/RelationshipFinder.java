@@ -101,7 +101,7 @@ public class RelationshipFinder extends Analyzable {
 			methodTypeFinder(r, m, scene);
 
 			if (this.analyzeBodies && m.isConcrete()) {
-
+				
 				// analyze method bodies
 				Body body = m.retrieveActiveBody();
 				UnitGraph cfg = new ExceptionalUnitGraph(body);
@@ -125,8 +125,10 @@ public class RelationshipFinder extends Analyzable {
 					}
 
 					if (nextMethod != null) {
-						if (nextMethod.isConstructor()) { // TODO: LOOK HERE think more about this logic
-							// r.addUses(nextMethod.getDeclaringClass(), false);
+						if (nextMethod.isConstructor()) {
+							if (r.getThisClass().hasSuperclass() && !r.getThisClass().getSuperclass().equals(nextMethod.getDeclaringClass())) {
+								r.addUses(nextMethod.getDeclaringClass(), false);
+							}
 						} else if (nextMethod.isStatic()) {
 							r.addUses(nextMethod.getDeclaringClass(), false);
 							methodTypeFinder(r, nextMethod, scene);

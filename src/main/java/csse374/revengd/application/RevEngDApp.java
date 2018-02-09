@@ -17,7 +17,7 @@ public class RevEngDApp {
 		ICodeAnalyzerFactory caFactory = RuntimeLoader.loadCodeAnalyzerFactory(argMap);
 
 		CodeAnalyzer ca = caFactory.getCodeAnalyzer(argMap);
-		String output = argMap.getOrDefault("output", "./output/UML.svg");
+		String output = argMap.getOrDefault("output", "UML.svg");
 		OutputStream out = new FileOutputStream(output);
 		AnalyzableData data = new AnalyzableData(argMap);
 		ca.analyze(data, out);

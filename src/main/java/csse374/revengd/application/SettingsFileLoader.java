@@ -3,6 +3,7 @@ package csse374.revengd.application;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Properties;
 
@@ -10,7 +11,7 @@ public class SettingsFileLoader {
 	
 	@SuppressWarnings("resource")
 	public void loadSettings(Map<String, String> configMap) {
-		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		String rootPath = Paths.get(".").toString();
 		rootPath = "";
 		 
 		String defaultConfigPath = rootPath + "default.properties";
