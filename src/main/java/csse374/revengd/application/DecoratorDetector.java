@@ -33,9 +33,6 @@ public class DecoratorDetector extends Analyzable {
 			if(this.useFiltersOn(candidate)) {
 				SootClass delegator = this.getDelegator(r, true);
 				SootClass component = this.getComponentClass(candidate, delegator);
-				System.out.println("Candidate: " + candidate);
-				System.out.println("Component: " + component);
-				System.out.println("Delegator: " + delegator);
 				if (null == component
 						|| !this.usesComponent(candidate, delegator)) {
 					return;
