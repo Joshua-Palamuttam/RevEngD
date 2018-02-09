@@ -6,7 +6,7 @@
 This is a repository for Josh Heidecker, Josh Kuhn, and Josh Palamuttam's **Software Design - CSSE 374** term project. This application reverse engineers the design of a supplied codebase using [SOOT](https://github.com/Sable/soot), a bytecode instrumentation framework.
 
 ## UML Diagram
-<http://www.plantuml.com/plantuml/svg/xLdDSjis43w7Ju6nBzH4LXwWhYQgdCHkhTPZnQTE3p09KvY200j0QcoFtxsB7v8WHIfKBTS-z2AHnBU_s5qiW8zAOwdNEOlKdvGNME8SCSg9lYy84bAlHCI59eYHEut47ReccqyyEviL1KB7oJtc9vaaX4SvfZnUQabvzliV2CjCZT1ZXD3yyWfBHIGgtD-FY9E_gw_nw0V0B71nwaZ7oFrF3GVu3717Dx5_CyPYozfG_RRMnLe3de3AOgqzwy-KaN0eFffy4FRzmytYSg8ssP4bdt7CxX_mBIC8hBycFAsq0vnxtrRl0jXh8a6_3QRCKBiFofEUOxKo-AaZRQCce4PyLAnl6KsEnfRYohwuyNYqYqhI3TQa97DlW-XW_X9DqehIlpTeAnzC5D6p9YCmA6xpjaHpaHBdH_1TWil93RuQDm0mmHESfhNBOuDR2g4l1Kuh7JfHroHPIqKtP0YKOKq5LojQVAPy1xgojf_P5SDSGoHy8Pn8h4N9guQTOOrHQdwStSsHs4KmqBnxvsKudyI6P6mY5iQU8b03cGoBeeHXfS84C_dp7Zr2XcgQFA6De2dgo3DWucchP7EKNNbLvL4VZoNH6WQKoIFdSdIy82bTvqk2lvXSzzojEWmG9KNS9IyH_8vQHzGYMYuqx4xGJcABCF6oJ60wa3A_xXlHf-Rxt32U8bK-4cM7vu8nY7M8YTCmEAP81cyEwcIQFFXAlkd8cjYQqU_R5-5RfILED6fRsc5bNoqfxGsKhw7mlYbpq2dvMChq4H9tHEXugrgEwZc4sFUbm8j1T_OlW4YIYr9iFsgxSYXJEWRQ7CPWLHaGp0Lao9OdIzLzIWqq-QbEiaPHUJ4fxNhqGeAg1GiTduaq8_8djYPzigfGBto5i_7U2ZZul10flQDchdB_v0FktwWQYCs8Ir7t6eTEGhAD_4m9IuT15mIQbO7OJyurWx0NUS58JhWU1eSEO3O8U0D5gWTOJUpM8lH20THOo5sGN5AbJsi-Ky_RF3yh3kgY4oouWJMr6AiVvL0Txd12ojBXhBqLWX7CVGsoyHHNwy2e0s83oKBiKnV41P35kCTm8e8k3T4g8agbq2jfrMpbtf9YGNVwTjJw-UmNB_zuBcck17zBBYDtz5kfNglZwj7IzpzbQsSvsCxdVODTt8KQlOgLotkkLqHNgJJGqFzUqKP9VgpwJoiEwHLLzgdkwSgnSIbZYbPObQrS7sGDQq3LtZPRsSeJ3otXRWLuY1fzrzTIexX3IsTxFP25-16QJ2PHsF__jIOy8MSKPnBdW_eAy4zFLt62BfnhhuaIR6qyEcEPa5IlSfHB71sYomBE6v8wERxFglAxjOUgvnfwMajN1a6ziHYZ6qurKZhNuv0Wzp5YfgEBOG4BbP3vNC2IzKql2LVKDEjNmgvXrYn5rI4bdSzsCk_Ws5nH-wUcUyjNXgYZcvOktCUakcVb871nFTiILOLNbacImIe2e5fylyxGeR3C5R-ITpo4OdHmqowCXnKip4FDGtlQ5mfu9HldAqpvdlRPbd9_0mUH7Tx2SzZnO9cixhki3DUf_YmwVDRCCMDV92vMRqcf9THzHhJWPyIqeqBs1yM1TorvSS5N1Ep2PiNQG_hpn0Sbz0fhUERVAPX-JJTRNz1PS3D7_WGESPoJO6C4qYfC21a72pYO__3W8xxQJtfDVWLi7FQLFGg6mL9YgfvoiMQQvi6vJVFqB2aLh7eNl_RNAho--VKa1OSPVVDKRz-9EH02UDmMO6KlVB-uGn5_jj14sbkMkO67XW1ktiMYFd9u3fTp_2noSpwn7_rJSFuvym-xV1-4O0WpKtBSTSx-_rGTRAeQPxRDK-uEnzkBYdQnxvtMgjnsXC3Xqsrlr_Kj7mUnvqKZhzxoh3cKv_xhcU1onfV5xiiPTqKr3iwFxSLOoeaSjo_tMZMrqTxrUMnd5nAT83Qe8QnF3EFTcycHtSO65sYJoRJfgoZgtjuQO3_l7KIX6wAeuJ8xtCobjcxbVLtx-_OTt1Pb8AazjiEGXe8d9w62KKjNCngk-i6u7VF7CstX0SFU4SC_gcFES0joAWhpozhZOpZw27W8q7y0>
+<http://www.plantuml.com/plantuml/svg/rHhBRjiuyAwl8B0N6NNw0ni4TPEcCH1t0xlTos8FZ4JRn5AabgICEa7_VOSFITJBKHfxarviYHpEcpF34JyeZQKkCXQfVoZFiSGPOfGJlSy94b9lHHGb32k5bcJtYM-kPdcE7YE4tg57MAffyWFj14rHXYcFLrfIlldhRuJbHasY7r54kIPoZHE2vfSY9JEEsVw1o6kSQ27t1jCx54wW3T7XUxp0-Rb3EqNk_y9WXs6BF-3g_VkBNYAb07tqQPOpaX6krIduWxM6Hq_-zWvB1HYSzlhMvGPWnbYF7XsE5T4Q9jGrPUHMuBJ2Pat0OAI4wEKh4NnDAzKvb4uGVC_85TROeZj31nTRY9KGUfKGJf0olswCw7CpVcaGNo1LFX9bfoy5OoJHLF3p9M7OFAWjpI-G3DuSgAE9m2s_akywiY8s6HqXNuJlbPPWIDIMj4VAEQWKF1LijyEK6I0tKCeRC5-3mllEmod7v6D9q--AkANU57wcw8z2vuK6qWHscoZqfBOXJbE7CFPaqDh-1I2IPA8aEmobY9urHL4WIpnIvj3dm8pUry0MXASTJPQikoqnLkGVTM192gb0aoUcKZlPDUMd8_HjSRiaX_1Nxfqpp3M0MnzlEHaCBqHArzJO9_DFtib-Xhs0h8bWXbFt6eUAGR8DUKq9IyU1BWXaYv6mdvngHi7EgnWz2lm6gzaem6yGc0O0Mv0h-2yObav2lyRi2pU0iid00gkz0Dw-e_KGEB0U05iZ8PkVuV7XOOhgKL2U7Pj4VNYCPCV1rD7zU7JLXhZpRluPyeJ4a5PFjF4QQTfjj5kgz7cDvyBZDiylsajriAwN1Ai3CkqYo4LO9-sz48nWxcEtrL-jtqaFY7MVsf7wG9n71iuP6gAuPpJn2IEiVFpGAt4bXOQWHzAtnnZTOKtU7bjaJRyVvihNOcLPQLVOAknTOtdS1pLv5QbMUwwtHByzzsoaXiUgzdNHJc-fiazrFLdEJKiQ5sYBLLb63e4K4B6hqhfPHbUQU6WHTr7q8MhKV5zBZk8UBftizSGcX9_00Ufz59ur_Yq8JyWLnHiu5GxMDA2JWOhc3CsTEfT42LOOBSxOHaYgjndA98vU4lE3c3fCnBbCgL07PyuR0BaZSN1-cQ9ld6h8QPbssQpCx6rt03315yjPhOZDHf8Dn0aOhCaDymGvY6tSLYnnnMDMJ8ukojneK47e7H87FLEU4E4hoNIvnPG_8Oyj2fulqAXbnvVe1kf-B9FjtWWGHiN_q-ilCMEV9Swthyc4gKaPqO9V4LCmdB2EpF8vtnAG0vluTu3QCSXTpU_-fC8bcLFJcgKu1vS-kKWa4RRIFn6XPXwq7Rai5nnSqgMovd6kIhC8KXtcAGMqn24f9o13LoXcwivqGOFycPIBmeDEKi8tCPb4Ng7wIHmR8T9Bu5xBmYXlD9OfcjzX3VRbA7V_JRnYHwIaALGQxgJ-OiJMTWQgqAPjkIfo8h_kSwBYDGLBXgZSET4D1ssEeCx18GBNm0joV4c_6LRyqj03b6-U8eup4fpLWCV0BZN8jCsb3-7LKTXJ_WAmSLY6UuR2Q1WoQUkuHS4qpOAMMxFnMIcuAlry6LMJV7rnQoC4FQdI3dNNXPZUtS9KqMuCqi36MBkDtvBkWNkICTyoUcBfKrs99iwwlN5Kj3VukFXCF-Ue25q0A8tvR5FCqfGQByQiZ2JTJbi8_mLE-1sOturpLItwcNy8VIpOMctN-mtrf8f1bnpsmV4kTnmFUw53lTH_dhM--epG_F3IetYmvM7_QgkvMzDLrgqgXHw7U3owXP-jsA4gyQVuFwaVjek-Nqx3lPNnBoT5LGl_AfntN4_YSL7-25cgLfkf0fVki6YrSbPVDsZrq3wMFJH_jkmqyr06nCBpfcVG7DQVYtP9T26vOMwOWFtkFnRjCT7uhqi7i9Gd0NUs_YZIlJ5QtI4D66cNxY5EUwkXOI5pzw9rkEm2T8w5FI0zMxuBrVsM-pGtLJ-tu52IrxSdWhiJllHL1-vqJ8FFkqN6bYJb10wOZKzF2MxLpOqULBdx3xPEeZF4HdMfwWzHyU5UgzjRdVio3Mr4KN_Frrwi6SH-O54eU1Grb6IdcvL4cxVomanxl7i9fhCoeDIv8JGiI8F1ixEGmQZ5gvaDlJ2OjtF-cqMRU81mSCRWZselCzY23165sSBAuxqs-W3mu9B_0G00>
 
 ## Software Needed
 1. Install the latest version of [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) in your machine and setup the system's `PATH` variable to point to the JDK's `bin` directory (append the path to the JDK's `bin` directory onto the `PATH` variable). 
@@ -25,8 +25,33 @@ You can import the cloned folder as a **Gradle Project** in Eclipse or IntelliJ 
 ## How to run the program
 From the command line 
 ```bash
-./gradlew run -Pmyargs="<args>"
+./gradlew run -Pmyargs="--setting <path to settings file>"
 ```
+
+In a properties file that you create you can enter in the flags you want to add to the UML diagram you want to create
+- `path=<absolute path>` **REQUIRED** This is the path to analyze Java bytecode. The path given must be an absolute path. If the path has spaces add a comma at the end of the path.
+- You can have multiple paths, if the paths don't have spaces you can delimit them with either spaces or commas, if they do have spaces you need to delimit them wih commas
+- `class=<main class> <other classes>` **REQUIRED** This is a list of the fully-qualified class names to analyze. The first class specified must have a main method. After the main class, any number of fully-qualified class names can be listed.
+  **Note** If the codebase you are analyzing does not have a class with a main method, you must create a "dummy" class that has a main method inside the codebase.
+- `r=<true or false>` This is a recursive flag. This tells the application to recursively load all the supertypes of the classes specified by the `--class` flag.
+- `accesslevel=<level>` This flag allows the UML to only render to a certain access level. `<level>` can be either `private`, `protected`, or `public`. 
+    - `private` will render all classes, methods, and fields. 
+    - `protected` will render only public and protected classes, methods, and fields. 
+    - `public` will render only pubilc classes, methods, and fields.
+- `methodbodies=<true or false>` This flag will analyze method bodies when looking for dependencies in UML diagrams
+- `method=<method name>` specifies a fully qualified method name to generate a sequence diagram for
+- `include=` specifies package prefixes to include despite being in the exclude, you can add multiple classes by adding a space in between the classes
+- `exclude=` specifies package prefixes to exclude, you can add multiple classes by adding a space in between the classes
+- `mra=<algorithm>` method resolution algorithm to use for sequence diagrams `<algorithm>` can be either `hierarchy`, or `callgraph`
+    - `hierarchy` uses class hierarchy to resolve method calls
+    - `callgraph` uses context sensitive call graph to resolve method calls
+- `aggregate=<algorithm>` specifies the aggregate method resolution alogithm used. The aggregate algorithm uses the method resolution algoritms specifed with the `--mra` flag  `<algorithm>` can be either `union`,`intersection`, `chain`
+    - `union` takes the union of the results from all MRAs specified
+    - `intersection` takes the intersection of the results from all MRAs specified
+    - `chain` uses the results from the first MRA that finds any methods in the list of MRAs given
+- `synthetic=<true or false>` This is a flag to determine if synthetic methods should be rendered.
+- `settings=<path to settings file>` specifies a Java properties file to load settings from
+
 Where `<args>` can be any of the following:
 - `--path <absolute path>` **REQUIRED** This is the path to analyze Java bytecode. The path given must be an absolute path.
 - `--class <main class> <other classes>` **REQUIRED** This is a list of the fully-qualified class names to analyze. The first class specified must have a main method. After the main class, any number of fully-qualified class names can be listed.
@@ -72,6 +97,8 @@ The team met 4 times each week to work on this milestone. At each meeting, every
 ### Milestone 3
 The team met 4 times each week to work on this milestone. At each meeting, every team member was present and contributed to the progression of the project. All work done on the project was completed at our meetings as a group. Whenever we were coding, we rotated drivers after each major feature was completed.
 
+###Milestone 4
+The team met 4 times in the first week, and 6 times the next week. At each meetin, every team member was present and contributed to the progression of the project. All work done on the project was completed at our meetins as a group. Whenever we were coding, we rotated drivers after each major feature was completed. 
 
 ## Running the Demos
 
@@ -173,4 +200,30 @@ gradlew run -Pmyargs="--settings ../PatternDetectorExample/weather2i.properties‚
 ##### Chain
 ```bash
 gradlew run -Pmyargs="--settings ../PatternDetectorExample/weather2c.properties‚Äù
+```
+
+### Milestone 4
+##### ReflectivePizzaFactory demo
+```bash
+gradlew run --offline -Pmyargs="--settings demos/m4/rpizza.properties"
+```
+##### Decorator Lab demo
+```bash
+gradlew run --offline -Pmyargs="--settings demos/m4/decoratorLab.properties"
+```
+##### Adapter Lab demo
+```bash
+gradlew run --offline -Pmyargs="--settings demos/m4/adapterLab.properties"
+```
+##### InputStreamReader OutputStreamWriter MouseAdapter demo
+```bash
+gradlew run --offline -Pmyargs="--settings demos/m4/mouseAdapterLab.properties"
+```
+##### DecoratorMistake2 demo
+```bash
+gradlew run --offline -Pmyargs="--settings demos/m4/decoratorMistake.properties"
+```
+##### Exam 2 demo
+```bash
+gradlew run --offline -Pmyargs="--settings demos/m4/exam2decorator.properties"
 ```
