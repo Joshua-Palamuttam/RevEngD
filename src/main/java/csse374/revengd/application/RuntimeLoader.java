@@ -9,31 +9,41 @@ public class RuntimeLoader {
 
 	@SuppressWarnings("unchecked")
 	public static void loadPatterns(Map<String, String> argMap, UMLRender umlRender, CodeAnalyzer ca, Map<String, IFilter> filterMap) {
-		if (!argMap.containsKey("pattern_class") || !argMap.containsKey("modifier_class")) {
-			return;
-		}
-		String patterns[] = argMap.get("pattern_class").split(" ");
-		String modifiers[] = argMap.get("modifier_class").split(" ");
-
 		Analyzable a;
 		Class<? extends Analyzable> pattern;
 		Class<? extends UMLModifier> modifier;
-		for (int i = 0; i < patterns.length; i++) {
-			try {
-				pattern = (Class<? extends Analyzable>) Class.forName(patterns[i]);
-				modifier = (Class<? extends UMLModifier>) Class.forName(modifiers[i]);
-				a = pattern.newInstance();
-				a.setAvailableFilterMap(filterMap);
-				a.addActiveFilter(new PrefixFilter(argMap));
-				ca.addAnalyzable(a);
-				System.out.println("added analyzable");
-				umlRender.addModifier(modifier.newInstance());
-			} catch (InstantiationException e) {
-				throw new RuntimeException();
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException();
-			} catch (ClassNotFoundException e) {
-				throw new RuntimeException();
+		if (argMap.containsKey("pattern_class")) {
+			String patterns[] = argMap.get("pattern_class").split(" ");
+			for (int i = 0; i < patterns.length; i++) {
+				try {
+					pattern = (Class<? extends Analyzable>) Class.forName(patterns[i]);
+					a = pattern.newInstance();
+					a.setAvailableFilterMap(filterMap);
+					a.addActiveFilter(new PrefixFilter(argMap));
+					ca.addAnalyzable(a);
+				} catch (InstantiationException e) {
+					throw new RuntimeException();
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException();
+				} catch (ClassNotFoundException e) {
+					throw new RuntimeException();
+				}
+			}
+		}
+		
+		if (argMap.containsKey("modifier_class")) {
+			String modifiers[] = argMap.get("modifier_class").split(" ");
+			for (int i = 0; i < modifiers.length; i++) {
+				try {
+					modifier = (Class<? extends UMLModifier>) Class.forName(modifiers[i]);
+					umlRender.addModifier(modifier.newInstance());
+				} catch (InstantiationException e) {
+					throw new RuntimeException();
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException();
+				} catch (ClassNotFoundException e) {
+					throw new RuntimeException();
+				}
 			}
 		}
 	}
