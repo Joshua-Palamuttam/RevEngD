@@ -28,9 +28,13 @@ public class TypeResolver {
 		return resolveMethod(m, scene, "parameter");
 	}
 
+	
+	
+	
 	private static Map<SootClass, Boolean> resolveMethod(SootMethod m, Scene scene, String s) {
 		Tag signatureTag = m.getTag("SignatureTag");
 		Map<SootClass, Boolean> classMap = new HashMap<>();
+		boolean failed = false;
 		if (signatureTag != null) {
 			// Use SignatureEvaluator API for parsing the field signature
 			String signature = signatureTag.toString();
@@ -47,7 +51,7 @@ public class TypeResolver {
 				}
 
 			} catch (RuntimeException e) {
-
+				failed = true;
 			}
 			for (GenericType depend : depends) {
 				// elementTypes is empty if the GenericType is not a collection
@@ -60,7 +64,8 @@ public class TypeResolver {
 					});
 				}
 			}
-		} else {
+		} 
+		if (failed || signatureTag == null) {
 			Set<Type> depends = new HashSet<>();
 			if (s.equals("return")) {
 				depends.add(m.getReturnType());
@@ -81,6 +86,11 @@ public class TypeResolver {
 		}
 		return classMap;
 	}
+	
+	
+	
+	
+	
 
 	public static Map<SootClass, Boolean> resolveMethodReturnType(SootMethod m, Scene scene) {
 		return resolveMethod(m, scene, "return");

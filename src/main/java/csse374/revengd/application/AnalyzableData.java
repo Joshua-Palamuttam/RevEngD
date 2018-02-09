@@ -63,6 +63,9 @@ public class AnalyzableData {
 		patterns.put(name, p);
 	}
 	public Relationship getRelationship(SootClass clazz){
+		if (clazz == null) {
+			return null;
+		}
 		for(Relationship r : relationships){
 			if(r.getThisClass().equals(clazz)){
 				return r;

@@ -55,9 +55,9 @@ public class DIPViolationDetector extends Analyzable {
 		boolean hasIt = false;
 		
 		for (SootField f : r.getThisClass().getFields()) {
-			for (SootClass ref : TypeResolver.resolve(f, data.getScene()).keySet()) {
+			for (SootClass ref : TypeResolver.resolve(f, this.data.getScene()).keySet()) {
 				if (this.badConcreteClass(ref)) {
-					pattern.putComponent(DEPENDENCY, data.getRelationship(ref));
+					pattern.putComponent(DEPENDENCY, this.data.getRelationship(ref));
 					pattern.putField(FIELD, f);
 					hasIt = true;
 				}
@@ -70,10 +70,10 @@ public class DIPViolationDetector extends Analyzable {
 			boolean usesCast = false;
 			boolean localVar = false;
 			
-			for (SootClass c : TypeResolver.resolve(m, data.getScene()).keySet()) {
+			for (SootClass c : TypeResolver.resolve(m, this.data.getScene()).keySet()) {
 				if (badConcreteClass(c)) {
 					paramCheck = true;
-					pattern.putComponent(DEPENDENCY, data.getRelationship(c));
+					pattern.putComponent(DEPENDENCY, this.data.getRelationship(c));
 				}
 			}
 			
@@ -83,51 +83,50 @@ public class DIPViolationDetector extends Analyzable {
 				for (Unit stmt : cfg) {
 					Value op = null;
 					if (stmt instanceof AssignStmt) {
-						SootClass local = scene.getSootClass(((AssignStmt) stmt).getRightOp().getType().toString());
+						SootClass local = this.scene.getSootClass(((AssignStmt) stmt).getLeftOp().getType().toString());
 						if (this.badConcreteClass(local)) {
 							localVar = true;
-							pattern.putComponent(DEPENDENCY, data.getRelationship(local));
+							pattern.putComponent(DEPENDENCY, this.data.getRelationship(local));
 						}
 						
 						op = ((AssignStmt) stmt).getRightOp();
 						if (op instanceof JNewExpr) {
-							usesNew = true;
 							JNewExpr newStmt = (JNewExpr) op;
-							SootClass newClass = scene.getSootClass(newStmt.getType().toString());
+							SootClass newClass = this.scene.getSootClass(newStmt.getType().toString());
 							if (this.useFiltersOn(newClass)) {
+								usesNew = true;
 								pattern.putComponent(DEPENDENCY, 
-									data.getRelationship(newClass));
+									this.data.getRelationship(newClass));
 							}
 							
 						} else if (op instanceof JCastExpr) {
-							usesCast = true;
 							JCastExpr castStmt = (JCastExpr) op;
-							SootClass newClass = scene.getSootClass(castStmt.getType().toString());
-							if (this.useFiltersOn(newClass)) {
+							SootClass newClass = this.scene.getSootClass(castStmt.getType().toString());
+							if (this.badConcreteClass(newClass)) {
+								usesCast = true;
 								pattern.putComponent(DEPENDENCY, 
-									data.getRelationship(newClass));
+									this.data.getRelationship(newClass));
 							}
 						}
 					} else if (stmt instanceof JNewExpr) {
-						usesNew = true;
 						JNewExpr newStmt = (JNewExpr) stmt;
-						SootClass newClass = scene.getSootClass(newStmt.getType().toString());
+						SootClass newClass = this.scene.getSootClass(newStmt.getType().toString());
 						if (this.useFiltersOn(newClass)) {
+							usesNew = true;
 							pattern.putComponent(DEPENDENCY, 
-								data.getRelationship(newClass));
+								this.data.getRelationship(newClass));
 						}
 					} else if (stmt instanceof JCastExpr) {
-						usesCast = true;
 						JCastExpr castStmt = (JCastExpr) stmt;
-						SootClass newClass = scene.getSootClass(castStmt.getType().toString());
-						if (this.useFiltersOn(newClass)) {
+						SootClass newClass = this.scene.getSootClass(castStmt.getType().toString());
+						if (this.badConcreteClass(newClass)) {
+							usesCast = true;
 							pattern.putComponent(DEPENDENCY, 
-								data.getRelationship(newClass));
+								this.data.getRelationship(newClass));
 						}
 					}
 				}
 			}
-			
 			if (paramCheck || usesCast || usesNew || localVar) {
 				hasIt = true;
 				pattern.putMethod(REFERENCE, m);
@@ -165,7 +164,7 @@ public class DIPViolationDetector extends Analyzable {
 			if (this.useFiltersOn(m) && !m.isConstructor() && m.isConcrete()) {
 				SootMethod thisMethod = r.getThisClass().getMethodUnsafe(m.getSubSignature());
 				if (thisMethod != null) {
-					pattern.putComponent(DEPENDENCY, data.getRelationship(m.getDeclaringClass()));
+					pattern.putComponent(DEPENDENCY, this.data.getRelationship(m.getDeclaringClass()));
 					pattern.putMethod(METHOD_OVERRIDE, thisMethod);
 					return false;
 				}
@@ -180,7 +179,7 @@ public class DIPViolationDetector extends Analyzable {
 	private boolean hasConcreteInheritance(Relationship r, IPattern pattern) {
 		SootClass extendz = r.getExtendz();
 		if (this.useFiltersOn(extendz) && !extendz.getName().equals("java.lang.Object") && extendz.isConcrete()) {
-			pattern.putComponent(DEPENDENCY, data.getRelationship(extendz));
+			pattern.putComponent(DEPENDENCY, this.data.getRelationship(extendz));
 			return true;
 		}
 		return false;

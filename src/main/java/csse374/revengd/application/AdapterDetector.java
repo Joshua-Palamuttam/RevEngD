@@ -34,7 +34,9 @@ public class AdapterDetector extends Analyzable {
 		
 		Map<String, String> configMap = this.data.getConfigMap();
 		String overrideRatioString = configMap.getOrDefault("adapter_override_ratio", "0.5");
+		String adapteeRatioString = configMap.getOrDefault("adapter_adaptee_ratio", "0.5");
 		double overrideRatio = Double.parseDouble(overrideRatioString);
+		double adapteeRatio = Double.parseDouble(adapteeRatioString);
 		
 		Collection<Relationship> relationships = data.getRelationships();		
 		relationships.forEach(r -> {
@@ -48,9 +50,9 @@ public class AdapterDetector extends Analyzable {
 				}
 				
 				SootClass adaptee = getAdaptee(r, target);
-				
+
 				if (adaptee ==null
-						|| !usesAdapteeAtLeast(candidate, target, adaptee, overrideRatio)) {
+						|| !usesAdapteeAtLeast(candidate, target, adaptee, adapteeRatio)) {
 					return;
 				}
 
@@ -65,28 +67,31 @@ public class AdapterDetector extends Analyzable {
 	}
 	
 
-	private boolean usesAdapteeAtLeast(SootClass candidate, SootClass target, SootClass adaptee, double overrideRatio) {
+	private boolean usesAdapteeAtLeast(SootClass candidate, SootClass target, SootClass adaptee, double ratio) {
 		Set<String> publicTargetMethods = target.getMethods().stream()
 				.filter(m -> m.isPublic())
 				.filter(m -> !m.isConstructor())
 				.map(m -> m.getSubSignature())
 				.collect(Collectors.toSet());
-		int targetMethodCount = publicTargetMethods.size();
 		
-		int candidateCount = (int) candidate.getMethods().stream()
-		.filter(m -> publicTargetMethods.contains(m.getSubSignature()))
-		.filter(m -> {
-			return TypeResolver.methodBodyUsesField(m, adaptee, this.scene);
-		})
-		.count();
+		int overriddenCount = (int) candidate.getMethods().stream()
+				.filter(m -> publicTargetMethods.contains(m.getSubSignature()))
+				.count();
 		
-		return (double) candidateCount / (double) targetMethodCount >= overrideRatio;
+		int usesCount = (int) candidate.getMethods().stream()
+				.filter(m -> publicTargetMethods.contains(m.getSubSignature()))
+				.filter(m -> {
+					return TypeResolver.methodBodyUsesField(m, adaptee, this.scene);
+				})
+				.count();
+		
+		return (double) usesCount / (double) overriddenCount >= ratio;
 	}
 
 
 	private static SootClass getTarget(SootClass candidate) {
 		if (candidate.getName().equals("java.lang.Object")) return null;
-		if (candidate.getSuperclass().getName().equals("java.lang.Object")) {
+		if (candidate.hasSuperclass() && candidate.getSuperclass().getName().equals("java.lang.Object")) {
 			if (candidate.getInterfaceCount() == 1) {
 				return candidate.getInterfaces().getFirst();
 			}

@@ -27,6 +27,9 @@ public abstract class Analyzable {
 	}
 	
 	protected boolean useFiltersOn(SootClass clazz) {
+		if (clazz == null) {
+			return false;
+		}
 		boolean keep = true;
 		if(!this.activeFilters.isEmpty()) {
 			for(IFilter fil : this.activeFilters) {
@@ -37,6 +40,9 @@ public abstract class Analyzable {
 	}
 	
 	protected boolean useFiltersOn(SootField field) {
+		if (field == null) {
+			return false;
+		}
 		boolean keep = true;
 		if(!this.activeFilters.isEmpty()) {
 			for(IFilter fil : this.activeFilters) {
@@ -47,6 +53,9 @@ public abstract class Analyzable {
 	}
 	
 	protected boolean useFiltersOn(SootMethod method) {
+		if (method == null) {
+			return false;
+		}
 		boolean keep = true;
 		if(!this.activeFilters.isEmpty()) {
 			for(IFilter fil : this.activeFilters) {

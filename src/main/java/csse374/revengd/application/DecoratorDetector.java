@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import soot.Body;
 import soot.Scene;
@@ -89,6 +90,8 @@ public class DecoratorDetector extends Analyzable {
 		if (null != component) {
 			return component;
 		}
+		System.out.println("-----------");
+		System.out.println(r.getThisClass());
 		SootClass superClass = r.getThisClass().getSuperclass();
 		return this.getComponentClass(this.data.getRelationship(superClass), false);
 	}
@@ -123,14 +126,18 @@ public class DecoratorDetector extends Analyzable {
 				.filter(m -> !m.isConstructor())
 				.map(m -> m.getSubSignature())
 				.collect(Collectors.toSet());
-		
+			
+		if (candidate.getMethods().stream().filter(m -> !m.isConcrete()).noneMatch(m -> m.isConcrete())) {
+			return true;
+		}
+			
 		return candidate.getMethods().stream()
-			.filter(m -> m.isConcrete())
-			.filter(m -> !m.isConstructor())
-			.filter(m -> componentSubSigs.contains(m.getSubSignature()))
-			.anyMatch(m -> {
-				return TypeResolver.methodBodyUsesField(m, component, scene);
-			});
+				.filter(m -> m.isConcrete())
+				.filter(m -> !m.isConstructor())
+				.filter(m -> componentSubSigs.contains(m.getSubSignature()))
+				.anyMatch(m -> {
+					return TypeResolver.methodBodyUsesField(m, component, this.scene);
+				});
 	}
 	
 	@SuppressWarnings("boxing")
@@ -138,7 +145,7 @@ public class DecoratorDetector extends Analyzable {
 		return candidate.getMethods().stream()
 			.filter(m -> m.isConstructor())
 			.map(m -> {
-				boolean toReturn = TypeResolver.resolveMethodParameters(m, scene).keySet().stream()
+				boolean toReturn = TypeResolver.resolveMethodParameters(m, this.scene).keySet().stream()
 						.anyMatch(clazz -> {
 							return clazz.equals(component);
 						});

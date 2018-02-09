@@ -265,8 +265,8 @@ public class UMLRender extends Analyzable {
 		String rType;
 		StringBuilder params = new StringBuilder();
 		Tag signatureTag = m.getTag("SignatureTag");
-
-		if (signatureTag != null && !m.getDeclaringClass().toString().startsWith("java")) {
+		
+		if (signatureTag != null) {
 			String signature = signatureTag.toString();
 			MethodEvaluator methodEvaluator = new MethodEvaluator(signature);
 			
@@ -334,8 +334,12 @@ public class UMLRender extends Analyzable {
 			// Use SignatureEvaluator API for parsing the field signature
 			String signature = signatureTag.toString();
 			FieldEvaluator fieldEvaluator = new FieldEvaluator(signature);
-			GenericType fieldType = fieldEvaluator.getType();
-			type = fieldType.toString();
+			try {
+				GenericType fieldType = fieldEvaluator.getType();
+				type = fieldType.toString();
+			} catch (IllegalStateException e) {
+				type = f.getType().toString();
+			}
 		} else {
 			// Bytecode signature for this field is unavailable, so let's use soot API
 			type = f.getType().toString();

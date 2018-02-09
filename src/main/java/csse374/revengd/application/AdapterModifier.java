@@ -31,14 +31,25 @@ public class AdapterModifier extends AbstractUMLModifier {
 		StringBuilder mod = new StringBuilder();
 		mod.append(original);
 		
-		//boolean already
+		boolean alreadyAdaptee = false;
+		boolean alreadyAdapter= false;
+		boolean alreadyTarget = false;
 		for(IPattern p : patterns) {
 			if(p.getComponents(AdapterDetector.ADAPTEE).contains(clazz)) {
-				mod.append(" " + ADAPTEE_STEREOTYPE);
+				if (!alreadyAdaptee) {
+					alreadyAdaptee = true;
+					mod.append(" " + ADAPTEE_STEREOTYPE);
+				}
 			} else if (p.getComponents(AdapterDetector.ADAPTER).contains(clazz)) {
-				mod.append(" " + ADAPTER_STEREOTYPE);
+				if (!alreadyAdapter) {
+					alreadyAdapter = true;
+					mod.append(" " + ADAPTER_STEREOTYPE);
+				}
 			} else if (p.getComponents(AdapterDetector.TARGET).contains(clazz)) {
-				mod.append(" " + TARGET_STEREOTYPE);
+				if (!alreadyTarget) {
+					alreadyTarget = true;
+					mod.append(" " + TARGET_STEREOTYPE);
+				}
 			}
 		}
 		return mod.toString();
