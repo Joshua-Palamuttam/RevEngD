@@ -38,7 +38,7 @@ In a properties file that you create you can enter in the flags you want to add 
     - `private` will render all classes, methods, and fields. 
     - `protected` will render only public and protected classes, methods, and fields. 
     - `public` will render only pubilc classes, methods, and fields.
-- `methodbodies=<true or false>` This flag will analyze method bodies when looking for dependencies in UML diagrams
+- `method_bodies=<true or false>` This flag will analyze method bodies when looking for dependencies in UML diagrams
 - `method=<method name>` specifies a fully qualified method name to generate a sequence diagram for
 - `include=` specifies package prefixes to include despite being in the exclude, you can add multiple classes by adding a space in between the classes
 - `exclude=` specifies package prefixes to exclude, you can add multiple classes by adding a space in between the classes
@@ -50,30 +50,12 @@ In a properties file that you create you can enter in the flags you want to add 
     - `intersection` takes the intersection of the results from all MRAs specified
     - `chain` uses the results from the first MRA that finds any methods in the list of MRAs given
 - `synthetic=<true or false>` This is a flag to determine if synthetic methods should be rendered.
-
-
-If you want to use only arguments without the settings, or use a hybrid method with arguments and settings file you can use the following arguments or `<args>`:
-- `--path <absolute path>` **REQUIRED** This is the path to analyze Java bytecode. The path given must be an absolute path.
-- `--class <main class> <other classes>` **REQUIRED** This is a list of the fully-qualified class names to analyze. The first class specified must have a main method. After the main class, any number of fully-qualified class names can be listed.
-  **Note** If the codebase you are analyzing does not have a class with a main method, you must create a "dummy" class that has a main method inside the codebase.
-- `-r` This is a recursive flag. This tells the application to recursively load all the supertypes of the classes specified by the `--class` flag.
-- `--accesslevel <level>` This flag allows the UML to only render to a certain access level. `<level>` can be either `private`, `protected`, or `public`. 
-    - `private` will render all classes, methods, and fields. 
-    - `protected` will render only public and protected classes, methods, and fields. 
-    - `public` will render only pubilc classes, methods, and fields.
-- `--analyzeBodies` This flag will analyze method bodies when looking for dependencies in UML diagrams
-- `--method` specifies a fully qualified method name to generate a sequence diagram for
-- `--include` specifies package prefixes to include despite being in the exclude
-- `--exclude` specifies package prefixes to exclude 
-- `--mra` method resolution algorithm to use for sequence diagrams
-    - `hierarchy` uses class hierarchy to resolve method calls
-    - `callgraph` uses context sensitive call graph to resolve method calls
-- `--aggregate` specifies the aggregate method resolution alogithm used. The aggregate algorithm uses the method resolution algoritms specifed with the `--mra` flag
-    - `union` takes the union of the results from all MRAs specified
-    - `intersection` takes the intersection of the results from all MRAs specified
-    - `chain` uses the results from the first MRA that finds any methods in the list of MRAs given
-- `--synthetic` This is a flag to determine if synthetic methods should be rendered.
-- `--settings` specifies a Java properties file to load settings from
+- `pattern=<pattern>` This flag will find a pattern in your UML code and color the classes that implement that pattern `<pattern>` can either be `singleton`, `inheritance`, `dipviolation`, `adapter`, `decorator`
+    - `singleton` - Finds a class that implements the singleton pattern, and outlines that class with blue
+    - `inheritacne` - Finds any class that violates the composition over inheritance principle and changes the background color of that class, and any offending arrow to orange
+    - `dipviolation` - Finds any class that violates the dependency inversion principle and changes the background color of that class, and any offending arrow to the color, peru, and the method that specifically violates the dependency inversion principle to red
+    - `adapter` - Finds any classes that implement the adapter pattern, and specifically finds the adapter, adaptee, target, and adapts arrow, and puts the corresponding name as a stereotype on top of that specific class or arrow. The pattern also colors each of these classes as Fuschia.
+    - `decorator` - Finds any classes that implement the decorator pattern, and specifically finds the component, the decorators, and  the decorating has arrow. This class also puts the corresponding name as a stereotype of that class or arrow. The pattern also colors these classes as Chartreuse. Not only will this method find any decorator, but it will find classes that implement a decorator pattern poorly, and will add the classes that the decorator needs to actually decorate in red.
 
 The following is a very basic example of how to run from the command line:
 ```bash
