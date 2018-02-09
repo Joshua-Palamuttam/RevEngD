@@ -68,7 +68,6 @@ In a properties file that you create you can enter in the flags you want to add 
 - `filter_class=<fully qualified class names>` The fully qualified class names are Ifilters(filters for classes) that you can add to the analyzers
 - `pattern_class=<fully qualified class names>` The fully qualified class names are method detectors that implement Analyzable that you can add to the analyzers
 - `modifier_class=<fully qualified class names>`The fully qualified class names are UMLModifiers that change the UML diagram based on pattersn found by the method detectors, that you can add to the analyzers
-- 
 
 The following is a very basic example of how to run from the command line:
 ```bash
