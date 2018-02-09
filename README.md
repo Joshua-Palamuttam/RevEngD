@@ -50,9 +50,9 @@ In a properties file that you create you can enter in the flags you want to add 
     - `intersection` takes the intersection of the results from all MRAs specified
     - `chain` uses the results from the first MRA that finds any methods in the list of MRAs given
 - `synthetic=<true or false>` This is a flag to determine if synthetic methods should be rendered.
-- `settings=<path to settings file>` specifies a Java properties file to load settings from
 
-Where `<args>` can be any of the following:
+
+If you want to use only arguments without the settings, or use a hybrid method with arguments and settings file you can use the following arguments or `<args>`:
 - `--path <absolute path>` **REQUIRED** This is the path to analyze Java bytecode. The path given must be an absolute path.
 - `--class <main class> <other classes>` **REQUIRED** This is a list of the fully-qualified class names to analyze. The first class specified must have a main method. After the main class, any number of fully-qualified class names can be listed.
   **Note** If the codebase you are analyzing does not have a class with a main method, you must create a "dummy" class that has a main method inside the codebase.
@@ -97,7 +97,7 @@ The team met 4 times each week to work on this milestone. At each meeting, every
 ### Milestone 3
 The team met 4 times each week to work on this milestone. At each meeting, every team member was present and contributed to the progression of the project. All work done on the project was completed at our meetings as a group. Whenever we were coding, we rotated drivers after each major feature was completed.
 
-###Milestone 4
+### Milestone 4
 The team met 4 times in the first week, and 6 times the next week. At each meetin, every team member was present and contributed to the progression of the project. All work done on the project was completed at our meetins as a group. Whenever we were coding, we rotated drivers after each major feature was completed. 
 
 ## Running the Demos
