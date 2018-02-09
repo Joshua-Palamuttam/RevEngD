@@ -30,6 +30,7 @@ From the command line
 ```
 
 From the command line using the exported jar
+Make sure when you run this in your terminal you go into the path where the runnable jar is, also in that path add your properties file with all of the arguments added to it
 ```bash
 java -cp Revengd.jar csse374.revengd.application.RevEngDApp
 ```
