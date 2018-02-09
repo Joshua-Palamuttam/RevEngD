@@ -22,10 +22,17 @@ git clone git@ada.csse.rose-hulman.edu:CSSE374-Public/RevEngD.git
 ## Using IDE
 You can import the cloned folder as a **Gradle Project** in Eclipse or IntelliJ IDEs.
 
+**Note** how the entire list of arguments is surrounded in double quotes.
 ## How to run the program
 From the command line 
 ```bash
 ./gradlew run -Pmyargs="--setting <path to settings file>"
+```
+
+From the command line using the executable jar file
+Make sure when you run this in your terminal you go into the path where the runnable jar is, also in that path add a default.properties file. You can add all your arguments to the default file, or make a new properties file, but the default.properties file must be present in the same path as your executable jar.
+```bash
+java -cp Revengd.jar csse374.revengd.application.RevEngDApp
 ```
 
 In a properties file that you create you can enter in the flags you want to add to the UML diagram you want to create
@@ -58,6 +65,7 @@ In a properties file that you create you can enter in the flags you want to add 
     - `decorator` - Finds any classes that implement the decorator pattern, and specifically finds the component, the decorators, and  the decorating has arrow. This class also puts the corresponding name as a stereotype of that class or arrow. The pattern also colors these classes as Chartreuse. Not only will this method find any decorator, but it will find classes that implement a decorator pattern poorly, and will add the classes that the decorator needs to actually decorate in red.
 - `adapter_override_ratio=<ratio>` For the adapter pattern we ask the user to specify what they consider an adapter, and give them the option of providing the desired the ratio of the target methods that are overwritten by the adpater, if the user does not provide this it is defaulted 0.5.
 - `adapter_adaptee_ratio=<ratio>` For the adapter pattern we ask the user to specify what they consider an adapter, and give them the option of providing the desired the ratio of the number of adapters methods that use the adaptee, if the user does not provide this it is defaulted 0.5.
+- `filter_class` 
 
 The following is a very basic example of how to run from the command line:
 ```bash
@@ -68,8 +76,10 @@ The following is an example of how to run from the commandline with a property f
 ./gradlew run -Pmyargs="--settings default.properties"
 ```
 
-
-**Note** how the entire list of arguments is surrounded in double quotes.
+The following is an example of how to run from the commandline with an executable jar:
+```bash
+java -cp Revengd.jar csse374.revengd.application.RevEngDApp --settings default.properties
+```
 
 ## Team Member Contributions
 ### Milestone 1
