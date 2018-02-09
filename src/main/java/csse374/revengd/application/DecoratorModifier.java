@@ -12,6 +12,7 @@ public class DecoratorModifier extends AbstractUMLModifier {
 	private final static String COMPONENT_STEREOTYPE = "<<Component>>";
 	private final static String ASSOCIATION_STEREOTYPE = "<<decorates>>";
 	private final static String HTML_HEAD = "<font color=Red>";
+	private final static String HTML_HEAD_CONSTRUCTOR = "<font color=blue>";
 	private final static String HTML_FOOT = "</font>";
 	private final static String COLOR = "Chartreuse";
 	
@@ -96,7 +97,7 @@ public class DecoratorModifier extends AbstractUMLModifier {
 	public String getMethodMod(String original, SootMethod method) {
 		for (IPattern pattern : this.data.getPatternsByName(DecoratorDetector.PATTERN_BAD)) {
 			if (pattern.getMethods(DecoratorDetector.CONSTRUCTOR).contains(method)) {
-				return original.substring(0, 2) + HTML_HEAD + original.substring(2) + HTML_FOOT;
+				return original.substring(0, 2) + HTML_HEAD_CONSTRUCTOR + original.substring(2) + HTML_FOOT;
 			}
 		}
 		return original;

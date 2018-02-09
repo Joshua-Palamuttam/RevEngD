@@ -4,12 +4,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import soot.Scene;
 import soot.SootClass;
-import soot.SootMethod;
 
 public class DecoratorDetector extends Analyzable {
 	public static final String PATTERN = "decorator";
@@ -33,12 +31,15 @@ public class DecoratorDetector extends Analyzable {
 		relationships.forEach(r -> {
 			SootClass candidate = r.getThisClass();
 			if(this.useFiltersOn(candidate)) {
-				SootClass component = this.getComponentClass(r, true);
+				SootClass delegator = this.getDelegator(r, true);
+				SootClass component = this.getComponentClass(candidate, delegator);
+				System.out.println("Candidate: " + candidate);
+				System.out.println("Component: " + component);
+				System.out.println("Delegator: " + delegator);
 				if (null == component
-						|| !this.hasComponentAsParam(candidate, component)
-						|| !this.usesComponent(candidate, component)) {
+						|| !this.usesComponent(candidate, delegator)) {
 					return;
-				}				
+				}
 				// now everything is at least a bad decorator
 				IPattern pattern = new Pattern(PATTERN_BAD);
 				pattern.putComponent(COMPONENT, data.getRelationship(component));
@@ -58,7 +59,41 @@ public class DecoratorDetector extends Analyzable {
 		});
 	}
 	
-	private SootClass getComponentClass(Relationship r, boolean isCandidate) {
+	private SootClass getComponentClass(SootClass candidate, SootClass delegator) {
+		if (delegator == null) return null;
+		Set<SootClass> superTypes = new HashSet<>();
+		superTypes.add(delegator);
+		this.computeAllSuperTypes(delegator, superTypes);
+
+		Set<SootClass> candidateSuperTypes = new HashSet<>();
+		if (candidate.hasSuperclass()) {
+			candidateSuperTypes.add(candidate.getSuperclass());
+		}
+		if (candidate.getInterfaceCount() > 0) {
+			candidateSuperTypes.addAll(candidate.getInterfaces());
+		}
+		
+		SootClass component = null;
+		for (SootClass dClazz : superTypes) {
+			if (candidateSuperTypes.contains(dClazz)) {
+				component = dClazz;
+				break;
+			}
+		}		
+		if (null != component) {
+			return component;
+		}
+		
+		for (SootClass cSuper : candidateSuperTypes) {
+			component = this.getComponentClass(cSuper, delegator);
+			if (component != null) {
+				break;
+			}
+		}
+		return component;		
+	}
+	
+	private SootClass getDelegator(Relationship r, boolean isCandidate) {
 		if (!r.getThisClass().hasSuperclass()
 				|| !this.useFiltersOn(r.getThisClass())) {
 			return null;
@@ -71,43 +106,25 @@ public class DecoratorDetector extends Analyzable {
 				.collect(Collectors.toSet());
 		
 		Set<SootClass> superTypes = new HashSet<>();
+		superTypes.add(r.getThisClass());
 		this.computeAllSuperTypes(r.getThisClass(), superTypes);
-		SootClass component = null;
+		SootClass delegator = null;
 		for (SootClass clazz : has) {
-			if (superTypes.contains(clazz)) {
-				component = clazz;
-				break;
+			Set<SootClass> fieldSuperTypes = new HashSet<>();
+			fieldSuperTypes.add(clazz);
+			this.computeAllSuperTypes(clazz, fieldSuperTypes);
+			for (SootClass fieldSuper : fieldSuperTypes) {
+				if (superTypes.contains(fieldSuper)) {
+					delegator = clazz;
+					break;
+				}
 			}
-		}
-		if (null != component) {
-			return component;
+		}		
+		if (null != delegator) {
+			return delegator;
 		}
 		SootClass superClass = r.getThisClass().getSuperclass();
-		return this.getComponentClass(this.data.getRelationship(superClass), false);
-	}
-	
-	private boolean hasComponentAsParam(SootClass candidate, SootClass component) {
-		if (!candidate.hasSuperclass() || candidate.equals(component)) {
-			return false;
-		}
-		List<SootMethod> methods = candidate.getMethods();
-		List<SootMethod> notDecorated = methods.stream().filter(m -> {
-			SootMethod componentMethod = component.getMethodUnsafe(m.getSubSignature());
-			if (componentMethod == null) {
-				return true;
-			}
-			return false;
-		}).collect(Collectors.toList());
-		
-		boolean hasSetter = notDecorated.stream().anyMatch(m -> {
-			Set<SootClass> params = TypeResolver.resolveMethodParameters(m, this.scene).keySet();
-			return params.contains(component);
-		});
-		if (hasSetter) {
-			return true;
-		}
-		SootClass superClazz = candidate.getSuperclass();
-		return hasComponentAsParam(superClazz, component);
+		return this.getDelegator(this.data.getRelationship(superClass), false);
 	}
 	
 	private boolean usesComponent(SootClass candidate, SootClass component) {
