@@ -15,6 +15,7 @@ public class CompInheritanceDetector extends Analyzable {
 	
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
+		this.addAllAvailableFilters();
 		this.scene = data.getScene();
 		Collection<Relationship> relationships = data.getRelationships();
 		relationships.forEach(r -> {

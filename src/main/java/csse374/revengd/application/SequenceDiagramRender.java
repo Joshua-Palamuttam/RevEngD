@@ -108,7 +108,7 @@ public class SequenceDiagramRender extends Analyzable {
 					if (op instanceof InvokeExpr) {
 						InvokeExpr invkExpr = (InvokeExpr) op;
 						SootMethod nextMethod = invkExpr.getMethod();
-						possibleMethods = this.mra.resolve(this.scene, stmt, nextMethod);
+						possibleMethods = this.mra.resolve(nextMethod, this.scene, stmt);
 						if(!possibleMethods.isEmpty()) {
 							SootMethod fallback = nextMethod;
 							nextMethod = possibleMethods.iterator().next();
@@ -128,7 +128,7 @@ public class SequenceDiagramRender extends Analyzable {
 					}
 				} else if (stmt instanceof InvokeStmt) {
 					SootMethod nextMethod = ((InvokeStmt) stmt).getInvokeExpr().getMethod();
-					possibleMethods = this.mra.resolve(this.scene, stmt, nextMethod);
+					possibleMethods = this.mra.resolve(nextMethod, this.scene, stmt);
 					if(!possibleMethods.isEmpty()) {
 						SootMethod fallback = nextMethod;
 						nextMethod = possibleMethods.iterator().next();

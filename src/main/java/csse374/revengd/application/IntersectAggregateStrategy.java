@@ -13,7 +13,7 @@ public class IntersectAggregateStrategy implements AggregateStrategy {
 		Set<SootMethod> toReturn = null;
 		Set<SootMethod> toAdd = null;
 		for (IMethodResolutionAlgorithm m : algs) {
-			toAdd = m.resolve(scene, stmt, method);
+			toAdd = m.resolve(method, scene, stmt);
 			if (toReturn == null) {
 				toReturn = toAdd;
 			} else {

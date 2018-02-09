@@ -35,6 +35,7 @@ public class DecoratorDetector extends Analyzable {
 	
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
+		this.addAllAvailableFilters();
 		this.data = data;
 		this.scene = this.data.getScene();
 		Collection<Relationship> relationships = data.getRelationships();		

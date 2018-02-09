@@ -6,8 +6,6 @@ import soot.SootMethod;
 
 public class PrivateFilter implements IFilter {
 
-	
-	
 	@Override
 	public boolean filterClass(SootClass sootClass) {
 		return true;

@@ -29,6 +29,7 @@ public class UMLRender extends Analyzable {
 
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
+		this.addAllAvailableFilters();
 		StringBuilder str = new StringBuilder();
 		Collection<Relationship> relationships = data.getRelationships();
 		str.append("@startuml\n");
@@ -289,7 +290,7 @@ public class UMLRender extends Analyzable {
 				}
 			}
 		} else {
-			rType = m.getReturnType().toString() + " ";
+			rType = m.getReturnType().toString();
 			List<Type> paramTypes = m.getParameterTypes();
 
 			for (Type param : paramTypes) {

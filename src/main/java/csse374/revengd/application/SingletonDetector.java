@@ -14,6 +14,7 @@ public class SingletonDetector extends Analyzable {
 
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
+		this.addAllAvailableFilters();
 		Collection<Relationship> relationships = data.getRelationships();
 		relationships.forEach(r -> {
 			if(this.useFiltersOn(r.getThisClass()) && isSingleton(r)){

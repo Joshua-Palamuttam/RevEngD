@@ -13,7 +13,7 @@ import soot.jimple.toolkits.callgraph.CallGraph;
 public class CallGraphMRA implements IMethodResolutionAlgorithm {
 
 	@Override
-	public Set<SootMethod> resolve(Scene scene, Unit stmt, SootMethod method) {
+	public Set<SootMethod> resolve(SootMethod method, Scene scene, Unit stmt) {
 		CallGraph callGraph = scene.getCallGraph();
 
 		ArrayList<SootMethod> targetMethods = new ArrayList<>();

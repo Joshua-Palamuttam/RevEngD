@@ -29,6 +29,7 @@ public class AdapterDetector extends Analyzable {
 	
 	@Override
 	public void analyze(AnalyzableData data, OutputStream out) {
+		this.addAllAvailableFilters();
 		this.data = data;
 		this.scene = this.data.getScene();
 		

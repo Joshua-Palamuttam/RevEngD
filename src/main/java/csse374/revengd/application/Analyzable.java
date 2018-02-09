@@ -22,6 +22,10 @@ public abstract class Analyzable {
 		this.activeFilters.add(filter);
 	}
 	
+	public void addAllAvailableFilters() {
+		this.availableFilterMap.values().forEach(filter -> this.addActiveFilter(filter));
+	}
+	
 	public void removeFilter(IFilter filter) {
 		this.activeFilters.remove(filter);
 	}

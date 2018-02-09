@@ -14,7 +14,7 @@ public class ChainAggregateStrategy implements AggregateStrategy {
 	public Set<SootMethod> resolve(Scene scene, Unit stmt, SootMethod method, List<IMethodResolutionAlgorithm> algs) {
 		Set<SootMethod> toReturn = new HashSet<>();
 		for (IMethodResolutionAlgorithm m : algs) {
-			toReturn = m.resolve(scene, stmt, method);
+			toReturn = m.resolve(method, scene, stmt);
 			if(!toReturn.isEmpty()) {
 				break;
 			}

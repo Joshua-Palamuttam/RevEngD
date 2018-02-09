@@ -12,7 +12,7 @@ import soot.Unit;
 public class HierarchyMRA implements IMethodResolutionAlgorithm {
 
 	@Override
-	public Set<SootMethod> resolve(Scene scene, Unit stmt, SootMethod method) {
+	public Set<SootMethod> resolve(SootMethod method, Scene scene, Unit stmt) {
 		Hierarchy hierarchy = scene.getActiveHierarchy();
 		List<SootMethod> possibleMethods = hierarchy.resolveAbstractDispatch(method.getDeclaringClass(), method);
 		return possibleMethods.stream().collect(Collectors.toSet());

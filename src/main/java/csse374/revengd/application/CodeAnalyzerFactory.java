@@ -11,6 +11,7 @@ public class CodeAnalyzerFactory implements ICodeAnalyzerFactory {
 		CodeAnalyzer ca = new CodeAnalyzer();
 		ca.addAnalyzable(new SootLoader());
 		
+		Map<String, IFilter> filterMap = RuntimeLoader.loadFilters(argMap);
 		if(argMap.containsKey("method")) {
 			Map<String, IMethodResolutionAlgorithm> mraMap = new HashMap<>();
 			Map<String, AggregateStrategy> agMap = new HashMap<>();
@@ -23,11 +24,13 @@ public class CodeAnalyzerFactory implements ICodeAnalyzerFactory {
 			RuntimeLoader.loadMRAs(argMap, mraMap, agMap);
 			Analyzable sequenceDiagram = new SequenceDiagramRender(mraMap, agMap);
 			if (argMap.containsKey("exclude")) {
+				sequenceDiagram.setAvailableFilterMap(filterMap);
 				sequenceDiagram.addActiveFilter(new PrefixFilter(argMap));
 			}
 			ca.addAnalyzable(sequenceDiagram);
 		} else {
 			UMLRender umlRender = new UMLRender();
+			umlRender.setAvailableFilterMap(filterMap);
 			String accessLevel = argMap.get("accessLevel");
 			if (null != accessLevel) {
 				if (accessLevel.equals("public")) {
@@ -51,37 +54,42 @@ public class CodeAnalyzerFactory implements ICodeAnalyzerFactory {
 			if (argMap.containsKey("pattern")){
 				if (argMap.get("pattern").contains(SingletonDetector.PATTERN)){
 					a = new SingletonDetector();
+					a.setAvailableFilterMap(filterMap);
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
 					umlRender.addModifier(new SingletonModifier());
 				}
 				if (argMap.get("pattern").contains(CompInheritanceDetector.PATTERN)){
 					a = new CompInheritanceDetector();
+					a.setAvailableFilterMap(filterMap);
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
 					umlRender.addModifier(new CompInheritanceModifier());
 				}
 				if (argMap.get("pattern").contains(DIPViolationDetector.PATTERN)){
 					a = new DIPViolationDetector();
+					a.setAvailableFilterMap(filterMap);
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
 					umlRender.addModifier(new DIPViolationModifier());
 				}
 				if (argMap.get("pattern").contains(DecoratorDetector.PATTERN)){
 					a = new DecoratorDetector();
+					a.setAvailableFilterMap(filterMap);
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
 					umlRender.addModifier(new DecoratorModifier());
 				}
 				if (argMap.get("pattern").contains(AdapterDetector.PATTERN)){
 					a = new AdapterDetector();
+					a.setAvailableFilterMap(filterMap);
 					a.addActiveFilter(new PrefixFilter(argMap));
 					ca.addAnalyzable(a);
 					umlRender.addModifier(new AdapterModifier());
 				}
 			}
 			
-			RuntimeLoader.loadPatterns(argMap, umlRender, ca);
+			RuntimeLoader.loadPatterns(argMap, umlRender, ca, filterMap);
 			
 			ca.addAnalyzable(umlRender);
 		}

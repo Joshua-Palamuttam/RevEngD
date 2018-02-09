@@ -15,7 +15,7 @@ public class UnionAggregateStrategy implements AggregateStrategy {
 		Set<SootMethod> toReturn = new HashSet<>();
 		Set<SootMethod> toAdd = null;
 		for (IMethodResolutionAlgorithm m : algs) {
-			toAdd = m.resolve(scene, stmt, method);
+			toAdd = m.resolve(method, scene, stmt);
 			toReturn.addAll(toAdd);
 		}
 		return toReturn;

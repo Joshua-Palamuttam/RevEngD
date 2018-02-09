@@ -29,7 +29,7 @@ public class AggregateMRA implements IMethodResolutionAlgorithm {
 	}
 
 	@Override
-	public Set<SootMethod> resolve(Scene scene, Unit stmt, SootMethod method) {
+	public Set<SootMethod> resolve(SootMethod method, Scene scene, Unit stmt) {
 		return this.as.resolve(scene, stmt, method, this.algs);
 	}
 }

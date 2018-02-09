@@ -7,5 +7,5 @@ import soot.SootMethod;
 import soot.Unit;
 
 public interface IMethodResolutionAlgorithm {
-	public Set<SootMethod> resolve(Scene scene, Unit stmt, SootMethod method);
+	public Set<SootMethod> resolve(SootMethod method, Scene scene, Unit stmt);
 }

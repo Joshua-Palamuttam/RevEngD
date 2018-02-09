@@ -7,7 +7,7 @@ import soot.SootField;
 import soot.SootMethod;
 
 public class DIPViolationModifier extends AbstractUMLModifier {
-	private final static String COLOR = " #Orange";
+	private final static String COLOR = " #Peru";
 	private final static String HTML_HEAD = "<font color=red>";
 	private final static String HTML_FOOT = "</font>";
 
