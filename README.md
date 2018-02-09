@@ -217,7 +217,7 @@ gradlew run --offline -Pmyargs="--settings demos/m4/adapterLab.properties"
 ```
 ##### InputStreamReader OutputStreamWriter MouseAdapter demo
 ```bash
-gradlew run --offline -Pmyargs="--settings demos/m4/mouseAdapterLab.properties"
+gradlew run --offline -Pmyargs="--settings demos/m4/mouseAdapter.properties"
 ```
 ##### DecoratorMistake2 demo
 ```bash
